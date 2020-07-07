@@ -27,14 +27,14 @@
 <meta property="og:site_name" content="YouAreBangBang">
 <meta property="og:description" content="发现到现在还是没有很弄明白 JavaScript 的原型和继承，看得晕晕的，决定先总结一下">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/e83bca5f1d1e6bf359d1f75727968c11_r.jpg">
+<meta property="og:image" content="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/image-20200707231813070.png">
 <meta property="og:image" content="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzI1MzQzMi1kNGMxMmY5MzA3NmVkZTAxLnBuZw.jpg">
 <meta property="article:published_time" content="2020-07-07T00:32:58.888Z">
-<meta property="article:modified_time" content="2020-07-07T15:15:22.427Z">
+<meta property="article:modified_time" content="2020-07-07T15:18:42.118Z">
 <meta property="article:author" content="WongZit">
 <meta property="article:tag" content="JavaScript">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/e83bca5f1d1e6bf359d1f75727968c11_r.jpg">
+<meta name="twitter:image" content="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/image-20200707231813070.png">
 
 <link rel="canonical" href="https://skylarjiang.github.io/2020/07/07/class-constructor-prototype/">
 
@@ -219,7 +219,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-07-07 08:32 / Modified: 23:15" itemprop="dateCreated datePublished" datetime="2020-07-07T08:32:58+08:00">2020-07-07</time>
+              <time title="Created: 2020-07-07 08:32 / Modified: 23:18" itemprop="dateCreated datePublished" datetime="2020-07-07T08:32:58+08:00">2020-07-07</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -282,7 +282,7 @@
 </ol>
 </li>
 </ul>
-<h2 id="相互关系"><a href="#相互关系" class="headerlink" title="相互关系"></a>相互关系</h2><h3 id="prototype-constructor-proto"><a href="#prototype-constructor-proto" class="headerlink" title="prototype, constructor, __proto__"></a>prototype, constructor, <code>__proto__</code></h3><img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/e83bca5f1d1e6bf359d1f75727968c11_r.jpg" alt="e83bca5f1d1e6bf359d1f75727968c11_r" style="zoom: 67%;" />
+<h2 id="相互关系"><a href="#相互关系" class="headerlink" title="相互关系"></a>相互关系</h2><h3 id="prototype-constructor-proto"><a href="#prototype-constructor-proto" class="headerlink" title="prototype, constructor, __proto__"></a>prototype, constructor, <code>__proto__</code></h3><img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/image-20200707231813070.png" alt="image-20200707231813070" style="zoom: 50%;" />
 
 <p><a href="https://www.cnblogs.com/cloud-/p/9152761.html" target="_blank" rel="noopener">绕完这个大概就很清楚了</a></p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> 构造函数.____proto__ === 构造出来的函数.prototype</span><br><span class="line"></span><br><span class="line"><span class="number">2.</span> prototype 和 <span class="keyword">constructor</span> 都是一个属性，可以作为一个指针</span><br><span class="line"></span><br><span class="line">3. prototype 对象也是对象，他们也有自己的原型，而所有这些内建对象的源型都指向 Object.prototype</span><br><span class="line"></span><br><span class="line">4. 而 object 对象本质也可以看作是由内置构造函数 Function 构造而来，所以其 __proto__ 指向 Function.prototype</span><br><span class="line">    Object，Number，Error等等这些函数都是Function创建的，这些的<span class="keyword">constructor</span>就是Function，</span><br><span class="line"></span><br><span class="line">5. 这个比较迷惑 Object.__proto__ === Function.prototype === Function.__proto__</span><br><span class="line"></span><br><span class="line">6. 存在于原型上的方法是为了方便实例之间共享</span><br><span class="line"></span><br><span class="line">7. 建议用 Object.getPrototypeOf 取代 __proto__ 属性来获得对象的 [[prototype]]</span><br></pre></td></tr></table></figure>

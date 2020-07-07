@@ -1,170 +1,489 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search> 
-  
-  
-    
-    <entry>
-      <title>JavaScript 中的原型和继承</title>
-      <link href="/2020/07/07/class-constructor-prototype/"/>
-      <url>/2020/07/07/class-constructor-prototype/</url>
-      
-        <content type="html"><![CDATA[<p>发现到现在还是没有很弄明白 JavaScript 的原型和继承，看得晕晕的，决定先总结一下</p><a id="more"></a><h2 id="先厘清概念"><a href="#先厘清概念" class="headerlink" title="先厘清概念"></a>先厘清概念</h2><ul><li><p>构造函数</p><p>  构造函数是对象的模板，实例对象的属性和方法可以定义在内部</p><p>  可以继承，但是<strong>实例之间无法共享</strong></p></li><li><p>原型对象（prototype）和 <code>__proto__</code> 属性</p><p>  每个<strong>函数</strong>都有一个 prototype 属性，指向一个对象；这个原型对象的所有属性和方法，都能被实例对象共享<br>  每个<strong>对象</strong>都有<code>__proto__</code>属性，指向对应的构造函数的 prototype 属性；但是这个属性是社区创造的，建议使用 <code>Object.getPrototypeOf()</code> 代替</p></li><li><p>原型链（prototype chain）</p><p>  任何对象都可以充当其他对象的原型，原型对象也是对象，也有自己的原型，一层层上溯到 <code>Object.prototype</code>，尽头是 null</p></li><li><p>constructor 属性</p><p>  是 prototype 中的属性，默认指向 prototype 所在的构造函数</p><ol><li>可以得知某个实例对象是由哪个构造函数产生的</li><li>可以从一个实例对象新建另一个实例</li></ol></li></ul><h2 id="相互关系"><a href="#相互关系" class="headerlink" title="相互关系"></a>相互关系</h2><h3 id="prototype-constructor-proto"><a href="#prototype-constructor-proto" class="headerlink" title="prototype, constructor, __proto__"></a>prototype, constructor, <code>__proto__</code></h3><img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/e83bca5f1d1e6bf359d1f75727968c11_r.jpg" alt="e83bca5f1d1e6bf359d1f75727968c11_r" style="zoom: 67%;" /><p><a href="https://www.cnblogs.com/cloud-/p/9152761.html" target="_blank" rel="noopener">绕完这个大概就很清楚了</a></p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> 构造函数.____proto__ === 构造出来的函数.prototype</span><br><span class="line"></span><br><span class="line"><span class="number">2.</span> prototype 和 <span class="keyword">constructor</span> 都是一个属性，可以作为一个指针</span><br><span class="line"></span><br><span class="line">3. prototype 对象也是对象，他们也有自己的原型，而所有这些内建对象的源型都指向 Object.prototype</span><br><span class="line"></span><br><span class="line">4. 而 object 对象本质也可以看作是由内置构造函数 Function 构造而来，所以其 __proto__ 指向 Function.prototype</span><br><span class="line">    Object，Number，Error等等这些函数都是Function创建的，这些的<span class="keyword">constructor</span>就是Function，</span><br><span class="line"></span><br><span class="line">5. 这个比较迷惑 Object.__proto__ === Function.prototype === Function.__proto__</span><br><span class="line"></span><br><span class="line">6. 存在于原型上的方法是为了方便实例之间共享</span><br><span class="line"></span><br><span class="line">7. 建议用 Object.getPrototypeOf 取代 __proto__ 属性来获得对象的 [[prototype]]</span><br></pre></td></tr></table></figure><h3 id="关于构造函数、prototype属性、ownProperty-和继承的关系"><a href="#关于构造函数、prototype属性、ownProperty-和继承的关系" class="headerlink" title="关于构造函数、prototype属性、ownProperty 和继承的关系"></a>关于构造函数、prototype属性、ownProperty 和继承的关系</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> <span class="keyword">new</span> 关键字创建的实例，包括构造函数上和原型上的方法和属性，即两个这部分都继承了</span><br><span class="line"><span class="comment">// new 方法原理：新建一个空对象，把其原型指向构造函数的 prototype 属性；把空对象赋值给函数内部的this关键字。</span></span><br><span class="line"></span><br><span class="line"><span class="number">2.</span> <span class="built_in">Object</span>.creat() 方法则仅仅继承 prototype 属性指向的对象</span><br><span class="line"></span><br><span class="line"><span class="number">3.</span> prototype 属性和构造函数上的方法互相独立，且都是可以继承</span><br><span class="line"></span><br><span class="line"><span class="number">4.</span> 区别在于构造函数上的方法和属性在实例之间是不共享的，原型上的是共享的</span><br><span class="line">    构造函数上的这些方法通过 <span class="keyword">this</span> 定义在其自身，hasOwnProperty 方法能返回</span><br><span class="line"></span><br><span class="line"><span class="number">5.</span> prototype 指向的对象才有 <span class="keyword">constructor</span> 属性，指向正好和 __proto__ 相反</span><br></pre></td></tr></table></figure><p>参考博客<a href="https://www.cnblogs.com/lifeidg/p/10382770.html" target="_blank" rel="noopener">https://www.cnblogs.com/lifeidg/p/10382770.html</a><br>参考教程<a href="https://wangdoc.com/javascript/oop/new.html#%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95" target="_blank" rel="noopener">new 方法的原理 &amp;&amp; Object.create() 创建实例对象</a></p><hr><h2 id="ES6-中的-class"><a href="#ES6-中的-class" class="headerlink" title="ES6 中的 class"></a>ES6 中的 class</h2><h3 id="用法-amp-amp-和-ES5-中的类的关系"><a href="#用法-amp-amp-和-ES5-中的类的关系" class="headerlink" title="用法 &amp;&amp; 和 ES5 中的类的关系"></a>用法 &amp;&amp; 和 ES5 中的类的关系</h3><p>取代 es5 中用原型对象构造函数的写法，用 class 作为模板，让原型对象的写法更清晰，本质还是一样的</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span> </span>&#123;</span><br><span class="line"><span class="comment">// 1. constructor 表示构造方法</span></span><br><span class="line"><span class="comment">//【构造函数 --&gt; constructor】</span></span><br><span class="line"><span class="comment">// constructor 方法不同于 constructor 属性</span></span><br><span class="line"><span class="comment">// 就算不显式定义，也会新建一个空的 constructor 方法</span></span><br><span class="line">  <span class="keyword">constructor</span>(x, y) &#123;</span><br><span class="line">    <span class="keyword">this</span>.x = x;</span><br><span class="line">    <span class="comment">// 构造方法里的 this 代表实例对象</span></span><br><span class="line">    <span class="keyword">this</span>.y = y;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span></span><br><span class="line">    <span class="comment">// constructor 方法默认返回实例对象 this，你也可以指定成别的</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  toString() &#123;</span><br><span class="line">    <span class="comment">// 2. 方法</span></span><br><span class="line">    <span class="comment">// 不需要加 function 关键字</span></span><br><span class="line">    <span class="comment">// 方法之间不需要加逗号分隔</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'('</span> + <span class="keyword">this</span>.x + <span class="string">', '</span> + <span class="keyword">this</span>.y + <span class="string">')'</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// static 定义静态方法，即实例不能访问的方法</span></span><br><span class="line">  <span class="keyword">static</span> sayHi()&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"Hi"</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 类的所有的方法都在prototype中</span></span><br><span class="line"><span class="comment">// 类内部定义的所有方法都是不可枚举的</span></span><br><span class="line"><span class="comment">// 类必须用 new 调用</span></span><br><span class="line"><span class="comment">// 类的实例共享一个原型对象</span></span><br></pre></td></tr></table></figure><p>super 关键字</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 作为函数调用时，代表调用父类的构造函数，相当于</span></span><br><span class="line"><span class="keyword">super</span>() --&gt;</span><br><span class="line">A.prototype.constructor.call(<span class="keyword">this</span>)</span><br><span class="line"><span class="comment">// 2. super 作为对象时，在普通方法中，指向父类的原型对象；在静态方法中，指向父类。</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">super</span>.p())</span><br><span class="line"><span class="comment">// 意为打印 super 对象上的 p() 方法</span></span><br><span class="line"><span class="comment">// 因为是只能调用原型上的方法或属性，定义在父类实上的是不能调用的</span></span><br></pre></td></tr></table></figure><h3 id="父类及子类-amp-构造函数和实例之间的关系"><a href="#父类及子类-amp-构造函数和实例之间的关系" class="headerlink" title="父类及子类 &amp; 构造函数和实例之间的关系"></a>父类及子类 &amp; 构造函数和实例之间的关系</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent</span></span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name)&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> sayHello()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'hello'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    sayName()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'my name is '</span> + <span class="keyword">this</span>.name);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 类的继承，所有方法和属性都可以继承，也可以自己添加新的属性和方法</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Child</span> <span class="keyword">extends</span> <span class="title">Parent</span></span>&#123;</span><br><span class="line">    <span class="comment">// 通过 this 显式定义在自身的方法通过 constructor 继承</span></span><br><span class="line">    <span class="keyword">constructor</span>(name, age)&#123;</span><br><span class="line">        <span class="keyword">super</span>(name); <span class="comment">// 表示这个属性从父类中继承过来</span></span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">    sayAge()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'my age is '</span> + <span class="keyword">this</span>.age);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 这才是生成实例</span></span><br><span class="line"><span class="keyword">let</span> parent = <span class="keyword">new</span> Parent(<span class="string">'Parent'</span>);</span><br><span class="line"><span class="keyword">let</span> child = <span class="keyword">new</span> Child(<span class="string">'Child'</span>, <span class="number">18</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 父类上的方法和属性</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'parent: '</span>, parent); <span class="comment">// parent:  Parent &#123;name: "Parent"&#125;</span></span><br><span class="line">Parent.sayHello(); <span class="comment">// hello</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 父类的构造函数可以访问到父类的非静态方法</span></span><br><span class="line">parent.sayName(); <span class="comment">// my name is Parent</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 子类可以访问到父类的所有属性，包括静态属性</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'child: '</span>, child); <span class="comment">// child:  Child &#123;name: "Child", age: 18&#125;</span></span><br><span class="line">Child.sayHello(); <span class="comment">// hello</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 子类的实例</span></span><br><span class="line">child.sayName(); <span class="comment">// my name is Child</span></span><br><span class="line">child.sayAge(); <span class="comment">// my age is 18</span></span><br></pre></td></tr></table></figure><hr><h3 id="ES6-extends-中的原型关系"><a href="#ES6-extends-中的原型关系" class="headerlink" title="ES6 extends 中的原型关系"></a>ES6 extends 中的原型关系</h3><p>类的方法内部如果含有this，它默认指向类的实例。但是，必须非常小心，一旦单独使用该方法，很可能报错。</p><h4 id="ES5-amp-ES6-中类的继承"><a href="#ES5-amp-ES6-中类的继承" class="headerlink" title="ES5 &amp; ES6 中类的继承"></a>ES5 &amp; ES6 中类的继承</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">两者继承机制不同</span><br><span class="line"></span><br><span class="line">ES5</span><br><span class="line"><span class="number">1.</span> 先创造子类的实例对象<span class="keyword">this</span></span><br><span class="line"><span class="number">2.</span> 再将父类的方法添加到<span class="keyword">this</span>上面--Parent.apply(<span class="keyword">this</span>)</span><br><span class="line">------</span><br><span class="line">    常用方法：</span><br><span class="line">    在子类的构造函数中，调用父类的构造函数</span><br><span class="line">    让子类的原型指向父类的原型</span><br><span class="line"></span><br><span class="line">ES6</span><br><span class="line"><span class="number">1.</span> 先将父类实例对象的属性和方法，加到<span class="keyword">this</span>上面（所以必须先调用<span class="keyword">super</span>方法）</span><br><span class="line"><span class="number">2.</span> 再用子类的构造函数修改<span class="keyword">this</span>。</span><br></pre></td></tr></table></figure><h4 id="class-中的继承-——-两条继承链"><a href="#class-中的继承-——-两条继承链" class="headerlink" title="class 中的继承 —— 两条继承链"></a>class 中的继承 —— 两条继承链</h4><p>因为每一个对象都有 <code>__proto__</code> 属性，指向对应的构造函数的 prototype 属性<br>class 同时有 prototype 属性和 <code>__proto__</code> 属性，因此同时有两条原型链</p><p>两条继承链：</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> 构造器原型链 Child.__proto__ === Parent</span><br><span class="line"><span class="number">2.</span> 实例原型链</span><br><span class="line">child.__proto__ === Child.prototype</span><br><span class="line">Child.prototype.__proto__ === Parent.protptype</span><br><span class="line">parent.__proto__ === Parent.prototype</span><br></pre></td></tr></table></figure><img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzI1MzQzMi1kNGMxMmY5MzA3NmVkZTAxLnBuZw.jpg" alt="aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzI1MzQzMi1kNGMxMmY5MzA3NmVkZTAxLnBuZw" style="zoom: 50%;" /><p>[参考博客，上图图源](<a href="https://blog.csdn.net/weixin_43312083/article/details/106608505" target="_blank" rel="noopener">https://blog.csdn.net/weixin_43312083/article/details/106608505</a></p><p><a href="https://wangdoc.com/es6/class.html" target="_blank" rel="noopener">阮一峰老师《ECMAScript 6 教程》– class 的基本语法 &amp; class 的继承</a></p><hr><h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ol><li><code>prototype</code> 、<code>__proto__</code>、<code>constructor</code>之间的关系，他们是如何构成原型链的</li><li>构造函数和 <code>prototype</code>指向的对象指向的关系</li><li>ES5 &amp; ES6 中类的实现和原理</li><li><code>ES6-class</code>中的继承关系 – 两条继承链</li></ol>]]></content>
-      
-      
+<search>
+  <entry>
+    <title>Cannot read property bindings of null 解决方法</title>
+    <url>/2020/07/03/Cannot-read-property-bindings-of-null-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<p>babel 的编译问题</p>
+<a id="more"></a>
+
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>把老的 babel-preset-env 换掉</p>
+<h3 id="安装-babel-preset-env"><a href="#安装-babel-preset-env" class="headerlink" title="安装@babel/preset-env"></a>安装@babel/preset-env</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">npm install @babel/preset-env</span><br></pre></td></tr></table></figure>
+
+<h3 id="更新配置项"><a href="#更新配置项" class="headerlink" title="更新配置项"></a>更新配置项</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 把</span></span><br><span class="line">preset: [<span class="string">"env"</span>]</span><br><span class="line"><span class="comment"># 换成</span></span><br><span class="line">presets: [<span class="string">"@babel/preset-env"</span>]</span><br></pre></td></tr></table></figure>
+]]></content>
       <categories>
-          
-          <category> JavaScript </category>
-          
-          <category> 原型和继承 </category>
-          
+        <category>工具</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> JavaScript </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>hexo</title>
-      <link href="/2020/07/05/hexo/"/>
-      <url>/2020/07/05/hexo/</url>
-      
-        <content type="html"><![CDATA[<p>hexo</p><a id="more"></a><h2 id="next主题优化"><a href="#next主题优化" class="headerlink" title="next主题优化"></a>next主题优化</h2><h3 id="选择主题"><a href="#选择主题" class="headerlink" title="选择主题"></a>选择主题</h3><h3 id="分类和标签"><a href="#分类和标签" class="headerlink" title="分类和标签"></a>分类和标签</h3><ul><li>设置</li><li>实现分类层级</li></ul><h3 id="代码块样式"><a href="#代码块样式" class="headerlink" title="代码块样式"></a>代码块样式</h3><ul><li>样式</li><li>复制</li></ul><h3 id="头像显示"><a href="#头像显示" class="headerlink" title="头像显示"></a>头像显示</h3><p>sidebar avatar打开<br>首先你要把博客的社交模块打开<br>在主题配置文件 _config.yml 的 social<br>在主题的 source/images/ 下的 avatar.gif 更换成你的图片<br>好像没出来</p><h3 id="加入分享功能"><a href="#加入分享功能" class="headerlink" title="加入分享功能"></a>加入分享功能</h3><p>项目的 _config.yml 中加入<br>duoshuo_share 字段，值为 true<br>好像也没出来</p><h3 id="链接样式改变"><a href="#链接样式改变" class="headerlink" title="链接样式改变"></a>链接样式改变</h3><h3 id="图片显示"><a href="#图片显示" class="headerlink" title="图片显示"></a>图片显示</h3><h3 id=""><a href="#" class="headerlink" title=""></a></h3>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Cannot read property bindings of null 解决方法</title>
-      <link href="/2020/07/03/Cannot-read-property-bindings-of-null-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/"/>
-      <url>/2020/07/03/Cannot-read-property-bindings-of-null-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</url>
-      
-        <content type="html"><![CDATA[<p>babel 的编译问题</p><a id="more"></a><h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>把老的 babel-preset-env 换掉</p><h3 id="安装-babel-preset-env"><a href="#安装-babel-preset-env" class="headerlink" title="安装@babel/preset-env"></a>安装@babel/preset-env</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">npm install @babel/preset-env</span><br></pre></td></tr></table></figure><h3 id="更新配置项"><a href="#更新配置项" class="headerlink" title="更新配置项"></a>更新配置项</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 把</span></span><br><span class="line">preset: [<span class="string">"env"</span>]</span><br><span class="line"><span class="comment"># 换成</span></span><br><span class="line">presets: [<span class="string">"@babel/preset-env"</span>]</span><br></pre></td></tr></table></figure>]]></content>
-      
-      
+      <tags>
+        <tag>一些坑</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git &amp; GitHub小结</title>
+    <url>/2020/06/29/Git-GitHub/</url>
+    <content><![CDATA[<p>Git 是目前世界上最先进的分布式版本控制系统；GitHub 为开源项目免费提供Git存储。</p>
+<a id="more"></a>
+
+<p><strong>目录</strong>：</p>
+<!-- TOC -->
+
+<ul>
+<li><a href="#hellogit">helloGit</a></li>
+<li><a href="#创建版本库">创建版本库</a></li>
+<li><a href="#本地库操作小结">本地库操作小结</a></li>
+<li><a href="#远程库">远程库</a></li>
+<li><a href="#分支管理">分支管理</a><ul>
+<li><a href="#解决冲突">解决冲突</a></li>
+<li><a href="#分支管理策略">分支管理策略</a></li>
+<li><a href="#bug分支">bug分支</a></li>
+<li><a href="#feature-分支">Feature 分支</a></li>
+<li><a href="#多人协作">多人协作</a></li>
+</ul>
+</li>
+<li><a href="#标签管理">标签管理</a></li>
+<li><a href="#使用-github">使用 GitHub</a></li>
+<li><a href="#gitee">Gitee</a></li>
+<li><a href="#自定义">自定义</a></li>
+<li><a href="#sourcetree">SourceTree</a></li>
+</ul>
+<!-- /TOC -->
+
+<h2 id="helloGit"><a href="#helloGit" class="headerlink" title="helloGit"></a>helloGit</h2><p>Git 是目前世界上最先进的分布式版本控制系统<br>GitHub 为开源项目免费提供Git存储</p>
+<p>分布式和集中式版本控制系统：</p>
+<p>集中式：集中存放在中央服务器，必须联网才能工作，效率低。<br>分布式：每个人的电脑都是一个完整的版本库，协作时只需要把各自的修改推送给对方，无需联网也可以工作；有一台充当“中央服务器”的电脑，用来方便交换大家的修改</p>
+<h2 id="创建版本库"><a href="#创建版本库" class="headerlink" title="创建版本库"></a>创建版本库</h2><p>版本库，repository，版本库下所有文件都可以被 Git 管理起来，每个文件的修改、删除 Git 都能跟踪</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建一个空文件</span></span><br><span class="line"><span class="comment"># 1. 显示当前目录</span></span><br><span class="line">    $ <span class="built_in">pwd</span></span><br><span class="line"><span class="comment"># 2. 初始化：把目录变成 Git 可以管理的仓库</span></span><br><span class="line">    $ git init</span><br><span class="line"><span class="comment"># 生成一个 .git 目录，是 Git 来追踪管理版本库的</span></span><br><span class="line"><span class="comment"># 这是一个隐藏目录，可以让他显示</span></span><br><span class="line">    $ ls -ah</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>把文件添加到版本库</li>
+</ul>
+<p>版本库只能跟踪文本文件的改动，比如TXT文件，网页，所有的程序代码（word 文件不可以）等等；而图片、视频等二进制文件就无法跟踪变化</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 编写一个文件，readme.txt</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 把文件添加到仓库</span></span><br><span class="line">$ git add &lt;file&gt;</span><br><span class="line">$ git add readme.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 把文件提交到仓库（-m 后面输入本次提交的说明）</span></span><br><span class="line">$ git commit -m &lt;message&gt;</span><br><span class="line">$ git commit -m <span class="string">"wrote a readme file"</span></span><br><span class="line"><span class="comment"># commit 一次可以提交多个 add 进来的内容</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改与版本</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看仓库状态，修改信息、提交状态等</span></span><br><span class="line">    $ git status</span><br><span class="line">    <span class="comment"># working tree clean</span></span><br><span class="line">    <span class="comment"># Changes to be committed:...</span></span><br><span class="line"><span class="comment"># 查看具体被修改的内容 —— Unix 通用的 diff 格式显示</span></span><br><span class="line">    $ git diff &lt;file&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 版本回退</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 查看历史记录 —— 显示所有的版本记录</span></span><br><span class="line">    $ git <span class="built_in">log</span></span><br><span class="line">    $ git <span class="built_in">log</span> --pretty=oneline</span><br><span class="line">    <span class="comment"># commit id : 是 SHA 计算出的十六进制数字，避免冲突</span></span><br><span class="line">    <span class="comment"># Author &amp; Date &amp; message</span></span><br><span class="line"><span class="comment"># 2. 回退</span></span><br><span class="line"><span class="comment">#  版本表示：</span></span><br><span class="line">    HEAD --&gt; 当前版本</span><br><span class="line">    HEAD^ --&gt; 上一版本</span><br><span class="line">    HEAD^^ --&gt; 上上版本</span><br><span class="line">    HEAD~100 --&gt; 往上 100 个</span><br><span class="line"><span class="comment">#  命令：</span></span><br><span class="line">    $ git reset --hard HEAD^ / commit id</span><br><span class="line"><span class="comment"># 【内部有个指向当前版本的 HEAD 指针，版本回退只是更改指针指向】</span></span><br><span class="line"></span><br><span class="line">----此时通过 status 已经无法读取之后版本了----</span><br><span class="line"></span><br><span class="line"><span class="comment"># 返回更新的版本</span></span><br><span class="line"><span class="comment"># 通过 commit id 回退，则需要查看命令的 id</span></span><br><span class="line">    $ git reflog</span><br></pre></td></tr></table></figure>
+
+<h2 id="本地库操作小结"><a href="#本地库操作小结" class="headerlink" title="本地库操作小结"></a>本地库操作小结</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">|—— 工作区 ==&gt; add</span><br><span class="line">|—— 版本库</span><br><span class="line">    +—— stage 暂存区  =&gt; commit</span><br><span class="line">    +—— master 分支：创建 Git 版本库时，自动为我们创建的唯一分支</span><br><span class="line">        提交到这里就是已经在仓库了</span><br><span class="line">     —— HEAD：指向 master 的指针</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>回退</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"> <span class="comment"># 工作区回退</span></span><br><span class="line">git reset HEAD \&lt;file&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 暂存库回退</span></span><br><span class="line">git checkout -- \&lt;file&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 版本库回退</span></span><br><span class="line"><span class="comment"># 1. 查看 git 版本操作记录</span></span><br><span class="line">git <span class="built_in">log</span> --pretty=oneline</span><br><span class="line">git reflog</span><br><span class="line"><span class="comment"># 2. 改变版本</span></span><br><span class="line">git reset --hard HEAD^</span><br><span class="line">git reset --hard \&lt;版本号id&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">+—— rm \&lt;file&gt;</span><br><span class="line">    +——<span class="comment"># 确实要删</span></span><br><span class="line">    |   +—— git rm \&lt;file&gt;</span><br><span class="line">    |   +—— git commit -m &lt;message&gt;</span><br><span class="line">    +—— 删错了 git checkout -- test.txt</span><br></pre></td></tr></table></figure>
+
+<h2 id="远程库"><a href="#远程库" class="headerlink" title="远程库"></a>远程库</h2><p>咋回事</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 远程仓库和本地仓库相关联，关联后远程库默认叫 origin</span></span><br><span class="line">git remote add origin git@github.com...</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把本地内容（当前分支 master）推送到远程库</span></span><br><span class="line">git push</span><br><span class="line"><span class="comment"># 第一次推送时还需要关联本地的 master 和远程的 master</span></span><br><span class="line"><span class="comment"># 则应该用</span></span><br><span class="line">git push -u oringin master</span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送最新修改到远端</span></span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 从远程库克隆到本地库</span></span><br><span class="line"><span class="comment"># Git支持多种协议，ssh协议速度最快</span></span><br><span class="line">git <span class="built_in">clone</span>@..</span><br><span class="line"><span class="comment"># 还可以https</span></span><br><span class="line">git <span class="built_in">clone</span> https:...</span><br></pre></td></tr></table></figure>
+
+<h2 id="分支管理"><a href="#分支管理" class="headerlink" title="分支管理"></a>分支管理</h2><p>分支：<br>工作时避免互相干扰，开发完毕后再一次性合并到原来的分支上</p>
+<p>HEAD 指针、分支、提交点：<br>HEAD 指向当前分支，分支有个指针指向当前的提交点</p>
+<p>新建分支：<br>如果建了新的分支 dev，就是新建对应的 dev 指针（指向最新的提交点），改变 HEAD 的指向，工作区没有变化<br>我们不断更新版本，dev 指针在版本链上的指针改变</p>
+<p>合并分支：有普通合并和快合并</p>
+<p>命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">1. <span class="comment"># 新建分支</span></span><br><span class="line">    git branch dev</span><br><span class="line">    <span class="comment"># 切换分支</span></span><br><span class="line">    git checkout dev</span><br><span class="line">    git seitch dev</span><br><span class="line">    <span class="comment"># 命令合并：新建并切换分支</span></span><br><span class="line">    git checkout -b dev</span><br><span class="line">    git switch -c dev</span><br><span class="line">    <span class="comment"># 查看分支：列出所有分支，当前分支带 *</span></span><br><span class="line">    git branch</span><br><span class="line"></span><br><span class="line">2. <span class="comment"># 然后正常修改正常提交</span></span><br><span class="line">3. <span class="comment"># 合并分支</span></span><br><span class="line">    git switch master <span class="comment"># 切回来</span></span><br><span class="line">    git merge dev <span class="comment"># 合并指定分支到当前分支（指向dev工作点）</span></span><br><span class="line">    <span class="comment"># 没有冲突，快速合并</span></span><br><span class="line">    git branch -d dev <span class="comment"># 删除分支</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="解决冲突"><a href="#解决冲突" class="headerlink" title="解决冲突"></a>解决冲突</h3><ol>
+<li>快速合并和禁用快合并</li>
+<li>手动解决冲突再进行合并<br> 这时有冲突的文件会有标记显示不同分支有冲突的内容<br> 手动进行修改合并后保存，重新 add &amp; commit</li>
+</ol>
+<p>删除分支</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">查看合并情况：</span><br><span class="line">git <span class="built_in">log</span> --graph 查看分支合并图</span><br><span class="line">git <span class="built_in">log</span> --graph --pretty=oneline --abbrev-commit</span><br></pre></td></tr></table></figure>
+
+<h3 id="分支管理策略"><a href="#分支管理策略" class="headerlink" title="分支管理策略"></a>分支管理策略</h3><p>禁用快速合并: –no-ff 方式的 git merge<br>可以在 merge 的时候生成一个带描述的 commit ，而不是默默就合并了，可以看出合并记录</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git merge --no-ff -m <span class="string">"merge with no-ff"</span> dev</span><br></pre></td></tr></table></figure>
+
+<p>快速模式合并就是没有冲突的时候只改变原来 master 分支的指针，指到新分支最新的版本去<br>而强制关闭 ff 模式，则会新建一个不同于 dev 最新版的 commit ，这样可以看出 dev 的版本，这样删除分支后就不会丢失分支信息，可以看出来曾经做过合并</p>
+<ul>
+<li>分支策略</li>
+</ul>
+<p>工作中一般不直接在 master 分支上操作，仅用来发布新版本<br>工作团队就在 dev 分支上工作</p>
+<h3 id="bug分支"><a href="#bug分支" class="headerlink" title="bug分支"></a>bug分支</h3><ul>
+<li>通过新建分支来修复 bug 再进行合并</li>
+<li>此时如果还有别的分支上的工作还在进行，可以同过<code>stash</code>功能来把当前工作现场先保存，再新建别的分支修复 bug</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">+—— git stash <span class="comment"># 储存起来</span></span><br><span class="line">+—— <span class="comment"># 出去新建分支 debug</span></span><br><span class="line">+—— git stash list <span class="comment"># 列出现场</span></span><br><span class="line">+—— <span class="comment"># 恢复现场</span></span><br><span class="line">    +—— git stash apply &lt;stash@id&gt; <span class="comment"># 查看，该现场还在现场列表中</span></span><br><span class="line">    |    git stash drop <span class="comment"># 删除 stash 内容</span></span><br><span class="line">    +—— git stash pop <span class="comment"># 弹出现场，删除栈顶现场</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># master 分支上的 bug 也需要在其他分支修复</span></span><br><span class="line"><span class="comment"># 这个时候可以直接把指定的改动赋值到指定分支</span></span><br><span class="line">    +—— git cherry-pick \&lt;commit id&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Feature-分支"><a href="#Feature-分支" class="headerlink" title="Feature 分支"></a>Feature 分支</h3><ul>
+<li>添加新功能</li>
+<li>添加新功能的时候先再新建的 feature 分支上开发，完成后再合并</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 要丢弃一个还没被合并过的分支需要强行删除</span></span><br><span class="line">git branch -D &lt;name&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="多人协作"><a href="#多人协作" class="headerlink" title="多人协作"></a>多人协作</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看远程库信息</span></span><br><span class="line">git remote</span><br><span class="line">git remove -v</span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送分支</span></span><br><span class="line">git push origin branchName</span><br><span class="line"></span><br><span class="line"><span class="comment"># 主分支和开发分支都需要远程同步</span></span><br><span class="line"><span class="comment"># bug 分支和 feature看情况啦</span></span><br></pre></td></tr></table></figure>
+
+<p>多人协作</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 抓取分支</span></span><br><span class="line"><span class="comment"># 从远程库克隆时默认情况下只能看到本地的 master</span></span><br><span class="line"><span class="comment"># 需要创建远程 origin 的 dev 到本地</span></span><br><span class="line">git checkout -b dev origin/dev</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解决冲突</span></span><br><span class="line"><span class="comment"># git push 时有冲突</span></span><br><span class="line"><span class="comment"># 两人同时修改了同个文件相同位置的内容</span></span><br><span class="line"><span class="comment"># 先把最新提交从 origin/dev 抓下来</span></span><br><span class="line">git branch --<span class="built_in">set</span>-upstream-to=origin/\&lt;branch&gt; dev</span><br><span class="line">git pull</span><br><span class="line"><span class="comment"># 在本地合并，解决冲突再 push</span></span><br></pre></td></tr></table></figure>
+
+<p>Rebase</p>
+<p>rebase操作可以把本地未push的分叉提交历史整理成直线</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 把多人协作解决冲突的提交历史的提交整理成一条直线</span></span><br><span class="line">git rebase</span><br></pre></td></tr></table></figure>
+
+<p>操作后 commit 会被挪动位置，从而修改的内容也会发生变化，但是提交的内容是一致的</p>
+<h2 id="标签管理"><a href="#标签管理" class="headerlink" title="标签管理"></a>标签管理</h2><p>在版本库中给版本打一个标签（tag），方便取出<br>是版本库的快照，实际上就是指向某个 commit 的指针</p>
+<p>标签的创建：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先切换到需要打标签的分支上</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建标签</span></span><br><span class="line"><span class="comment"># 给最新 commit 打标签</span></span><br><span class="line">git tag &lt;tagName&gt;</span><br><span class="line"><span class="comment"># 给历史 commit</span></span><br><span class="line">git tag &lt;tagName&gt; \&lt;commit id&gt;</span><br><span class="line"><span class="comment"># 创建带说明的 tag</span></span><br><span class="line"><span class="comment"># 用 -a 指定标签名，-m 指定 messege</span></span><br><span class="line">git tag -a &lt;tagName&gt; -m <span class="string">""</span> &lt;commit id&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看有哪些标签</span></span><br><span class="line">git tab</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看某标签指向的 commit 的具体说明文字</span></span><br><span class="line">git show &lt;tagName&gt;</span><br></pre></td></tr></table></figure>
+
+<p>标签的操作</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 推送到远端</span></span><br><span class="line">git push origin &lt;tagName&gt;</span><br><span class="line">git push origin --tags</span><br><span class="line"></span><br><span class="line"><span class="comment"># 本地删除</span></span><br><span class="line">git tag -d &lt;tagName&gt;</span><br><span class="line"><span class="comment"># 远端删除</span></span><br><span class="line"><span class="comment"># 先在本地删除，再</span></span><br><span class="line">git push origin :refs/tags/&lt;name\&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用-GitHub"><a href="#使用-GitHub" class="headerlink" title="使用 GitHub"></a>使用 GitHub</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Fork <span class="comment"># Fork 开源项目到自己的仓库</span></span><br><span class="line">git <span class="built_in">clone</span> <span class="comment"># 克隆到本地</span></span><br><span class="line"><span class="comment"># 然后就可以自己进行修复、增加功能等操作了</span></span><br><span class="line">pull request <span class="comment"># 给官方贡献代码</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Gitee"><a href="#Gitee" class="headerlink" title="Gitee"></a>Gitee</h2><p>国内的 git 托管服务<br>提供免费的 Git 仓库<br>本地库可以既关联 GitHub 又关联 Gitee</p>
+<h2 id="自定义"><a href="#自定义" class="headerlink" title="自定义"></a>自定义</h2><ol>
+<li><p>部署别名</p>
+</li>
+<li><p>忽略特殊文件<br> <code>gitignore</code><br> 在<code>.gitignore</code>中写入文件名或者正则表达式</p>
+</li>
+<li><p>配置别名：例如更改一些命令</p>
+ <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 在全局把 status 命令改成 st</span></span><br><span class="line">git config --global alias.st status</span><br></pre></td></tr></table></figure>
+
+<p> 配置文件在<code>.git/config</code><br> 别名在 <code>[alias]</code> 中</p>
+</li>
+<li><p>搭建 Git 服务器<br> 有缘再学</p>
+</li>
+</ol>
+<h2 id="SourceTree"><a href="#SourceTree" class="headerlink" title="SourceTree"></a>SourceTree</h2><p>GUI 工具<br>图形界面工具<br>明天看看</p>
+<hr>
+<p>参考：</p>
+<p><a href="https:#www.liaoxuefeng.com/wiki/896043488029600">廖雪峰老师的 Git 教程</a></p>
+]]></content>
       <categories>
-          
-          <category> 工具 </category>
-          
+        <category>工具</category>
+        <category>git</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 一些坑 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>npm卸载及重装</title>
-      <link href="/2020/07/03/npm%E5%8D%B8%E8%BD%BD%E5%92%8C%E9%87%8D%E8%A3%85/"/>
-      <url>/2020/07/03/npm%E5%8D%B8%E8%BD%BD%E5%92%8C%E9%87%8D%E8%A3%85/</url>
-      
-        <content type="html"><![CDATA[<p>删得删彻底</p><a id="more"></a><p>感觉是前几天学 npm 的时候太过于放飞自我，把 npm 给玩坏了…..</p><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>几乎 install 所有的包都会失败，然后提示</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">npm WARN registry Unexpected warning <span class="keyword">for</span> https://registry.npmjs.org/: Miscellaneous Warning ERR_OSSL_PEM_NO_START_LINE: error:0909006C:PEM routines:get_name:no start line</span><br><span class="line">npm WARN registry Using stale data from https://registry.npmjs.org/ due to a request error during revalidation.</span><br><span class="line">npm ERR! code ETARGET</span><br><span class="line">npm ERR! notarget No matching version found <span class="keyword">for</span> npm@16.14.4.</span><br><span class="line">npm ERR! notarget In most cases you or one of your dependencies are requesting</span><br><span class="line">npm ERR! notarget a package version that doesn<span class="string">'t exist.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">npm ERR! A complete log of this run can be found in:</span></span><br><span class="line"><span class="string">npm ERR!     C:\Users\hz\AppData\Roaming\npm-cache\_logs\2020-07-03T12_42_22_735Z-debug.log</span></span><br></pre></td></tr></table></figure><p>上网搜了各种方法都没能解决，然后决定卸掉重来，然鹅卸载好像也有坑</p><h2 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h2><p>我用的是粗暴的删除文件夹方法：</p><ol><li><p>找到<code>C:\Users\admin\AppData\Roaming</code> 下手动删除 <code>npm</code> 和 <code>npm-cache</code> 文件夹</p></li><li><p>卸载 <code>Node.js</code> 再重新安装，那新的 npm 就被重新安装啦</p></li></ol><p>然鹅…</p><p>卸载之后不仅 npm install 依然用不了，随着 npm 文件夹一起被删掉的 hexo 也用不了而且<br>还下不回来…</p><p>后来看到<a href="https://blog.csdn.net/u013591091/article/details/80491809?utm_source=app" target="_blank" rel="noopener">这篇文章</a>才发现是我的 ‘.mpmrc’文件没有删除</p><p>‘.mpmrc’文件不在前面删掉的两个文件夹里，而是在<strong>用户文件夹</strong>里</p><h2 id="重装"><a href="#重装" class="headerlink" title="重装"></a>重装</h2><p>这个时候重装就可以愉快地用啦</p><p>安装的时候别忘了勾选添加到 PATH 中</p><p>以及 通过 npm 安装的一些 -g 的包要重新装一下</p><p>以及 cnpm 真好用</p><h2 id="hexo你怎么了"><a href="#hexo你怎么了" class="headerlink" title="hexo你怎么了"></a>hexo你怎么了</h2><p>重装了 hexo 之后好像一切都正常，我准备把今天的坑发一下，然鹅….发现更新之后博客页面变成了空白页<br>一般这种情况都是主题没绑定好，可能是因为手动删除了 npm 的文件夹之后把 hexo 的一些插件也给删掉了</p>]]></content>
-      
-      
+      <tags>
+        <tag>基础语法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaScript 中的原型和继承</title>
+    <url>/2020/07/07/class-constructor-prototype/</url>
+    <content><![CDATA[<p>发现到现在还是没有很弄明白 JavaScript 的原型和继承，看得晕晕的，决定先总结一下</p>
+<a id="more"></a>
+
+<h2 id="先厘清概念"><a href="#先厘清概念" class="headerlink" title="先厘清概念"></a>先厘清概念</h2><ul>
+<li><p>构造函数</p>
+<p>  构造函数是对象的模板，实例对象的属性和方法可以定义在内部</p>
+<p>  可以继承，但是<strong>实例之间无法共享</strong></p>
+</li>
+<li><p>原型对象（prototype）和 <code>__proto__</code> 属性</p>
+<p>  每个<strong>函数</strong>都有一个 prototype 属性，指向一个对象；这个原型对象的所有属性和方法，都能被实例对象共享<br>  每个<strong>对象</strong>都有<code>__proto__</code>属性，指向对应的构造函数的 prototype 属性；但是这个属性是社区创造的，建议使用 <code>Object.getPrototypeOf()</code> 代替</p>
+</li>
+<li><p>原型链（prototype chain）</p>
+<p>  任何对象都可以充当其他对象的原型，原型对象也是对象，也有自己的原型，一层层上溯到 <code>Object.prototype</code>，尽头是 null</p>
+</li>
+<li><p>constructor 属性</p>
+<p>  是 prototype 中的属性，默认指向 prototype 所在的构造函数</p>
+<ol>
+<li>可以得知某个实例对象是由哪个构造函数产生的</li>
+<li>可以从一个实例对象新建另一个实例</li>
+</ol>
+</li>
+</ul>
+<h2 id="相互关系"><a href="#相互关系" class="headerlink" title="相互关系"></a>相互关系</h2><h3 id="prototype-constructor-proto"><a href="#prototype-constructor-proto" class="headerlink" title="prototype, constructor, __proto__"></a>prototype, constructor, <code>__proto__</code></h3><img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/image-20200707231813070.png" alt="image-20200707231813070" style="zoom: 50%;" />
+
+<p><a href="https://www.cnblogs.com/cloud-/p/9152761.html" target="_blank" rel="noopener">绕完这个大概就很清楚了</a></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="number">1.</span> 构造函数.____proto__ === 构造出来的函数.prototype</span><br><span class="line"></span><br><span class="line"><span class="number">2.</span> prototype 和 <span class="keyword">constructor</span> 都是一个属性，可以作为一个指针</span><br><span class="line"></span><br><span class="line">3. prototype 对象也是对象，他们也有自己的原型，而所有这些内建对象的源型都指向 Object.prototype</span><br><span class="line"></span><br><span class="line">4. 而 object 对象本质也可以看作是由内置构造函数 Function 构造而来，所以其 __proto__ 指向 Function.prototype</span><br><span class="line">    Object，Number，Error等等这些函数都是Function创建的，这些的<span class="keyword">constructor</span>就是Function，</span><br><span class="line"></span><br><span class="line">5. 这个比较迷惑 Object.__proto__ === Function.prototype === Function.__proto__</span><br><span class="line"></span><br><span class="line">6. 存在于原型上的方法是为了方便实例之间共享</span><br><span class="line"></span><br><span class="line">7. 建议用 Object.getPrototypeOf 取代 __proto__ 属性来获得对象的 [[prototype]]</span><br></pre></td></tr></table></figure>
+
+<h3 id="关于构造函数、prototype属性、ownProperty-和继承的关系"><a href="#关于构造函数、prototype属性、ownProperty-和继承的关系" class="headerlink" title="关于构造函数、prototype属性、ownProperty 和继承的关系"></a>关于构造函数、prototype属性、ownProperty 和继承的关系</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="number">1.</span> <span class="keyword">new</span> 关键字创建的实例，包括构造函数上和原型上的方法和属性，即两个这部分都继承了</span><br><span class="line"><span class="comment">// new 方法原理：新建一个空对象，把其原型指向构造函数的 prototype 属性；把空对象赋值给函数内部的this关键字。</span></span><br><span class="line"></span><br><span class="line"><span class="number">2.</span> <span class="built_in">Object</span>.creat() 方法则仅仅继承 prototype 属性指向的对象</span><br><span class="line"></span><br><span class="line"><span class="number">3.</span> prototype 属性和构造函数上的方法互相独立，且都是可以继承</span><br><span class="line"></span><br><span class="line"><span class="number">4.</span> 区别在于构造函数上的方法和属性在实例之间是不共享的，原型上的是共享的</span><br><span class="line">    构造函数上的这些方法通过 <span class="keyword">this</span> 定义在其自身，hasOwnProperty 方法能返回</span><br><span class="line"></span><br><span class="line"><span class="number">5.</span> prototype 指向的对象才有 <span class="keyword">constructor</span> 属性，指向正好和 __proto__ 相反</span><br></pre></td></tr></table></figure>
+
+<p>参考博客<a href="https://www.cnblogs.com/lifeidg/p/10382770.html" target="_blank" rel="noopener">https://www.cnblogs.com/lifeidg/p/10382770.html</a><br>参考教程<a href="https://wangdoc.com/javascript/oop/new.html#%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95" target="_blank" rel="noopener">new 方法的原理 &amp;&amp; Object.create() 创建实例对象</a></p>
+<hr>
+<h2 id="ES6-中的-class"><a href="#ES6-中的-class" class="headerlink" title="ES6 中的 class"></a>ES6 中的 class</h2><h3 id="用法-amp-amp-和-ES5-中的类的关系"><a href="#用法-amp-amp-和-ES5-中的类的关系" class="headerlink" title="用法 &amp;&amp; 和 ES5 中的类的关系"></a>用法 &amp;&amp; 和 ES5 中的类的关系</h3><p>取代 es5 中用原型对象构造函数的写法，用 class 作为模板，让原型对象的写法更清晰，本质还是一样的</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span> </span>&#123;</span><br><span class="line"><span class="comment">// 1. constructor 表示构造方法</span></span><br><span class="line"><span class="comment">//【构造函数 --&gt; constructor】</span></span><br><span class="line"><span class="comment">// constructor 方法不同于 constructor 属性</span></span><br><span class="line"><span class="comment">// 就算不显式定义，也会新建一个空的 constructor 方法</span></span><br><span class="line">  <span class="keyword">constructor</span>(x, y) &#123;</span><br><span class="line">    <span class="keyword">this</span>.x = x;</span><br><span class="line">    <span class="comment">// 构造方法里的 this 代表实例对象</span></span><br><span class="line">    <span class="keyword">this</span>.y = y;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span></span><br><span class="line">    <span class="comment">// constructor 方法默认返回实例对象 this，你也可以指定成别的</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  toString() &#123;</span><br><span class="line">    <span class="comment">// 2. 方法</span></span><br><span class="line">    <span class="comment">// 不需要加 function 关键字</span></span><br><span class="line">    <span class="comment">// 方法之间不需要加逗号分隔</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'('</span> + <span class="keyword">this</span>.x + <span class="string">', '</span> + <span class="keyword">this</span>.y + <span class="string">')'</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// static 定义静态方法，即实例不能访问的方法</span></span><br><span class="line">  <span class="keyword">static</span> sayHi()&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"Hi"</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 类的所有的方法都在prototype中</span></span><br><span class="line"><span class="comment">// 类内部定义的所有方法都是不可枚举的</span></span><br><span class="line"><span class="comment">// 类必须用 new 调用</span></span><br><span class="line"><span class="comment">// 类的实例共享一个原型对象</span></span><br></pre></td></tr></table></figure>
+
+<p>super 关键字</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 1. 作为函数调用时，代表调用父类的构造函数，相当于</span></span><br><span class="line"><span class="keyword">super</span>() --&gt;</span><br><span class="line">A.prototype.constructor.call(<span class="keyword">this</span>)</span><br><span class="line"><span class="comment">// 2. super 作为对象时，在普通方法中，指向父类的原型对象；在静态方法中，指向父类。</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">super</span>.p())</span><br><span class="line"><span class="comment">// 意为打印 super 对象上的 p() 方法</span></span><br><span class="line"><span class="comment">// 因为是只能调用原型上的方法或属性，定义在父类实上的是不能调用的</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="父类及子类-amp-构造函数和实例之间的关系"><a href="#父类及子类-amp-构造函数和实例之间的关系" class="headerlink" title="父类及子类 &amp; 构造函数和实例之间的关系"></a>父类及子类 &amp; 构造函数和实例之间的关系</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent</span></span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name)&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> sayHello()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'hello'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    sayName()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'my name is '</span> + <span class="keyword">this</span>.name);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 类的继承，所有方法和属性都可以继承，也可以自己添加新的属性和方法</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Child</span> <span class="keyword">extends</span> <span class="title">Parent</span></span>&#123;</span><br><span class="line">    <span class="comment">// 通过 this 显式定义在自身的方法通过 constructor 继承</span></span><br><span class="line">    <span class="keyword">constructor</span>(name, age)&#123;</span><br><span class="line">        <span class="keyword">super</span>(name); <span class="comment">// 表示这个属性从父类中继承过来</span></span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">    sayAge()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'my age is '</span> + <span class="keyword">this</span>.age);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 这才是生成实例</span></span><br><span class="line"><span class="keyword">let</span> parent = <span class="keyword">new</span> Parent(<span class="string">'Parent'</span>);</span><br><span class="line"><span class="keyword">let</span> child = <span class="keyword">new</span> Child(<span class="string">'Child'</span>, <span class="number">18</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 父类上的方法和属性</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'parent: '</span>, parent); <span class="comment">// parent:  Parent &#123;name: "Parent"&#125;</span></span><br><span class="line">Parent.sayHello(); <span class="comment">// hello</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 父类的构造函数可以访问到父类的非静态方法</span></span><br><span class="line">parent.sayName(); <span class="comment">// my name is Parent</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 子类可以访问到父类的所有属性，包括静态属性</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'child: '</span>, child); <span class="comment">// child:  Child &#123;name: "Child", age: 18&#125;</span></span><br><span class="line">Child.sayHello(); <span class="comment">// hello</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 子类的实例</span></span><br><span class="line">child.sayName(); <span class="comment">// my name is Child</span></span><br><span class="line">child.sayAge(); <span class="comment">// my age is 18</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="ES6-extends-中的原型关系"><a href="#ES6-extends-中的原型关系" class="headerlink" title="ES6 extends 中的原型关系"></a>ES6 extends 中的原型关系</h3><p>类的方法内部如果含有this，它默认指向类的实例。但是，必须非常小心，一旦单独使用该方法，很可能报错。</p>
+<h4 id="ES5-amp-ES6-中类的继承"><a href="#ES5-amp-ES6-中类的继承" class="headerlink" title="ES5 &amp; ES6 中类的继承"></a>ES5 &amp; ES6 中类的继承</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">两者继承机制不同</span><br><span class="line"></span><br><span class="line">ES5</span><br><span class="line"><span class="number">1.</span> 先创造子类的实例对象<span class="keyword">this</span></span><br><span class="line"><span class="number">2.</span> 再将父类的方法添加到<span class="keyword">this</span>上面--Parent.apply(<span class="keyword">this</span>)</span><br><span class="line">------</span><br><span class="line">    常用方法：</span><br><span class="line">    在子类的构造函数中，调用父类的构造函数</span><br><span class="line">    让子类的原型指向父类的原型</span><br><span class="line"></span><br><span class="line">ES6</span><br><span class="line"><span class="number">1.</span> 先将父类实例对象的属性和方法，加到<span class="keyword">this</span>上面（所以必须先调用<span class="keyword">super</span>方法）</span><br><span class="line"><span class="number">2.</span> 再用子类的构造函数修改<span class="keyword">this</span>。</span><br></pre></td></tr></table></figure>
+
+<h4 id="class-中的继承-——-两条继承链"><a href="#class-中的继承-——-两条继承链" class="headerlink" title="class 中的继承 —— 两条继承链"></a>class 中的继承 —— 两条继承链</h4><p>因为每一个对象都有 <code>__proto__</code> 属性，指向对应的构造函数的 prototype 属性<br>class 同时有 prototype 属性和 <code>__proto__</code> 属性，因此同时有两条原型链</p>
+<p>两条继承链：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="number">1.</span> 构造器原型链 Child.__proto__ === Parent</span><br><span class="line"><span class="number">2.</span> 实例原型链</span><br><span class="line">child.__proto__ === Child.prototype</span><br><span class="line">Child.prototype.__proto__ === Parent.protptype</span><br><span class="line">parent.__proto__ === Parent.prototype</span><br></pre></td></tr></table></figure>
+
+<img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzI1MzQzMi1kNGMxMmY5MzA3NmVkZTAxLnBuZw.jpg" alt="aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzI1MzQzMi1kNGMxMmY5MzA3NmVkZTAxLnBuZw" style="zoom: 50%;" />
+
+<p>[参考博客，上图图源](<a href="https://blog.csdn.net/weixin_43312083/article/details/106608505" target="_blank" rel="noopener">https://blog.csdn.net/weixin_43312083/article/details/106608505</a></p>
+<p><a href="https://wangdoc.com/es6/class.html" target="_blank" rel="noopener">阮一峰老师《ECMAScript 6 教程》– class 的基本语法 &amp; class 的继承</a></p>
+<hr>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ol>
+<li><code>prototype</code> 、<code>__proto__</code>、<code>constructor</code>之间的关系，他们是如何构成原型链的</li>
+<li>构造函数和 <code>prototype</code>指向的对象指向的关系</li>
+<li>ES5 &amp; ES6 中类的实现和原理</li>
+<li><code>ES6-class</code>中的继承关系 – 两条继承链</li>
+</ol>
+]]></content>
       <categories>
-          
-          <category> 一些坑 </category>
-          
+        <category>JavaScript</category>
+        <category>原型和继承</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 一些坑 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Git &amp; GitHub小结</title>
-      <link href="/2020/06/29/Git-GitHub/"/>
-      <url>/2020/06/29/Git-GitHub/</url>
-      
-        <content type="html"><![CDATA[<p>Git 是目前世界上最先进的分布式版本控制系统；GitHub 为开源项目免费提供Git存储。</p><a id="more"></a><p><strong>目录</strong>：</p><!-- TOC --><ul><li><a href="#hellogit">helloGit</a></li><li><a href="#创建版本库">创建版本库</a></li><li><a href="#本地库操作小结">本地库操作小结</a></li><li><a href="#远程库">远程库</a></li><li><a href="#分支管理">分支管理</a><ul><li><a href="#解决冲突">解决冲突</a></li><li><a href="#分支管理策略">分支管理策略</a></li><li><a href="#bug分支">bug分支</a></li><li><a href="#feature-分支">Feature 分支</a></li><li><a href="#多人协作">多人协作</a></li></ul></li><li><a href="#标签管理">标签管理</a></li><li><a href="#使用-github">使用 GitHub</a></li><li><a href="#gitee">Gitee</a></li><li><a href="#自定义">自定义</a></li><li><a href="#sourcetree">SourceTree</a></li></ul><!-- /TOC --><h2 id="helloGit"><a href="#helloGit" class="headerlink" title="helloGit"></a>helloGit</h2><p>Git 是目前世界上最先进的分布式版本控制系统<br>GitHub 为开源项目免费提供Git存储</p><p>分布式和集中式版本控制系统：</p><p>集中式：集中存放在中央服务器，必须联网才能工作，效率低。<br>分布式：每个人的电脑都是一个完整的版本库，协作时只需要把各自的修改推送给对方，无需联网也可以工作；有一台充当“中央服务器”的电脑，用来方便交换大家的修改</p><h2 id="创建版本库"><a href="#创建版本库" class="headerlink" title="创建版本库"></a>创建版本库</h2><p>版本库，repository，版本库下所有文件都可以被 Git 管理起来，每个文件的修改、删除 Git 都能跟踪</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建一个空文件</span></span><br><span class="line"><span class="comment"># 1. 显示当前目录</span></span><br><span class="line">    $ <span class="built_in">pwd</span></span><br><span class="line"><span class="comment"># 2. 初始化：把目录变成 Git 可以管理的仓库</span></span><br><span class="line">    $ git init</span><br><span class="line"><span class="comment"># 生成一个 .git 目录，是 Git 来追踪管理版本库的</span></span><br><span class="line"><span class="comment"># 这是一个隐藏目录，可以让他显示</span></span><br><span class="line">    $ ls -ah</span><br></pre></td></tr></table></figure><ul><li>把文件添加到版本库</li></ul><p>版本库只能跟踪文本文件的改动，比如TXT文件，网页，所有的程序代码（word 文件不可以）等等；而图片、视频等二进制文件就无法跟踪变化</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编写一个文件，readme.txt</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 把文件添加到仓库</span></span><br><span class="line">$ git add &lt;file&gt;</span><br><span class="line">$ git add readme.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 把文件提交到仓库（-m 后面输入本次提交的说明）</span></span><br><span class="line">$ git commit -m &lt;message&gt;</span><br><span class="line">$ git commit -m <span class="string">"wrote a readme file"</span></span><br><span class="line"><span class="comment"># commit 一次可以提交多个 add 进来的内容</span></span><br></pre></td></tr></table></figure><ul><li>修改与版本</li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看仓库状态，修改信息、提交状态等</span></span><br><span class="line">    $ git status</span><br><span class="line">    <span class="comment"># working tree clean</span></span><br><span class="line">    <span class="comment"># Changes to be committed:...</span></span><br><span class="line"><span class="comment"># 查看具体被修改的内容 —— Unix 通用的 diff 格式显示</span></span><br><span class="line">    $ git diff &lt;file&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 版本回退</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 查看历史记录 —— 显示所有的版本记录</span></span><br><span class="line">    $ git <span class="built_in">log</span></span><br><span class="line">    $ git <span class="built_in">log</span> --pretty=oneline</span><br><span class="line">    <span class="comment"># commit id : 是 SHA 计算出的十六进制数字，避免冲突</span></span><br><span class="line">    <span class="comment"># Author &amp; Date &amp; message</span></span><br><span class="line"><span class="comment"># 2. 回退</span></span><br><span class="line"><span class="comment">#  版本表示：</span></span><br><span class="line">    HEAD --&gt; 当前版本</span><br><span class="line">    HEAD^ --&gt; 上一版本</span><br><span class="line">    HEAD^^ --&gt; 上上版本</span><br><span class="line">    HEAD~100 --&gt; 往上 100 个</span><br><span class="line"><span class="comment">#  命令：</span></span><br><span class="line">    $ git reset --hard HEAD^ / commit id</span><br><span class="line"><span class="comment"># 【内部有个指向当前版本的 HEAD 指针，版本回退只是更改指针指向】</span></span><br><span class="line"></span><br><span class="line">----此时通过 status 已经无法读取之后版本了----</span><br><span class="line"></span><br><span class="line"><span class="comment"># 返回更新的版本</span></span><br><span class="line"><span class="comment"># 通过 commit id 回退，则需要查看命令的 id</span></span><br><span class="line">    $ git reflog</span><br></pre></td></tr></table></figure><h2 id="本地库操作小结"><a href="#本地库操作小结" class="headerlink" title="本地库操作小结"></a>本地库操作小结</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">|—— 工作区 ==&gt; add</span><br><span class="line">|—— 版本库</span><br><span class="line">    +—— stage 暂存区  =&gt; commit</span><br><span class="line">    +—— master 分支：创建 Git 版本库时，自动为我们创建的唯一分支</span><br><span class="line">        提交到这里就是已经在仓库了</span><br><span class="line">     —— HEAD：指向 master 的指针</span><br></pre></td></tr></table></figure><ul><li>回退</li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment"># 工作区回退</span></span><br><span class="line">git reset HEAD \&lt;file&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 暂存库回退</span></span><br><span class="line">git checkout -- \&lt;file&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 版本库回退</span></span><br><span class="line"><span class="comment"># 1. 查看 git 版本操作记录</span></span><br><span class="line">git <span class="built_in">log</span> --pretty=oneline</span><br><span class="line">git reflog</span><br><span class="line"><span class="comment"># 2. 改变版本</span></span><br><span class="line">git reset --hard HEAD^</span><br><span class="line">git reset --hard \&lt;版本号id&gt;</span><br></pre></td></tr></table></figure><ul><li>删除</li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+—— rm \&lt;file&gt;</span><br><span class="line">    +——<span class="comment"># 确实要删</span></span><br><span class="line">    |   +—— git rm \&lt;file&gt;</span><br><span class="line">    |   +—— git commit -m &lt;message&gt;</span><br><span class="line">    +—— 删错了 git checkout -- test.txt</span><br></pre></td></tr></table></figure><h2 id="远程库"><a href="#远程库" class="headerlink" title="远程库"></a>远程库</h2><p>咋回事</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 远程仓库和本地仓库相关联，关联后远程库默认叫 origin</span></span><br><span class="line">git remote add origin git@github.com...</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把本地内容（当前分支 master）推送到远程库</span></span><br><span class="line">git push</span><br><span class="line"><span class="comment"># 第一次推送时还需要关联本地的 master 和远程的 master</span></span><br><span class="line"><span class="comment"># 则应该用</span></span><br><span class="line">git push -u oringin master</span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送最新修改到远端</span></span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 从远程库克隆到本地库</span></span><br><span class="line"><span class="comment"># Git支持多种协议，ssh协议速度最快</span></span><br><span class="line">git <span class="built_in">clone</span>@..</span><br><span class="line"><span class="comment"># 还可以https</span></span><br><span class="line">git <span class="built_in">clone</span> https:...</span><br></pre></td></tr></table></figure><h2 id="分支管理"><a href="#分支管理" class="headerlink" title="分支管理"></a>分支管理</h2><p>分支：<br>工作时避免互相干扰，开发完毕后再一次性合并到原来的分支上</p><p>HEAD 指针、分支、提交点：<br>HEAD 指向当前分支，分支有个指针指向当前的提交点</p><p>新建分支：<br>如果建了新的分支 dev，就是新建对应的 dev 指针（指向最新的提交点），改变 HEAD 的指向，工作区没有变化<br>我们不断更新版本，dev 指针在版本链上的指针改变</p><p>合并分支：有普通合并和快合并</p><p>命令：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">1. <span class="comment"># 新建分支</span></span><br><span class="line">    git branch dev</span><br><span class="line">    <span class="comment"># 切换分支</span></span><br><span class="line">    git checkout dev</span><br><span class="line">    git seitch dev</span><br><span class="line">    <span class="comment"># 命令合并：新建并切换分支</span></span><br><span class="line">    git checkout -b dev</span><br><span class="line">    git switch -c dev</span><br><span class="line">    <span class="comment"># 查看分支：列出所有分支，当前分支带 *</span></span><br><span class="line">    git branch</span><br><span class="line"></span><br><span class="line">2. <span class="comment"># 然后正常修改正常提交</span></span><br><span class="line">3. <span class="comment"># 合并分支</span></span><br><span class="line">    git switch master <span class="comment"># 切回来</span></span><br><span class="line">    git merge dev <span class="comment"># 合并指定分支到当前分支（指向dev工作点）</span></span><br><span class="line">    <span class="comment"># 没有冲突，快速合并</span></span><br><span class="line">    git branch -d dev <span class="comment"># 删除分支</span></span><br></pre></td></tr></table></figure><h3 id="解决冲突"><a href="#解决冲突" class="headerlink" title="解决冲突"></a>解决冲突</h3><ol><li>快速合并和禁用快合并</li><li>手动解决冲突再进行合并<br> 这时有冲突的文件会有标记显示不同分支有冲突的内容<br> 手动进行修改合并后保存，重新 add &amp; commit</li></ol><p>删除分支</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">查看合并情况：</span><br><span class="line">git <span class="built_in">log</span> --graph 查看分支合并图</span><br><span class="line">git <span class="built_in">log</span> --graph --pretty=oneline --abbrev-commit</span><br></pre></td></tr></table></figure><h3 id="分支管理策略"><a href="#分支管理策略" class="headerlink" title="分支管理策略"></a>分支管理策略</h3><p>禁用快速合并: –no-ff 方式的 git merge<br>可以在 merge 的时候生成一个带描述的 commit ，而不是默默就合并了，可以看出合并记录</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge --no-ff -m <span class="string">"merge with no-ff"</span> dev</span><br></pre></td></tr></table></figure><p>快速模式合并就是没有冲突的时候只改变原来 master 分支的指针，指到新分支最新的版本去<br>而强制关闭 ff 模式，则会新建一个不同于 dev 最新版的 commit ，这样可以看出 dev 的版本，这样删除分支后就不会丢失分支信息，可以看出来曾经做过合并</p><ul><li>分支策略</li></ul><p>工作中一般不直接在 master 分支上操作，仅用来发布新版本<br>工作团队就在 dev 分支上工作</p><h3 id="bug分支"><a href="#bug分支" class="headerlink" title="bug分支"></a>bug分支</h3><ul><li>通过新建分支来修复 bug 再进行合并</li><li>此时如果还有别的分支上的工作还在进行，可以同过<code>stash</code>功能来把当前工作现场先保存，再新建别的分支修复 bug</li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">+—— git stash <span class="comment"># 储存起来</span></span><br><span class="line">+—— <span class="comment"># 出去新建分支 debug</span></span><br><span class="line">+—— git stash list <span class="comment"># 列出现场</span></span><br><span class="line">+—— <span class="comment"># 恢复现场</span></span><br><span class="line">    +—— git stash apply &lt;stash@id&gt; <span class="comment"># 查看，该现场还在现场列表中</span></span><br><span class="line">    |    git stash drop <span class="comment"># 删除 stash 内容</span></span><br><span class="line">    +—— git stash pop <span class="comment"># 弹出现场，删除栈顶现场</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># master 分支上的 bug 也需要在其他分支修复</span></span><br><span class="line"><span class="comment"># 这个时候可以直接把指定的改动赋值到指定分支</span></span><br><span class="line">    +—— git cherry-pick \&lt;commit id&gt;</span><br></pre></td></tr></table></figure><h3 id="Feature-分支"><a href="#Feature-分支" class="headerlink" title="Feature 分支"></a>Feature 分支</h3><ul><li>添加新功能</li><li>添加新功能的时候先再新建的 feature 分支上开发，完成后再合并</li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 要丢弃一个还没被合并过的分支需要强行删除</span></span><br><span class="line">git branch -D &lt;name&gt;</span><br></pre></td></tr></table></figure><h3 id="多人协作"><a href="#多人协作" class="headerlink" title="多人协作"></a>多人协作</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看远程库信息</span></span><br><span class="line">git remote</span><br><span class="line">git remove -v</span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送分支</span></span><br><span class="line">git push origin branchName</span><br><span class="line"></span><br><span class="line"><span class="comment"># 主分支和开发分支都需要远程同步</span></span><br><span class="line"><span class="comment"># bug 分支和 feature看情况啦</span></span><br></pre></td></tr></table></figure><p>多人协作</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 抓取分支</span></span><br><span class="line"><span class="comment"># 从远程库克隆时默认情况下只能看到本地的 master</span></span><br><span class="line"><span class="comment"># 需要创建远程 origin 的 dev 到本地</span></span><br><span class="line">git checkout -b dev origin/dev</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解决冲突</span></span><br><span class="line"><span class="comment"># git push 时有冲突</span></span><br><span class="line"><span class="comment"># 两人同时修改了同个文件相同位置的内容</span></span><br><span class="line"><span class="comment"># 先把最新提交从 origin/dev 抓下来</span></span><br><span class="line">git branch --<span class="built_in">set</span>-upstream-to=origin/\&lt;branch&gt; dev</span><br><span class="line">git pull</span><br><span class="line"><span class="comment"># 在本地合并，解决冲突再 push</span></span><br></pre></td></tr></table></figure><p>Rebase</p><p>rebase操作可以把本地未push的分叉提交历史整理成直线</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 把多人协作解决冲突的提交历史的提交整理成一条直线</span></span><br><span class="line">git rebase</span><br></pre></td></tr></table></figure><p>操作后 commit 会被挪动位置，从而修改的内容也会发生变化，但是提交的内容是一致的</p><h2 id="标签管理"><a href="#标签管理" class="headerlink" title="标签管理"></a>标签管理</h2><p>在版本库中给版本打一个标签（tag），方便取出<br>是版本库的快照，实际上就是指向某个 commit 的指针</p><p>标签的创建：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 先切换到需要打标签的分支上</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建标签</span></span><br><span class="line"><span class="comment"># 给最新 commit 打标签</span></span><br><span class="line">git tag &lt;tagName&gt;</span><br><span class="line"><span class="comment"># 给历史 commit</span></span><br><span class="line">git tag &lt;tagName&gt; \&lt;commit id&gt;</span><br><span class="line"><span class="comment"># 创建带说明的 tag</span></span><br><span class="line"><span class="comment"># 用 -a 指定标签名，-m 指定 messege</span></span><br><span class="line">git tag -a &lt;tagName&gt; -m <span class="string">""</span> &lt;commit id&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看有哪些标签</span></span><br><span class="line">git tab</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看某标签指向的 commit 的具体说明文字</span></span><br><span class="line">git show &lt;tagName&gt;</span><br></pre></td></tr></table></figure><p>标签的操作</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 推送到远端</span></span><br><span class="line">git push origin &lt;tagName&gt;</span><br><span class="line">git push origin --tags</span><br><span class="line"></span><br><span class="line"><span class="comment"># 本地删除</span></span><br><span class="line">git tag -d &lt;tagName&gt;</span><br><span class="line"><span class="comment"># 远端删除</span></span><br><span class="line"><span class="comment"># 先在本地删除，再</span></span><br><span class="line">git push origin :refs/tags/&lt;name\&gt;</span><br></pre></td></tr></table></figure><h2 id="使用-GitHub"><a href="#使用-GitHub" class="headerlink" title="使用 GitHub"></a>使用 GitHub</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Fork <span class="comment"># Fork 开源项目到自己的仓库</span></span><br><span class="line">git <span class="built_in">clone</span> <span class="comment"># 克隆到本地</span></span><br><span class="line"><span class="comment"># 然后就可以自己进行修复、增加功能等操作了</span></span><br><span class="line">pull request <span class="comment"># 给官方贡献代码</span></span><br></pre></td></tr></table></figure><h2 id="Gitee"><a href="#Gitee" class="headerlink" title="Gitee"></a>Gitee</h2><p>国内的 git 托管服务<br>提供免费的 Git 仓库<br>本地库可以既关联 GitHub 又关联 Gitee</p><h2 id="自定义"><a href="#自定义" class="headerlink" title="自定义"></a>自定义</h2><ol><li><p>部署别名</p></li><li><p>忽略特殊文件<br> <code>gitignore</code><br> 在<code>.gitignore</code>中写入文件名或者正则表达式</p></li><li><p>配置别名：例如更改一些命令</p> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在全局把 status 命令改成 st</span></span><br><span class="line">git config --global alias.st status</span><br></pre></td></tr></table></figure><p> 配置文件在<code>.git/config</code><br> 别名在 <code>[alias]</code> 中</p></li><li><p>搭建 Git 服务器<br> 有缘再学</p></li></ol><h2 id="SourceTree"><a href="#SourceTree" class="headerlink" title="SourceTree"></a>SourceTree</h2><p>GUI 工具<br>图形界面工具<br>明天看看</p><hr><p>参考：</p><p><a href="https:#www.liaoxuefeng.com/wiki/896043488029600">廖雪峰老师的 Git 教程</a></p>]]></content>
-      
-      
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>先Mark住Markdown的常用符</title>
+    <url>/2020/04/29/MarkMarkdown/</url>
+    <content><![CDATA[<p>终于终于到了可以写博文的环节了，第一篇那就先总结一下我觉得我以后要markdown的一些常用语法吧，一边学一边写一边总结厚！</p>
+<a id="more"></a>
+
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><p> <a href="#一一些基础语法">一、一些基础语法</a></p>
+<ul>
+<li><a href="#代码块">代码块</a></li>
+<li><a href="#行内代码块">行内代码块</a></li>
+<li><a href="#整段代码块">整段代码块</a></li>
+<li><a href="#常用需要转义的符号">常用需要转义的符号</a></li>
+<li><a href="#加粗或斜体">加粗或斜体</a></li>
+<li><a href="#设置标题">设置标题</a></li>
+<li><a href="#超链接行内式和参考式自动链接">超链接：行内式和参考式，自动链接</a></li>
+<li><a href="#删除线">删除线</a></li>
+</ul>
+<p><a href="#二引用插入点什么">二、引用/插入点什么</a></p>
+<ul>
+<li><p><a href="#文字引用">文字引用</a></p>
+</li>
+<li><p><a href="#列表">列表</a></p>
+</li>
+<li><p><a href="#目录结构">目录结构</a></p>
+</li>
+<li><p><a href="#插入图像">插入图像</a></p>
+</li>
+<li><p><a href="#写公式">写公式</a></p>
+</li>
+<li><p><a href="#流程图">流程图</a></p>
+</li>
+<li><p><a href="#表格">表格</a></p>
+</li>
+<li><p><a href="#加入html标签">加入html标签</a></p>
+</li>
+<li><p><a href="#代办事项">代办事项</a></p>
+<p><a href="#三最后说点什么">三、最后说点什么</a></p>
+</li>
+</ul>
+<h2 id="一、一些基础语法"><a href="#一、一些基础语法" class="headerlink" title="一、一些基础语法"></a>一、一些基础语法</h2><h3 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h3><p>好像写语法总结需要把代码放上来，那就先写怎么引用代码叭（禁止套娃–||）</p>
+<h4 id="行内代码块"><a href="#行内代码块" class="headerlink" title="行内代码块"></a>行内代码块</h4><p>用单引号括住就ok了<br>这是设置字体的html代码’<font color="red">红色</font>‘</p>
+<h4 id="整段代码块"><a href="#整段代码块" class="headerlink" title="整段代码块"></a>整段代码块</h4><p>使用四个缩进或者双引号单引号表示代码块<br>反引号加语言名字</p>
+<h3 id="常用需要转义的符号"><a href="#常用需要转义的符号" class="headerlink" title="常用需要转义的符号"></a>常用需要转义的符号</h3><p>没想到一开头就要用到转义了hhh<br>Markdown里转义也是在特殊字符前面加一个反斜杠<br>常见的需呀转义的符号有<br>\ ‘ * _ {} [] () # + - . !</p>
+<h3 id="加粗或斜体"><a href="#加粗或斜体" class="headerlink" title="加粗或斜体"></a>加粗或斜体</h3><p>用*包着对应的文字，左右</p>
+<h3 id="设置标题"><a href="#设置标题" class="headerlink" title="设置标题"></a>设置标题</h3><p>在标题前面加’#’，越低级的标题用越多的’#’，可以加1~6个</p>
+<h3 id="超链接：行内式和参考式，自动链接"><a href="#超链接：行内式和参考式，自动链接" class="headerlink" title="超链接：行内式和参考式，自动链接"></a>超链接：行内式和参考式，自动链接</h3><h3 id="删除线"><a href="#删除线" class="headerlink" title="删除线"></a>删除线</h3><p>用~~包住语句就好啦</p>
+<h2 id="二、引用-插入点什么"><a href="#二、引用-插入点什么" class="headerlink" title="二、引用/插入点什么"></a>二、引用/插入点什么</h2><h3 id="文字引用"><a href="#文字引用" class="headerlink" title="文字引用"></a>文字引用</h3><p>用<code>&gt;</code>表示文字引用</p>
+<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p>无序列表：用<code>*</code>、<code>+</code>、<code>-</code>都可以表示无序列表<br>有序列表：用数字和点表示有序列表</p>
+<h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3><p>在文中任意位置输入单击，点插入OTC就好啦即可显示全文内容啦<br><code>&lt;!-- TOC --&gt;</code></p>
+<h3 id="插入图像"><a href="#插入图像" class="headerlink" title="插入图像"></a>插入图像</h3><p>使用 <code>![描述](url)</code> 插入图像</p>
+<p>###　写公式</p>
+<p><code>$</code>写行内公式，<code>$$</code>写整行公式</p>
+<h3 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h3><ol>
+<li>流程图从flow开始</li>
+<li>然后需要定义tag，基本类型包括：</li>
+</ol>
+<p>-start（开始框）<br>-end<br>-operation（执行）<br>-subroutine （分支）<br>-condition（条件结构）<br>-condition（yes和no，这个好像不需要定义啦）<br>3. 用=&gt;来定义，用-&gt;来表示路径</p>
+<h3 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h3><p>列：直接用|代替表格的竖线；行：直接换行就行<br>第二行用来表示字体显示的位置’-‘表示靠左，’-‘表示靠右，’:–:’表示居中</p>
+<h3 id="加入html标签"><a href="#加入html标签" class="headerlink" title="加入html标签"></a>加入html标签</h3><p>加个标签改变某个东东的属性这样子<br><font color="red">我是一段红色加粗的字</font></p>
+<h3 id="代办事项"><a href="#代办事项" class="headerlink" title="代办事项"></a>代办事项</h3><p>list前加<code>[]</code>或<code>[×]</code>表示完成或未完成</p>
+<p>[]1. xuexi</p>
+<h3 id="插入-emoji"><a href="#插入-emoji" class="headerlink" title="插入 emoji"></a>插入 <code>emoji</code></h3><p>看这里 <a href="https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md" target="_blank" rel="noopener">emoji-cheat-sheet</a></p>
+<table>
+<thead>
+<tr>
+<th align="center">emoji</th>
+<th align="left">shortcode</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">:rofl:</td>
+<td align="left"><code>:rofl:</code></td>
+</tr>
+<tr>
+<td align="center">:sweat_smile:</td>
+<td align="left"><code>:sweat_smile:</code></td>
+</tr>
+<tr>
+<td align="center">:upside_down_face:</td>
+<td align="left"><code>:upside_down_face:</code></td>
+</tr>
+<tr>
+<td align="center">:smiling_face_with_three_hearts:</td>
+<td align="left"><code>:smiling_face_with_three_hearts:</code></td>
+</tr>
+<tr>
+<td align="center">:star_struck:</td>
+<td align="left"><code>:star_struck:</code></td>
+</tr>
+<tr>
+<td align="center">:stuck_out_tongue_closed_eyes:</td>
+<td align="left"><code>:stuck_out_tongue_closed_eyes:</code></td>
+</tr>
+<tr>
+<td align="center">:sunglasses:</td>
+<td align="left"><code>:sunglasses:</code></td>
+</tr>
+</tbody></table>
+<h2 id="三、最后说点什么"><a href="#三、最后说点什么" class="headerlink" title="三、最后说点什么"></a>三、最后说点什么</h2><p>8行，我真的困了，不知到上面写的能实现多少，先挖个坑，改天来填</p>
+<img src="齐神说晚安.jpg" width="100px">
+
+<p><img src="%E9%BD%90%E7%A5%9E%E8%AF%B4%E6%99%9A%E5%AE%89.jpg" alt="alt"></p>
+<p>为啥图片显示不了哦？！</p>
+]]></content>
       <categories>
-          
-          <category> 工具 </category>
-          
-          <category> git </category>
-          
+        <category>工具</category>
+        <category>Markdown</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 基础语法 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>npm的基本用法</title>
-      <link href="/2020/06/27/npm%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95/"/>
-      <url>/2020/06/27/npm%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95/</url>
-      
-        <content type="html"><![CDATA[<p>npm is the world’s largest software registry. Open source developers from every continent use npm to share and borrow packages, and many organizations use npm to manage private development as well.</p><a id="more"></a><p><strong>目录</strong>：</p><!-- TOC --><ul><li><a href="#hello-npm">hello NPM</a></li><li><a href="#安装">安装</a></li><li><a href="#packagejson">package.json</a></li><li><a href="#understanding-packages-and-modules">Understanding Packages and Modules</a></li><li><a href="#常用命令">常用命令</a></li><li><a href="#config">config</a></li><li><a href="#别的一些">别的一些</a></li><li><a href="#npm-script">npm-Script</a></li></ul><!-- /TOC --><h2 id="hello-NPM"><a href="#hello-NPM" class="headerlink" title="hello NPM"></a>hello NPM</h2><p>npm is the world’s largest software registry. Open source developers from every continent use npm to share and borrow packages, and many organizations use npm to manage private development as well.</p><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ol><li><p>安装npmn</p> </br> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">#  1. 升级、查看版本号</span></span><br><span class="line">npm install npm -g</span><br><span class="line">npm -v</span><br><span class="line">npm install npm@latest -g</span><br><span class="line">npm install npm@next -g</span><br><span class="line"><span class="comment">#  2. 淘宝镜像安装</span></span><br><span class="line">npm install -g cnpm --registry=https:<span class="comment">#registry.npm.taobao.org</span></span><br><span class="line"><span class="comment"># 然后就可以使用 cnpm 命令进行安装了</span></span><br></pre></td></tr></table></figure> </br></li><li><p>安装/卸载/更新模块</p> </br> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 本地安装</span></span><br><span class="line">npm install &lt;Module Name&gt;</span><br><span class="line"><span class="comment">#  --- 安装之后这个包就会被放在工程目录的 node_module 目录中了</span></span><br><span class="line"><span class="comment">#  --- 可以通过require()引用</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 全局安装(global)</span></span><br><span class="line">npm install &lt;Module Name&gt; -g</span><br><span class="line"><span class="comment">#  --- 安装之后放在 /usr/local 下或者 node 安装目录中</span></span><br><span class="line"><span class="comment">#  --- 可以直接在命令行里面使用了</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 卸载</span></span><br><span class="line">npm uninstall &lt;Module Name&gt;</span><br><span class="line"><span class="comment"># 如需从 package.json 中删除依赖</span></span><br><span class="line">npm uninstall --save &lt;Module Name&gt;</span><br><span class="line">npm uninstall --save-dev &lt;Module Name&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 检查某模块在不在</span></span><br><span class="line">dir node_module</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 更新本地的包</span></span><br><span class="line">npm update</span><br><span class="line">npm outdate</span><br><span class="line"></span><br><span class="line"><span class="comment"># 6. npm search</span></span><br></pre></td></tr></table></figure> </br></li><li><p>查看安装信息</p> </br><ul><li><p>安装过程的输出内容</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">express@4.13.3 node_modules/express</span><br><span class="line"><span class="comment">#  安装的包名称  安装的位置</span></span><br><span class="line">├── escape-html@1.0.2</span><br><span class="line">......</span><br><span class="line">└── ....</span><br></pre></td></tr></table></figure></br></li><li><p>查看安装信息</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm list -g</span><br><span class="line"><span class="comment"># 查看所有全局安装的模块</span></span><br><span class="line">npm list \&lt;Module Name&gt;</span><br><span class="line"><span class="comment"># 查看某个模块的安装信息</span></span><br></pre></td></tr></table></figure></li></ul></li></ol><h2 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a>package.json</h2><p>安装之后位于模块的目录下，定义包的属性<br>列出安装和依赖信息、允许自定义命令、方便包的共享</p><ol><li><p>package.json 的参数</p> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;!-- - name  包名</span><br><span class="line">- version   版本号</span><br><span class="line">- homepage / bugs  包的directory</span><br><span class="line">- dependencies  依赖包列表</span><br><span class="line">    --- 如果没有相应的包，会随模块安装到 node_module 目录</span><br><span class="line">- repositoty    包代码存放地址（git / svn / github）</span><br><span class="line">- main  指定程序主入口文件，require(<span class="string">'moduleName'</span>) 就会加载这个文件</span><br><span class="line">    像 webpack 有也有指定操作的主入口文件，默认是模块根目录下的 index.js</span><br><span class="line">- keyords   关键字</span><br><span class="line">- script    设置默认脚本 --&gt;</span><br></pre></td></tr></table></figure></li><li><p>创建 package.json 文件</p> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">npm init</span><br><span class="line">npm niit -y   <span class="comment"># 按默认值创建</span></span><br><span class="line">npm <span class="built_in">set</span> init.author.email <span class="string">"wombat@npmjs.com"</span></span><br><span class="line"><span class="comment">#  也可以指定一些值啦</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Customize</span></span><br><span class="line"><span class="comment"># 给创建的 package.json 设置默认参数</span></span><br><span class="line"><span class="comment"># --- 创建一个 .npm-init.js</span></span><br><span class="line">module.exports = &#123;</span><br><span class="line">customField: <span class="string">'Custom Field'</span>,</span><br><span class="line">otherCustomField: <span class="string">'This field is really cool'</span></span><br><span class="line">.....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li><p>指定依赖项Specifying Dependencies</p></li></ol><p>也是自定义包的一个部分</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># —— "dependencies"</span></span><br><span class="line"><span class="comment">#  |—— required by your application in production</span></span><br><span class="line"><span class="comment"># —— "devDependencies"</span></span><br><span class="line"><span class="comment">#  |—— are only needed for development and testing</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># | 步骤</span></span><br><span class="line"><span class="comment"># |—— 在 package.json 中设置引入</span></span><br><span class="line"><span class="comment"># |  |—— 包对象中创建一个指向对象的称为 dependencies</span></span><br><span class="line"><span class="comment"># |—— install flags</span></span><br><span class="line"><span class="comment"># |  |——  To add an entry to your package.json's dependencies</span></span><br><span class="line">        npm install &lt;package_name&gt; --save</span><br><span class="line"><span class="comment"># |  |——  dev-dependencies</span></span><br><span class="line">        npm install &lt;package_name&gt; --save</span><br></pre></td></tr></table></figure><h2 id="Understanding-Packages-and-Modules"><a href="#Understanding-Packages-and-Modules" class="headerlink" title="Understanding Packages and Modules"></a>Understanding Packages and Modules</h2><p>这两个居然不是同一个东西</p><ol><li><p>package —— 包是由package.json描述的文件或目录</p></li><li><p>module —— 模块是节点可以加载的任何文件或目录<br> 在这里只是 package 里的一部分啦，像js里面也也会输出module<br> A folder with a package.json file containing a main field.</p></li></ol><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">- install &amp; uninstall</span><br><span class="line">- publish &amp; unpublish</span><br><span class="line">- <span class="built_in">help</span></span><br><span class="line">- -g</span><br><span class="line">- npm update ..</span><br><span class="line">- npm cache clear</span><br><span class="line"></span><br><span class="line">- npm bin   显式npm的bin文件夹的路径</span><br><span class="line">- npm build    创建一个package文件夹</span><br><span class="line">    是由 npm link 和 npm install 命令组成的</span><br><span class="line">- npm cache    操作缓存文件</span><br><span class="line">    1. add  可以将指定的包添加到本地缓存</span><br><span class="line">    2. clean    删除所有数据的缓存文件</span><br><span class="line">    3. verify   验证缓存文件的正确性，不必要的进行垃圾收集</span><br><span class="line"></span><br><span class="line">配置相关</span><br><span class="line"><span class="comment"># - npm gets its config settings from the</span></span><br><span class="line"><span class="comment">#     1. command line,</span></span><br><span class="line"><span class="comment">#     2. environment variables,</span></span><br><span class="line"><span class="comment">#     3. npmrc files</span></span><br><span class="line"><span class="comment">#     4. the package.json file.</span></span><br><span class="line"></span><br><span class="line">- config    操作npm的配置文件，sub-commands：</span><br><span class="line">    |—— npm config <span class="built_in">set</span> key value</span><br><span class="line">    |—— get key</span><br><span class="line">    |—— list</span><br><span class="line">    |—— delete key</span><br><span class="line">    |—— edit</span><br><span class="line">- npmrc</span><br></pre></td></tr></table></figure><h2 id="config"><a href="#config" class="headerlink" title="config"></a>config</h2><p>npm gets its configuration from:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">1. <span class="built_in">command</span> line flags</span><br><span class="line"></span><br><span class="line">    --foo bar   <span class="comment">#  sets the foo 配置参数 to bar</span></span><br><span class="line">    A -- argument  <span class="comment">#  解析器停止读取flags  ?</span></span><br><span class="line">    --flag   <span class="comment">#  set the value true</span></span><br><span class="line">    --flag1 --flag2   <span class="comment">#  set both true</span></span><br><span class="line"></span><br><span class="line">2. environment variables</span><br><span class="line">3. npmrc Files</span><br><span class="line">4. default configs</span><br><span class="line">5. shorthands and other cli niceties</span><br><span class="line"> /* ___________________________________</span><br><span class="line">    |  shorthands  |  flags           |</span><br><span class="line">    +—————————————————————————————————+</span><br><span class="line">    |      -v      |  -version        |</span><br><span class="line">    |-h, --<span class="built_in">help</span>, -H|  --usage         |</span><br><span class="line">    |-s, --slicent | --loglevel silent|</span><br><span class="line">    |      -g      |  --global        |</span><br><span class="line">    |      -m      |  --message       |</span><br><span class="line">    |      -s      |  --save          |</span><br><span class="line">    |      -P      |  --save-prod     |</span><br><span class="line">    |      -D      |  --save-dev      |</span><br><span class="line">    |      -O      |  --save-optional |</span><br><span class="line">    |      -y      |  -yes            |</span><br><span class="line">    |      -n      |  -yes <span class="literal">false</span>      |</span><br><span class="line">    ———————————————————————————————————</span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">组合：几个字母组</span><br><span class="line">1. --<span class="built_in">help</span>   直接解析</span><br><span class="line">2. --par   拓展解析成parseable</span><br><span class="line">3. -gpld    解析为npm ls --global --parseable --long --loglevel info</span><br></pre></td></tr></table></figure><h2 id="别的一些"><a href="#别的一些" class="headerlink" title="别的一些"></a>别的一些</h2><p>npmrc —— the npm config files<br>npm-folders —— npm puts various things on your computer. This document will tell you what it puts where.</p><h2 id="npm-Script"><a href="#npm-Script" class="headerlink" title="npm-Script"></a>npm-Script</h2><p>–</p><p>from<br><a href=""https:#www.runoob.com/nodejs/nodejs-npm.html"">菜鸟教程–NPM 使用介绍</a><br><a href=""https:#www.npmjs.cn/"">NPM 官方文档</a></p>]]></content>
-      
-      
+  </entry>
+  <entry>
+    <title>hexo</title>
+    <url>/2020/07/05/hexo/</url>
+    <content><![CDATA[<p>hexo</p>
+<a id="more"></a>
+
+<h2 id="next主题优化"><a href="#next主题优化" class="headerlink" title="next主题优化"></a>next主题优化</h2><h3 id="选择主题"><a href="#选择主题" class="headerlink" title="选择主题"></a>选择主题</h3><h3 id="分类和标签"><a href="#分类和标签" class="headerlink" title="分类和标签"></a>分类和标签</h3><ul>
+<li>设置</li>
+<li>实现分类层级</li>
+</ul>
+<h3 id="代码块样式"><a href="#代码块样式" class="headerlink" title="代码块样式"></a>代码块样式</h3><ul>
+<li>样式</li>
+<li>复制</li>
+</ul>
+<h3 id="头像显示"><a href="#头像显示" class="headerlink" title="头像显示"></a>头像显示</h3><p>sidebar avatar打开<br>首先你要把博客的社交模块打开<br>在主题配置文件 _config.yml 的 social<br>在主题的 source/images/ 下的 avatar.gif 更换成你的图片<br>好像没出来</p>
+<h3 id="加入分享功能"><a href="#加入分享功能" class="headerlink" title="加入分享功能"></a>加入分享功能</h3><p>项目的 _config.yml 中加入<br>duoshuo_share 字段，值为 true<br>好像也没出来</p>
+<h3 id="链接样式改变"><a href="#链接样式改变" class="headerlink" title="链接样式改变"></a>链接样式改变</h3><h3 id="图片显示"><a href="#图片显示" class="headerlink" title="图片显示"></a>图片显示</h3>
+
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3>]]></content>
+  </entry>
+  <entry>
+    <title>npm卸载及重装</title>
+    <url>/2020/07/03/npm%E5%8D%B8%E8%BD%BD%E5%92%8C%E9%87%8D%E8%A3%85/</url>
+    <content><![CDATA[<p>删得删彻底</p>
+<a id="more"></a>
+
+<p>感觉是前几天学 npm 的时候太过于放飞自我，把 npm 给玩坏了…..</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>几乎 install 所有的包都会失败，然后提示</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm WARN registry Unexpected warning <span class="keyword">for</span> https://registry.npmjs.org/: Miscellaneous Warning ERR_OSSL_PEM_NO_START_LINE: error:0909006C:PEM routines:get_name:no start line</span><br><span class="line">npm WARN registry Using stale data from https://registry.npmjs.org/ due to a request error during revalidation.</span><br><span class="line">npm ERR! code ETARGET</span><br><span class="line">npm ERR! notarget No matching version found <span class="keyword">for</span> npm@16.14.4.</span><br><span class="line">npm ERR! notarget In most cases you or one of your dependencies are requesting</span><br><span class="line">npm ERR! notarget a package version that doesn<span class="string">'t exist.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">npm ERR! A complete log of this run can be found in:</span></span><br><span class="line"><span class="string">npm ERR!     C:\Users\hz\AppData\Roaming\npm-cache\_logs\2020-07-03T12_42_22_735Z-debug.log</span></span><br></pre></td></tr></table></figure>
+
+<p>上网搜了各种方法都没能解决，然后决定卸掉重来，然鹅卸载好像也有坑</p>
+<h2 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h2><p>我用的是粗暴的删除文件夹方法：</p>
+<ol>
+<li><p>找到<code>C:\Users\admin\AppData\Roaming</code> 下手动删除 <code>npm</code> 和 <code>npm-cache</code> 文件夹</p>
+</li>
+<li><p>卸载 <code>Node.js</code> 再重新安装，那新的 npm 就被重新安装啦</p>
+</li>
+</ol>
+<p>然鹅…</p>
+<p>卸载之后不仅 npm install 依然用不了，随着 npm 文件夹一起被删掉的 hexo 也用不了而且<br>还下不回来…</p>
+<p>后来看到<a href="https://blog.csdn.net/u013591091/article/details/80491809?utm_source=app" target="_blank" rel="noopener">这篇文章</a>才发现是我的 ‘.mpmrc’文件没有删除</p>
+<p>‘.mpmrc’文件不在前面删掉的两个文件夹里，而是在<strong>用户文件夹</strong>里</p>
+<h2 id="重装"><a href="#重装" class="headerlink" title="重装"></a>重装</h2><p>这个时候重装就可以愉快地用啦</p>
+<p>安装的时候别忘了勾选添加到 PATH 中</p>
+<p>以及 通过 npm 安装的一些 -g 的包要重新装一下</p>
+<p>以及 cnpm 真好用</p>
+<h2 id="hexo你怎么了"><a href="#hexo你怎么了" class="headerlink" title="hexo你怎么了"></a>hexo你怎么了</h2><p>重装了 hexo 之后好像一切都正常，我准备把今天的坑发一下，然鹅….发现更新之后博客页面变成了空白页<br>一般这种情况都是主题没绑定好，可能是因为手动删除了 npm 的文件夹之后把 hexo 的一些插件也给删掉了</p>
+]]></content>
       <categories>
-          
-          <category> 工具 </category>
-          
+        <category>一些坑</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 基础语法 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>先Mark住Markdown的常用符</title>
-      <link href="/2020/04/29/MarkMarkdown/"/>
-      <url>/2020/04/29/MarkMarkdown/</url>
-      
-        <content type="html"><![CDATA[<p>终于终于到了可以写博文的环节了，第一篇那就先总结一下我觉得我以后要markdown的一些常用语法吧，一边学一边写一边总结厚！</p><a id="more"></a><h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><p> <a href="#一一些基础语法">一、一些基础语法</a></p><ul><li><a href="#代码块">代码块</a></li><li><a href="#行内代码块">行内代码块</a></li><li><a href="#整段代码块">整段代码块</a></li><li><a href="#常用需要转义的符号">常用需要转义的符号</a></li><li><a href="#加粗或斜体">加粗或斜体</a></li><li><a href="#设置标题">设置标题</a></li><li><a href="#超链接行内式和参考式自动链接">超链接：行内式和参考式，自动链接</a></li><li><a href="#删除线">删除线</a></li></ul><p><a href="#二引用插入点什么">二、引用/插入点什么</a></p><ul><li><p><a href="#文字引用">文字引用</a></p></li><li><p><a href="#列表">列表</a></p></li><li><p><a href="#目录结构">目录结构</a></p></li><li><p><a href="#插入图像">插入图像</a></p></li><li><p><a href="#写公式">写公式</a></p></li><li><p><a href="#流程图">流程图</a></p></li><li><p><a href="#表格">表格</a></p></li><li><p><a href="#加入html标签">加入html标签</a></p></li><li><p><a href="#代办事项">代办事项</a></p><p><a href="#三最后说点什么">三、最后说点什么</a></p></li></ul><h2 id="一、一些基础语法"><a href="#一、一些基础语法" class="headerlink" title="一、一些基础语法"></a>一、一些基础语法</h2><h3 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h3><p>好像写语法总结需要把代码放上来，那就先写怎么引用代码叭（禁止套娃–||）</p><h4 id="行内代码块"><a href="#行内代码块" class="headerlink" title="行内代码块"></a>行内代码块</h4><p>用单引号括住就ok了<br>这是设置字体的html代码’<font color="red">红色</font>‘</p><h4 id="整段代码块"><a href="#整段代码块" class="headerlink" title="整段代码块"></a>整段代码块</h4><p>使用四个缩进或者双引号单引号表示代码块<br>反引号加语言名字</p><h3 id="常用需要转义的符号"><a href="#常用需要转义的符号" class="headerlink" title="常用需要转义的符号"></a>常用需要转义的符号</h3><p>没想到一开头就要用到转义了hhh<br>Markdown里转义也是在特殊字符前面加一个反斜杠<br>常见的需呀转义的符号有<br>\ ‘ * _ {} [] () # + - . !</p><h3 id="加粗或斜体"><a href="#加粗或斜体" class="headerlink" title="加粗或斜体"></a>加粗或斜体</h3><p>用*包着对应的文字，左右</p><h3 id="设置标题"><a href="#设置标题" class="headerlink" title="设置标题"></a>设置标题</h3><p>在标题前面加’#’，越低级的标题用越多的’#’，可以加1~6个</p><h3 id="超链接：行内式和参考式，自动链接"><a href="#超链接：行内式和参考式，自动链接" class="headerlink" title="超链接：行内式和参考式，自动链接"></a>超链接：行内式和参考式，自动链接</h3><h3 id="删除线"><a href="#删除线" class="headerlink" title="删除线"></a>删除线</h3><p>用~~包住语句就好啦</p><h2 id="二、引用-插入点什么"><a href="#二、引用-插入点什么" class="headerlink" title="二、引用/插入点什么"></a>二、引用/插入点什么</h2><h3 id="文字引用"><a href="#文字引用" class="headerlink" title="文字引用"></a>文字引用</h3><p>用<code>&gt;</code>表示文字引用</p><h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p>无序列表：用<code>*</code>、<code>+</code>、<code>-</code>都可以表示无序列表<br>有序列表：用数字和点表示有序列表</p><h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3><p>在文中任意位置输入单击，点插入OTC就好啦即可显示全文内容啦<br><code>&lt;!-- TOC --&gt;</code></p><h3 id="插入图像"><a href="#插入图像" class="headerlink" title="插入图像"></a>插入图像</h3><p>使用 <code>![描述](url)</code> 插入图像</p><p>###　写公式</p><p><code>$</code>写行内公式，<code>$$</code>写整行公式</p><h3 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h3><ol><li>流程图从flow开始</li><li>然后需要定义tag，基本类型包括：</li></ol><p>-start（开始框）<br>-end<br>-operation（执行）<br>-subroutine （分支）<br>-condition（条件结构）<br>-condition（yes和no，这个好像不需要定义啦）<br>3. 用=&gt;来定义，用-&gt;来表示路径</p><h3 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h3><p>列：直接用|代替表格的竖线；行：直接换行就行<br>第二行用来表示字体显示的位置’-‘表示靠左，’-‘表示靠右，’:–:’表示居中</p><h3 id="加入html标签"><a href="#加入html标签" class="headerlink" title="加入html标签"></a>加入html标签</h3><p>加个标签改变某个东东的属性这样子<br><font color="red">我是一段红色加粗的字</font></p><h3 id="代办事项"><a href="#代办事项" class="headerlink" title="代办事项"></a>代办事项</h3><p>list前加<code>[]</code>或<code>[×]</code>表示完成或未完成</p><p>[]1. xuexi</p><h3 id="插入-emoji"><a href="#插入-emoji" class="headerlink" title="插入 emoji"></a>插入 <code>emoji</code></h3><p>看这里 <a href="https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md" target="_blank" rel="noopener">emoji-cheat-sheet</a></p><table><thead><tr><th align="center">emoji</th><th align="left">shortcode</th></tr></thead><tbody><tr><td align="center">:rofl:</td><td align="left"><code>:rofl:</code></td></tr><tr><td align="center">:sweat_smile:</td><td align="left"><code>:sweat_smile:</code></td></tr><tr><td align="center">:upside_down_face:</td><td align="left"><code>:upside_down_face:</code></td></tr><tr><td align="center">:smiling_face_with_three_hearts:</td><td align="left"><code>:smiling_face_with_three_hearts:</code></td></tr><tr><td align="center">:star_struck:</td><td align="left"><code>:star_struck:</code></td></tr><tr><td align="center">:stuck_out_tongue_closed_eyes:</td><td align="left"><code>:stuck_out_tongue_closed_eyes:</code></td></tr><tr><td align="center">:sunglasses:</td><td align="left"><code>:sunglasses:</code></td></tr></tbody></table><h2 id="三、最后说点什么"><a href="#三、最后说点什么" class="headerlink" title="三、最后说点什么"></a>三、最后说点什么</h2><p>8行，我真的困了，不知到上面写的能实现多少，先挖个坑，改天来填</p><img src="齐神说晚安.jpg" width="100px"><p><img src="%E9%BD%90%E7%A5%9E%E8%AF%B4%E6%99%9A%E5%AE%89.jpg" alt="alt"></p><p>为啥图片显示不了哦？！</p>]]></content>
-      
-      
+      <tags>
+        <tag>一些坑</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>npm的基本用法</title>
+    <url>/2020/06/27/npm%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95/</url>
+    <content><![CDATA[<p>npm is the world’s largest software registry. Open source developers from every continent use npm to share and borrow packages, and many organizations use npm to manage private development as well.</p>
+<a id="more"></a>
+
+<p><strong>目录</strong>：</p>
+<!-- TOC -->
+
+<ul>
+<li><a href="#hello-npm">hello NPM</a></li>
+<li><a href="#安装">安装</a></li>
+<li><a href="#packagejson">package.json</a></li>
+<li><a href="#understanding-packages-and-modules">Understanding Packages and Modules</a></li>
+<li><a href="#常用命令">常用命令</a></li>
+<li><a href="#config">config</a></li>
+<li><a href="#别的一些">别的一些</a></li>
+<li><a href="#npm-script">npm-Script</a></li>
+</ul>
+<!-- /TOC -->
+
+<h2 id="hello-NPM"><a href="#hello-NPM" class="headerlink" title="hello NPM"></a>hello NPM</h2><p>npm is the world’s largest software registry. Open source developers from every continent use npm to share and borrow packages, and many organizations use npm to manage private development as well.</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ol>
+<li><p>安装npmn</p>
+ </br>
+
+ <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">#  1. 升级、查看版本号</span></span><br><span class="line">npm install npm -g</span><br><span class="line">npm -v</span><br><span class="line">npm install npm@latest -g</span><br><span class="line">npm install npm@next -g</span><br><span class="line"><span class="comment">#  2. 淘宝镜像安装</span></span><br><span class="line">npm install -g cnpm --registry=https:<span class="comment">#registry.npm.taobao.org</span></span><br><span class="line"><span class="comment"># 然后就可以使用 cnpm 命令进行安装了</span></span><br></pre></td></tr></table></figure>
+
+ </br>
+</li>
+<li><p>安装/卸载/更新模块</p>
+ </br>
+
+ <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. 本地安装</span></span><br><span class="line">npm install &lt;Module Name&gt;</span><br><span class="line"><span class="comment">#  --- 安装之后这个包就会被放在工程目录的 node_module 目录中了</span></span><br><span class="line"><span class="comment">#  --- 可以通过require()引用</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 全局安装(global)</span></span><br><span class="line">npm install &lt;Module Name&gt; -g</span><br><span class="line"><span class="comment">#  --- 安装之后放在 /usr/local 下或者 node 安装目录中</span></span><br><span class="line"><span class="comment">#  --- 可以直接在命令行里面使用了</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 卸载</span></span><br><span class="line">npm uninstall &lt;Module Name&gt;</span><br><span class="line"><span class="comment"># 如需从 package.json 中删除依赖</span></span><br><span class="line">npm uninstall --save &lt;Module Name&gt;</span><br><span class="line">npm uninstall --save-dev &lt;Module Name&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 检查某模块在不在</span></span><br><span class="line">dir node_module</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 更新本地的包</span></span><br><span class="line">npm update</span><br><span class="line">npm outdate</span><br><span class="line"></span><br><span class="line"><span class="comment"># 6. npm search</span></span><br></pre></td></tr></table></figure>
+
+ </br>
+</li>
+<li><p>查看安装信息</p>
+ </br>
+
+<ul>
+<li><p>安装过程的输出内容</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">express@4.13.3 node_modules/express</span><br><span class="line"><span class="comment">#  安装的包名称  安装的位置</span></span><br><span class="line">├── escape-html@1.0.2</span><br><span class="line">......</span><br><span class="line">└── ....</span><br></pre></td></tr></table></figure>
+
+</br>
+</li>
+<li><p>查看安装信息</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm list -g</span><br><span class="line"><span class="comment"># 查看所有全局安装的模块</span></span><br><span class="line">npm list \&lt;Module Name&gt;</span><br><span class="line"><span class="comment"># 查看某个模块的安装信息</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a>package.json</h2><p>安装之后位于模块的目录下，定义包的属性<br>列出安装和依赖信息、允许自定义命令、方便包的共享</p>
+<ol>
+<li><p>package.json 的参数</p>
+ <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">&lt;!-- - name  包名</span><br><span class="line">- version   版本号</span><br><span class="line">- homepage / bugs  包的directory</span><br><span class="line">- dependencies  依赖包列表</span><br><span class="line">    --- 如果没有相应的包，会随模块安装到 node_module 目录</span><br><span class="line">- repositoty    包代码存放地址（git / svn / github）</span><br><span class="line">- main  指定程序主入口文件，require(<span class="string">'moduleName'</span>) 就会加载这个文件</span><br><span class="line">    像 webpack 有也有指定操作的主入口文件，默认是模块根目录下的 index.js</span><br><span class="line">- keyords   关键字</span><br><span class="line">- script    设置默认脚本 --&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建 package.json 文件</p>
+ <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm init</span><br><span class="line">npm niit -y   <span class="comment"># 按默认值创建</span></span><br><span class="line">npm <span class="built_in">set</span> init.author.email <span class="string">"wombat@npmjs.com"</span></span><br><span class="line"><span class="comment">#  也可以指定一些值啦</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Customize</span></span><br><span class="line"><span class="comment"># 给创建的 package.json 设置默认参数</span></span><br><span class="line"><span class="comment"># --- 创建一个 .npm-init.js</span></span><br><span class="line">module.exports = &#123;</span><br><span class="line">customField: <span class="string">'Custom Field'</span>,</span><br><span class="line">otherCustomField: <span class="string">'This field is really cool'</span></span><br><span class="line">.....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>指定依赖项Specifying Dependencies</p>
+</li>
+</ol>
+<p>也是自定义包的一个部分</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># —— "dependencies"</span></span><br><span class="line"><span class="comment">#  |—— required by your application in production</span></span><br><span class="line"><span class="comment"># —— "devDependencies"</span></span><br><span class="line"><span class="comment">#  |—— are only needed for development and testing</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># | 步骤</span></span><br><span class="line"><span class="comment"># |—— 在 package.json 中设置引入</span></span><br><span class="line"><span class="comment"># |  |—— 包对象中创建一个指向对象的称为 dependencies</span></span><br><span class="line"><span class="comment"># |—— install flags</span></span><br><span class="line"><span class="comment"># |  |——  To add an entry to your package.json's dependencies</span></span><br><span class="line">        npm install &lt;package_name&gt; --save</span><br><span class="line"><span class="comment"># |  |——  dev-dependencies</span></span><br><span class="line">        npm install &lt;package_name&gt; --save</span><br></pre></td></tr></table></figure>
+
+<h2 id="Understanding-Packages-and-Modules"><a href="#Understanding-Packages-and-Modules" class="headerlink" title="Understanding Packages and Modules"></a>Understanding Packages and Modules</h2><p>这两个居然不是同一个东西</p>
+<ol>
+<li><p>package —— 包是由package.json描述的文件或目录</p>
+</li>
+<li><p>module —— 模块是节点可以加载的任何文件或目录<br> 在这里只是 package 里的一部分啦，像js里面也也会输出module<br> A folder with a package.json file containing a main field.</p>
+</li>
+</ol>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">- install &amp; uninstall</span><br><span class="line">- publish &amp; unpublish</span><br><span class="line">- <span class="built_in">help</span></span><br><span class="line">- -g</span><br><span class="line">- npm update ..</span><br><span class="line">- npm cache clear</span><br><span class="line"></span><br><span class="line">- npm bin   显式npm的bin文件夹的路径</span><br><span class="line">- npm build    创建一个package文件夹</span><br><span class="line">    是由 npm link 和 npm install 命令组成的</span><br><span class="line">- npm cache    操作缓存文件</span><br><span class="line">    1. add  可以将指定的包添加到本地缓存</span><br><span class="line">    2. clean    删除所有数据的缓存文件</span><br><span class="line">    3. verify   验证缓存文件的正确性，不必要的进行垃圾收集</span><br><span class="line"></span><br><span class="line">配置相关</span><br><span class="line"><span class="comment"># - npm gets its config settings from the</span></span><br><span class="line"><span class="comment">#     1. command line,</span></span><br><span class="line"><span class="comment">#     2. environment variables,</span></span><br><span class="line"><span class="comment">#     3. npmrc files</span></span><br><span class="line"><span class="comment">#     4. the package.json file.</span></span><br><span class="line"></span><br><span class="line">- config    操作npm的配置文件，sub-commands：</span><br><span class="line">    |—— npm config <span class="built_in">set</span> key value</span><br><span class="line">    |—— get key</span><br><span class="line">    |—— list</span><br><span class="line">    |—— delete key</span><br><span class="line">    |—— edit</span><br><span class="line">- npmrc</span><br></pre></td></tr></table></figure>
+
+<h2 id="config"><a href="#config" class="headerlink" title="config"></a>config</h2><p>npm gets its configuration from:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">1. <span class="built_in">command</span> line flags</span><br><span class="line"></span><br><span class="line">    --foo bar   <span class="comment">#  sets the foo 配置参数 to bar</span></span><br><span class="line">    A -- argument  <span class="comment">#  解析器停止读取flags  ?</span></span><br><span class="line">    --flag   <span class="comment">#  set the value true</span></span><br><span class="line">    --flag1 --flag2   <span class="comment">#  set both true</span></span><br><span class="line"></span><br><span class="line">2. environment variables</span><br><span class="line">3. npmrc Files</span><br><span class="line">4. default configs</span><br><span class="line">5. shorthands and other cli niceties</span><br><span class="line"> /* ___________________________________</span><br><span class="line">    |  shorthands  |  flags           |</span><br><span class="line">    +—————————————————————————————————+</span><br><span class="line">    |      -v      |  -version        |</span><br><span class="line">    |-h, --<span class="built_in">help</span>, -H|  --usage         |</span><br><span class="line">    |-s, --slicent | --loglevel silent|</span><br><span class="line">    |      -g      |  --global        |</span><br><span class="line">    |      -m      |  --message       |</span><br><span class="line">    |      -s      |  --save          |</span><br><span class="line">    |      -P      |  --save-prod     |</span><br><span class="line">    |      -D      |  --save-dev      |</span><br><span class="line">    |      -O      |  --save-optional |</span><br><span class="line">    |      -y      |  -yes            |</span><br><span class="line">    |      -n      |  -yes <span class="literal">false</span>      |</span><br><span class="line">    ———————————————————————————————————</span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">组合：几个字母组</span><br><span class="line">1. --<span class="built_in">help</span>   直接解析</span><br><span class="line">2. --par   拓展解析成parseable</span><br><span class="line">3. -gpld    解析为npm ls --global --parseable --long --loglevel info</span><br></pre></td></tr></table></figure>
+
+<h2 id="别的一些"><a href="#别的一些" class="headerlink" title="别的一些"></a>别的一些</h2><p>npmrc —— the npm config files<br>npm-folders —— npm puts various things on your computer. This document will tell you what it puts where.</p>
+<h2 id="npm-Script"><a href="#npm-Script" class="headerlink" title="npm-Script"></a>npm-Script</h2><p>–</p>
+<p>from<br><a href=""https:#www.runoob.com/nodejs/nodejs-npm.html"">菜鸟教程–NPM 使用介绍</a><br><a href=""https:#www.npmjs.cn/"">NPM 官方文档</a></p>
+]]></content>
       <categories>
-          
-          <category> 工具 </category>
-          
-          <category> Markdown </category>
-          
+        <category>工具</category>
       </categories>
-      
-      
-    </entry>
-    
-    
-  
-  
+      <tags>
+        <tag>基础语法</tag>
+      </tags>
+  </entry>
 </search>
