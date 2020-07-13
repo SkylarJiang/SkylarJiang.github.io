@@ -19,6 +19,122 @@
       </tags>
   </entry>
   <entry>
+    <title>计算机网络学习笔记</title>
+    <url>/2020/07/13/NetWork-Study/</url>
+    <content><![CDATA[<p>主要是基于五层原理体系的学习</p>
+<a id="more"></a>
+
+<p><strong>目录</strong>：</p>
+<!-- TOC -->
+
+<ul>
+<li><a href="#概述">概述</a><ul>
+<li><a href="#一些术语和概念">一些术语和概念</a></li>
+<li><a href="#三种交换方式">三种交换方式</a></li>
+<li><a href="#比特速率单位及换算">比特、速率单位及换算</a></li>
+<li><a href="#计算机网络体系的分层">计算机网络体系的分层</a></li>
+</ul>
+</li>
+</ul>
+<!-- /TOC -->
+
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><h3 id="一些术语和概念"><a href="#一些术语和概念" class="headerlink" title="一些术语和概念"></a>一些术语和概念</h3><p><u>计算机网络</u>：一些互相连接的、自治的计算机的集合</p>
+<p><u>网络（Network）</u>由若干节点（Node）和链接这些节点的链路（Link）组成</p>
+<p><u>互联网</u>：多个网络由路由器互联起来，构成一个覆盖范围更大的网络</p>
+<p><u>因特网</u>（Internet）：是一个专有名词，世界上最大的互联网络</p>
+<p><u>主机</u>（host）</p>
+<p><u>因特网服务提供者 ISP</u>（Internet Service Provider）：国内 ISP 为三大运用商（联通、电信、移动）普通用户向 ISP 缴纳费用就可以获得 IP 地址</p>
+<p><u>RFC （Request For Comments）技术文档</u>：因特网在指定及其标准化工作上很大的特点就是面向公众，因特网所有的 RFC 文档都可以从因特网上免费下载，并可以随时提建议。</p>
+<hr>
+<p><u>广域网</u>（WAN）</p>
+<p><u>城域网</u>（MAN）</p>
+<p><u>局域网</u>（LAN）</p>
+<p><u>个域网</u>（PAN）</p>
+<hr>
+<p><strong>计算机网络的性能指标</strong>：</p>
+<p><u>速率</u>：连接在计算机网络上的主机在数字信道上传送比特的速率（比特率、数据率）</p>
+<p><u>带宽</u>：在模拟信号中代表信号所包含的各种不同频率的成分所占据的频率范围；最高数据率</p>
+<p><u>吞吐量</u>：单位时间内通过某个网络（或信道、接口）的数据量</p>
+<p><u>时延</u>：发送时延、传播时延、处理时延</p>
+<p><u>时延带宽积</u>：又称以比特为单位的链路长度，传播时延 * 带宽</p>
+<p><u>往返时间</u> RTT（Round-Trip Time）：双向交互一次的时间</p>
+<p><u>利用率</u>：信道利用率，网络利用率</p>
+<p><u>丢包率</u>：分组丢失率。丢包可能因为分组在传播过程出现误码被节点丢弃；因为网络拥塞在分组交换机被丢弃</p>
+<hr>
+<p><u>实体</u>：任何可发送或接收信息的硬件或软件进程，对等实体指收发双方层次相同的实体</p>
+<p><u>协议</u>：控制两个对等实体进行逻辑通信的规则集合</p>
+<p>​    在协议的控制下，对等实体间的逻辑通信使得本层能够向上一层提供服务</p>
+<p>​    下面的协议对上面的实体是“透明的” </p>
+<p>​    同步：定义收发双方的时序关系；语法，语义</p>
+<p><u>服务</u>：</p>
+<p>​     - <u>服务访问点</u>：相邻两层的实体交换信息的逻辑接口，</p>
+<p>​             - 数据链路层的服务访问点为帧“类型”字段；</p>
+<p>​             - 运输层  ==&gt;  “端口号” ； 网络层  ==&gt; IP数据报首部中的“协议字段”</p>
+<p>​     - <u>服务原语</u>：上层使用下层所提供的服务必须与下层交换一些命令，这些命令称为 ##</p>
+<p>协议数据单元 PDU：对等实体之间传输的数据包称为该层的协议数据单元（横向）</p>
+<p>服务数据单元 SDU：层与层之前交换的数据包</p>
+<hr>
+<h3 id="三种交换方式"><a href="#三种交换方式" class="headerlink" title="三种交换方式"></a>三种交换方式</h3><p>电路交换（Circuit Switching）：建立连接 （分配通信资源）–&gt; 通话（一直占用）–&gt; 释放连接</p>
+<p>报文交换（Message Switching）：不对报文进行分割，在路由器中全部储存（不限大小），转发</p>
+<p>分组交换（Packet Switching）：</p>
+<ul>
+<li><p>发送方构造分组（长度一定，添加首部），发送分组</p>
+</li>
+<li><p>路由器缓存分组，转发分组（出错只需要重传问题分组）</p>
+</li>
+<li><p>接收方接受分组，还原报文</p>
+</li>
+</ul>
+<h3 id="比特、速率单位及换算"><a href="#比特、速率单位及换算" class="headerlink" title="比特、速率单位及换算"></a>比特、速率单位及换算</h3><p><u>比特</u>（bit）：计算机中数据量的单位，一个比特就是二进制数字中的一个1或0</p>
+<p><u>字节</u>（Byte）：1 <em>byte</em> = 8 <em>bit</em></p>
+<p>比特单位（数据量）：<em>KB</em> = 2 <sup>10</sup> <em>B</em>，<em>MB</em> = 2 <sup>20</sup> <em>B</em>，<em>GB</em> = 2 <sup>30</sup> <em>B</em>，<em>TB</em> = 2 <sup>40</sup> <em>B</em></p>
+<p>速率（数据率）：<em>bits</em>/s (<em>bps<em>，</em>b/s</em> )</p>
+<p>​    <em>KB</em> = 10 <sup>3</sup> <em>bps<em>，</em>KB</em> = 10 <sup>6</sup> <em>bps<em>，</em>KB</em> = 10 <sup>9</sup> <em>bps<em>，</em>KB</em> = 10 <sup>12</sup> <em>bps</em></p>
+<h3 id="计算机网络体系的分层"><a href="#计算机网络体系的分层" class="headerlink" title="计算机网络体系的分层"></a>计算机网络体系的分层</h3><img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/image-20200713173424378.png" alt="image-20200713173424378" style="zoom:80%;" />
+
+<table>
+<thead>
+<tr>
+<th align="left">层级</th>
+<th align="left">任务</th>
+<th align="left">主要协议</th>
+<th align="left">数据包</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">物理层</td>
+<td align="left">解决何种信号进行传输比特的问题</td>
+<td align="left"><code>HTTP</code>，<code>SMTP</code></td>
+<td align="left">报文<code>messege</code></td>
+</tr>
+<tr>
+<td align="left">数据链路层</td>
+<td align="left">解决分组在一个网络（一段链路）上传输的问题</td>
+<td align="left">TCP<code>,</code>UDP`</td>
+<td align="left">TCP数据包，UDP用户数据报文段</td>
+</tr>
+<tr>
+<td align="left">网络层</td>
+<td align="left">分组在多个网络传输（路由）的问题</td>
+<td align="left"><code>IP</code></td>
+<td align="left">IP数据报或分组</td>
+</tr>
+<tr>
+<td align="left">运输层</td>
+<td align="left">解决进程之间基于网络的通信问题</td>
+<td align="left">传统以太网 <code>CSMA/CD</code></td>
+<td align="left">帧</td>
+</tr>
+<tr>
+<td align="left">应用层</td>
+<td align="left">解决通过应用进程的交互来实现特点网络应用的问题</td>
+<td align="left">曼彻斯特编码</td>
+<td align="left">比特流</td>
+</tr>
+</tbody></table>
+]]></content>
+  </entry>
+  <entry>
     <title>Git &amp; GitHub小结</title>
     <url>/2020/06/29/Git-GitHub/</url>
     <content><![CDATA[<p>Git 是目前世界上最先进的分布式版本控制系统；GitHub 为开源项目免费提供Git存储。</p>
@@ -163,96 +279,6 @@
       </tags>
   </entry>
   <entry>
-    <title>JavaScript 的原型和继承</title>
-    <url>/2020/07/07/class-constructor-prototype/</url>
-    <content><![CDATA[<p>发现到现在还是没有很弄明白 JavaScript 的原型和继承，看得晕晕的，决定先总结一下</p>
-<a id="more"></a>
-
-<h2 id="先厘清概念"><a href="#先厘清概念" class="headerlink" title="先厘清概念"></a>先厘清概念</h2><ul>
-<li><p>构造函数</p>
-<p>  构造函数是对象的模板，实例对象的属性和方法可以定义在内部</p>
-<p>  可以继承，但是<strong>实例之间无法共享</strong></p>
-</li>
-<li><p>原型对象（prototype）和 <code>__proto__</code> 属性</p>
-<p>  每个<strong>函数</strong>都有一个 prototype 属性，指向一个对象；这个原型对象的所有属性和方法，都能被实例对象共享<br>  每个<strong>对象</strong>都有<code>__proto__</code>属性，指向对应的构造函数的 prototype 属性；但是这个属性是社区创造的，建议使用 <code>Object.getPrototypeOf()</code> 代替</p>
-</li>
-<li><p>原型链（prototype chain）</p>
-<p>  任何对象都可以充当其他对象的原型，原型对象也是对象，也有自己的原型，一层层上溯到 <code>Object.prototype</code>，尽头是 null</p>
-</li>
-<li><p>constructor 属性</p>
-<p>  是 prototype 中的属性，默认指向 prototype 所在的构造函数</p>
-<ol>
-<li>可以得知某个实例对象是由哪个构造函数产生的</li>
-<li>可以从一个实例对象新建另一个实例</li>
-</ol>
-</li>
-</ul>
-<h2 id="相互关系"><a href="#相互关系" class="headerlink" title="相互关系"></a>相互关系</h2><h3 id="prototype-constructor-proto属性"><a href="#prototype-constructor-proto属性" class="headerlink" title="prototype, constructor, proto属性"></a>prototype, constructor, <strong>proto</strong>属性</h3><img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/image-20200707231813070.png" alt="image-20200707231813070" style="zoom: 50%;" />
-
-<p><a href="https://www.cnblogs.com/cloud-/p/9152761.html" target="_blank" rel="noopener">绕完这个大概就很清楚了</a></p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="number">1.</span> 构造出来的函数.__proto__ === 构造函数.prototype</span><br><span class="line"></span><br><span class="line"><span class="number">2.</span> prototype 和 <span class="keyword">constructor</span> 都是一个属性，可以作为一个指针</span><br><span class="line"></span><br><span class="line">3. prototype 对象也是对象，他们也有自己的原型，而所有这些内建对象的源型都指向 Object.prototype</span><br><span class="line"></span><br><span class="line">4. 而 object 对象本质也可以看作是由内置构造函数 Function 构造而来，所以其 __proto__ 指向 Function.prototype</span><br><span class="line">    Object，Number，Error等等这些函数都是Function创建的，这些的<span class="keyword">constructor</span>就是Function，</span><br><span class="line"></span><br><span class="line">5. 这个比较迷惑 Object.__proto__ === Function.prototype === Function.__proto__</span><br><span class="line"></span><br><span class="line">6. 存在于原型上的方法是为了方便实例之间共享</span><br><span class="line"></span><br><span class="line">7. 建议用 Object.getPrototypeOf 取代 __proto__ 属性来获得对象的 [[prototype]]</span><br></pre></td></tr></table></figure>
-
-<h3 id="关于构造函数、prototype属性、ownProperty-和继承的关系"><a href="#关于构造函数、prototype属性、ownProperty-和继承的关系" class="headerlink" title="关于构造函数、prototype属性、ownProperty 和继承的关系"></a>关于构造函数、prototype属性、ownProperty 和继承的关系</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="number">1.</span> <span class="keyword">new</span> 关键字创建的实例，包括构造函数上和原型上的方法和属性，即两个这部分都继承了</span><br><span class="line"><span class="comment">// new 方法原理：新建一个空对象，把其原型指向构造函数的 prototype 属性；把空对象赋值给函数内部的this关键字。</span></span><br><span class="line"></span><br><span class="line"><span class="number">2.</span> <span class="built_in">Object</span>.creat() 方法则仅仅继承 prototype 属性指向的对象</span><br><span class="line"></span><br><span class="line"><span class="number">3.</span> prototype 属性和构造函数上的方法互相独立，且都是可以继承</span><br><span class="line"></span><br><span class="line"><span class="number">4.</span> 区别在于构造函数上的方法和属性在实例之间是不共享的，原型上的是共享的</span><br><span class="line">    构造函数上的这些方法通过 <span class="keyword">this</span> 定义在其自身，hasOwnProperty 方法能返回</span><br><span class="line"></span><br><span class="line"><span class="number">5.</span> prototype 指向的对象才有 <span class="keyword">constructor</span> 属性，指向正好和 __proto__ 相反</span><br></pre></td></tr></table></figure>
-
-<p>参考博客<br><a href="https://www.cnblogs.com/lifeidg/p/10382770.html" target="_blank" rel="noopener">https://www.cnblogs.com/lifeidg/p/10382770.html</a><br>参考教程<br><a href="https://wangdoc.com/javascript/oop/new.html#%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95" target="_blank" rel="noopener">new 方法的原理 &amp;&amp; Object.create() 创建实例对象</a></p>
-<hr>
-<h2 id="ES6-中的-class"><a href="#ES6-中的-class" class="headerlink" title="ES6 中的 class"></a>ES6 中的 class</h2><h3 id="用法-amp-amp-和-ES5-中的类的关系"><a href="#用法-amp-amp-和-ES5-中的类的关系" class="headerlink" title="用法 &amp;&amp; 和 ES5 中的类的关系"></a>用法 &amp;&amp; 和 ES5 中的类的关系</h3><p>取代 es5 中用原型对象构造函数的写法，用 class 作为模板，让原型对象的写法更清晰，本质还是一样的</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span> </span>&#123;</span><br><span class="line"><span class="comment">// 1. constructor 表示构造方法</span></span><br><span class="line"><span class="comment">//【构造函数 --&gt; constructor】</span></span><br><span class="line"><span class="comment">// constructor 方法不同于 constructor 属性</span></span><br><span class="line"><span class="comment">// 就算不显式定义，也会新建一个空的 constructor 方法</span></span><br><span class="line">  <span class="keyword">constructor</span>(x, y) &#123;</span><br><span class="line">    <span class="keyword">this</span>.x = x;</span><br><span class="line">    <span class="comment">// 构造方法里的 this 代表实例对象</span></span><br><span class="line">    <span class="keyword">this</span>.y = y;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span></span><br><span class="line">    <span class="comment">// constructor 方法默认返回实例对象 this，你也可以指定成别的</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  toString() &#123;</span><br><span class="line">    <span class="comment">// 2. 方法</span></span><br><span class="line">    <span class="comment">// 不需要加 function 关键字</span></span><br><span class="line">    <span class="comment">// 方法之间不需要加逗号分隔</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'('</span> + <span class="keyword">this</span>.x + <span class="string">', '</span> + <span class="keyword">this</span>.y + <span class="string">')'</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// static 定义静态方法，即实例不能访问的方法</span></span><br><span class="line">  <span class="keyword">static</span> sayHi()&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"Hi"</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 类的所有的方法都在prototype中</span></span><br><span class="line"><span class="comment">// 类内部定义的所有方法都是不可枚举的</span></span><br><span class="line"><span class="comment">// 类必须用 new 调用</span></span><br><span class="line"><span class="comment">// 类的实例共享一个原型对象</span></span><br></pre></td></tr></table></figure>
-
-<p>super 关键字</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 1. 作为函数调用时，代表调用父类的构造函数，相当于</span></span><br><span class="line"><span class="keyword">super</span>() --&gt;</span><br><span class="line">A.prototype.constructor.call(<span class="keyword">this</span>)</span><br><span class="line"><span class="comment">// 2. super 作为对象时，在普通方法中，指向父类的原型对象；在静态方法中，指向父类。</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">super</span>.p())</span><br><span class="line"><span class="comment">// 意为打印 super 对象上的 p() 方法</span></span><br><span class="line"><span class="comment">// 因为是只能调用原型上的方法或属性，定义在父类实上的是不能调用的</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="父类及子类-amp-构造函数和实例之间的关系"><a href="#父类及子类-amp-构造函数和实例之间的关系" class="headerlink" title="父类及子类 &amp; 构造函数和实例之间的关系"></a>父类及子类 &amp; 构造函数和实例之间的关系</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent</span></span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name)&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> sayHello()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'hello'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    sayName()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'my name is '</span> + <span class="keyword">this</span>.name);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 类的继承，所有方法和属性都可以继承，也可以自己添加新的属性和方法</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Child</span> <span class="keyword">extends</span> <span class="title">Parent</span></span>&#123;</span><br><span class="line">    <span class="comment">// 通过 this 显式定义在自身的方法通过 constructor 继承</span></span><br><span class="line">    <span class="keyword">constructor</span>(name, age)&#123;</span><br><span class="line">        <span class="keyword">super</span>(name); <span class="comment">// 表示这个属性从父类中继承过来</span></span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">    sayAge()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'my age is '</span> + <span class="keyword">this</span>.age);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 这才是生成实例</span></span><br><span class="line"><span class="keyword">let</span> parent = <span class="keyword">new</span> Parent(<span class="string">'Parent'</span>);</span><br><span class="line"><span class="keyword">let</span> child = <span class="keyword">new</span> Child(<span class="string">'Child'</span>, <span class="number">18</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 父类上的方法和属性</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'parent: '</span>, parent); <span class="comment">// parent:  Parent &#123;name: "Parent"&#125;</span></span><br><span class="line">Parent.sayHello(); <span class="comment">// hello</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 父类的构造函数可以访问到父类的非静态方法</span></span><br><span class="line">parent.sayName(); <span class="comment">// my name is Parent</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 子类可以访问到父类的所有属性，包括静态属性</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'child: '</span>, child); <span class="comment">// child:  Child &#123;name: "Child", age: 18&#125;</span></span><br><span class="line">Child.sayHello(); <span class="comment">// hello</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 子类的实例</span></span><br><span class="line">child.sayName(); <span class="comment">// my name is Child</span></span><br><span class="line">child.sayAge(); <span class="comment">// my age is 18</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="ES6-extends-中的原型关系"><a href="#ES6-extends-中的原型关系" class="headerlink" title="ES6 extends 中的原型关系"></a>ES6 extends 中的原型关系</h3><p>类的方法内部如果含有this，它默认指向类的实例。但是，必须非常小心，一旦单独使用该方法，很可能报错。</p>
-<h4 id="ES5-amp-ES6-中类的继承"><a href="#ES5-amp-ES6-中类的继承" class="headerlink" title="ES5 &amp; ES6 中类的继承"></a>ES5 &amp; ES6 中类的继承</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">两者继承机制不同</span><br><span class="line"></span><br><span class="line">ES5</span><br><span class="line"><span class="number">1.</span> 先创造子类的实例对象<span class="keyword">this</span></span><br><span class="line"><span class="number">2.</span> 再将父类的方法添加到<span class="keyword">this</span>上面--Parent.apply(<span class="keyword">this</span>)</span><br><span class="line">------</span><br><span class="line">    常用方法：</span><br><span class="line">    在子类的构造函数中，调用父类的构造函数</span><br><span class="line">    让子类的原型指向父类的原型</span><br><span class="line"></span><br><span class="line">ES6</span><br><span class="line"><span class="number">1.</span> 先将父类实例对象的属性和方法，加到<span class="keyword">this</span>上面（所以必须先调用<span class="keyword">super</span>方法）</span><br><span class="line"><span class="number">2.</span> 再用子类的构造函数修改<span class="keyword">this</span>。</span><br></pre></td></tr></table></figure>
-
-<h4 id="class-中的继承-——-两条继承链"><a href="#class-中的继承-——-两条继承链" class="headerlink" title="class 中的继承 —— 两条继承链"></a>class 中的继承 —— 两条继承链</h4><p>因为每一个对象都有 <code>__proto__</code> 属性，指向对应的构造函数的 prototype 属性<br>class 同时有 prototype 属性和 <code>__proto__</code> 属性，因此同时有两条原型链</p>
-<p>两条继承链：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="number">1.</span> 构造器原型链 Child.__proto__ === Parent</span><br><span class="line"><span class="number">2.</span> 实例原型链</span><br><span class="line">child.__proto__ === Child.prototype</span><br><span class="line">Child.prototype.__proto__ === Parent.protptype</span><br><span class="line">parent.__proto__ === Parent.prototype</span><br></pre></td></tr></table></figure>
-
-<img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzI1MzQzMi1kNGMxMmY5MzA3NmVkZTAxLnBuZw.jpg" alt="aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzI1MzQzMi1kNGMxMmY5MzA3NmVkZTAxLnBuZw" style="zoom: 50%;" />
-
-<p><a href="https://blog.csdn.net/weixin_43312083/article/details/106608505" target="_blank" rel="noopener">参考博客，上图图源</a></p>
-<p><a href="https://wangdoc.com/es6/class.html" target="_blank" rel="noopener">阮一峰老师《ECMAScript 6 教程》– class 的基本语法 &amp; class 的继承</a></p>
-<hr>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ol>
-<li><code>prototype</code> 、<code>__proto__</code>、<code>constructor</code>之间的关系，他们是如何构成原型链的</li>
-<li>构造函数和 <code>prototype</code>指向的对象指向的关系</li>
-<li>ES5 &amp; ES6 中类的实现和原理</li>
-<li><code>ES6-class</code>中的继承关系 – 两条继承链</li>
-</ol>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-        <category>原型和继承</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo</title>
-    <url>/2020/07/05/hexo/</url>
-    <content><![CDATA[<p>hexo</p>
-<a id="more"></a>
-
-<h2 id="next主题优化"><a href="#next主题优化" class="headerlink" title="next主题优化"></a>next主题优化</h2><h3 id="选择主题"><a href="#选择主题" class="headerlink" title="选择主题"></a>选择主题</h3><h3 id="分类和标签"><a href="#分类和标签" class="headerlink" title="分类和标签"></a>分类和标签</h3><ul>
-<li>设置</li>
-<li>实现分类层级</li>
-</ul>
-<h3 id="代码块样式"><a href="#代码块样式" class="headerlink" title="代码块样式"></a>代码块样式</h3><ul>
-<li>样式</li>
-<li>复制</li>
-</ul>
-<h3 id="头像显示"><a href="#头像显示" class="headerlink" title="头像显示"></a>头像显示</h3><p>sidebar avatar打开<br>首先你要把博客的社交模块打开<br>在主题配置文件 _config.yml 的 social<br>在主题的 source/images/ 下的 avatar.gif 更换成你的图片<br>好像没出来</p>
-<h3 id="加入分享功能"><a href="#加入分享功能" class="headerlink" title="加入分享功能"></a>加入分享功能</h3><p>项目的 _config.yml 中加入<br>duoshuo_share 字段，值为 true<br>好像也没出来</p>
-<h3 id="链接样式改变"><a href="#链接样式改变" class="headerlink" title="链接样式改变"></a>链接样式改变</h3><h3 id="图片显示"><a href="#图片显示" class="headerlink" title="图片显示"></a>图片显示</h3>
-
-<h3 id=""><a href="#" class="headerlink" title=""></a></h3>]]></content>
-  </entry>
-  <entry>
     <title>先Mark住Markdown的常用符</title>
     <url>/2020/04/29/MarkMarkdown/</url>
     <content><![CDATA[<p>终于终于到了可以写博文的环节了，第一篇那就先总结一下我觉得我以后要markdown的一些常用语法吧，一边学一边写一边总结厚！</p>
@@ -394,6 +420,122 @@
       </categories>
       <tags>
         <tag>一些坑</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo</title>
+    <url>/2020/07/05/hexo/</url>
+    <content><![CDATA[<p>hexo</p>
+<a id="more"></a>
+
+<h2 id="next主题优化"><a href="#next主题优化" class="headerlink" title="next主题优化"></a>next主题优化</h2><h3 id="选择主题"><a href="#选择主题" class="headerlink" title="选择主题"></a>选择主题</h3><h3 id="分类和标签"><a href="#分类和标签" class="headerlink" title="分类和标签"></a>分类和标签</h3><ul>
+<li>设置</li>
+<li>实现分类层级</li>
+</ul>
+<h3 id="代码块样式"><a href="#代码块样式" class="headerlink" title="代码块样式"></a>代码块样式</h3><ul>
+<li>样式</li>
+<li>复制</li>
+</ul>
+<h3 id="头像显示"><a href="#头像显示" class="headerlink" title="头像显示"></a>头像显示</h3><p>sidebar avatar打开<br>首先你要把博客的社交模块打开<br>在主题配置文件 _config.yml 的 social<br>在主题的 source/images/ 下的 avatar.gif 更换成你的图片<br>好像没出来</p>
+<h3 id="加入分享功能"><a href="#加入分享功能" class="headerlink" title="加入分享功能"></a>加入分享功能</h3><p>项目的 _config.yml 中加入<br>duoshuo_share 字段，值为 true<br>好像也没出来</p>
+<h3 id="链接样式改变"><a href="#链接样式改变" class="headerlink" title="链接样式改变"></a>链接样式改变</h3><h3 id="图片显示"><a href="#图片显示" class="headerlink" title="图片显示"></a>图片显示</h3>
+
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3>]]></content>
+  </entry>
+  <entry>
+    <title>JavaScript 的原型和继承</title>
+    <url>/2020/07/07/class-constructor-prototype/</url>
+    <content><![CDATA[<p>发现到现在还是没有很弄明白 JavaScript 的原型和继承，看得晕晕的，决定先总结一下</p>
+<a id="more"></a>
+
+<h2 id="先厘清概念"><a href="#先厘清概念" class="headerlink" title="先厘清概念"></a>先厘清概念</h2><ul>
+<li><p>构造函数</p>
+<p>  构造函数是对象的模板，实例对象的属性和方法可以定义在内部</p>
+<p>  可以继承，但是<strong>实例之间无法共享</strong></p>
+</li>
+<li><p>原型对象（prototype）和 <code>__proto__</code> 属性</p>
+<p>  每个<strong>函数</strong>都有一个 prototype 属性，指向一个对象；这个原型对象的所有属性和方法，都能被实例对象共享<br>  每个<strong>对象</strong>都有<code>__proto__</code>属性，指向对应的构造函数的 prototype 属性；但是这个属性是社区创造的，建议使用 <code>Object.getPrototypeOf()</code> 代替</p>
+</li>
+<li><p>原型链（prototype chain）</p>
+<p>  任何对象都可以充当其他对象的原型，原型对象也是对象，也有自己的原型，一层层上溯到 <code>Object.prototype</code>，尽头是 null</p>
+</li>
+<li><p>constructor 属性</p>
+<p>  是 prototype 中的属性，默认指向 prototype 所在的构造函数</p>
+<ol>
+<li>可以得知某个实例对象是由哪个构造函数产生的</li>
+<li>可以从一个实例对象新建另一个实例</li>
+</ol>
+</li>
+</ul>
+<h2 id="相互关系"><a href="#相互关系" class="headerlink" title="相互关系"></a>相互关系</h2><h3 id="prototype-constructor-proto属性"><a href="#prototype-constructor-proto属性" class="headerlink" title="prototype, constructor, proto属性"></a>prototype, constructor, <strong>proto</strong>属性</h3><img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/image-20200707231813070.png" alt="image-20200707231813070" style="zoom: 50%;" />
+
+<p><a href="https://www.cnblogs.com/cloud-/p/9152761.html" target="_blank" rel="noopener">绕完这个大概就很清楚了</a></p>
+<ol>
+<li><p>构造出来的函数.<strong>proto</strong> === 构造函数.prototype</p>
+</li>
+<li><p>prototype 和 constructor 都是一个属性，可以作为一个指针</p>
+</li>
+<li><p>prototype 对象也是对象，他们也有自己的原型，而所有这些内建对象的源型都指向 Object.prototype</p>
+</li>
+<li><p>而 object 对象本质也可以看作是由内置构造函数 Function 构造而来，所以其 <strong>proto</strong> 指向 Function.prototype<br> Object，Number，Error等等这些函数都是Function创建的，这些的constructor就是Function，</p>
+</li>
+<li><p>这个比较迷惑 Object.<strong>proto</strong> === Function.prototype === Function.<strong>proto</strong></p>
+</li>
+<li><p>存在于原型上的方法是为了方便实例之间共享</p>
+</li>
+<li><p>建议用 Object.getPrototypeOf 取代 <strong>proto</strong> 属性来获得对象的 [[prototype]]</p>
+</li>
+</ol>
+<h3 id="关于构造函数、prototype属性、ownProperty-和继承的关系"><a href="#关于构造函数、prototype属性、ownProperty-和继承的关系" class="headerlink" title="关于构造函数、prototype属性、ownProperty 和继承的关系"></a>关于构造函数、prototype属性、ownProperty 和继承的关系</h3><ol>
+<li><p>new 关键字创建的实例，包括构造函数上和原型上的方法和属性，即两个这部分都继承了<br>// new 方法原理：新建一个空对象，把其原型指向构造函数的 prototype 属性；把空对象赋值给函数内部的this关键字。</p>
+</li>
+<li><p>Object.creat() 方法则仅仅继承 prototype 属性指向的对象</p>
+</li>
+<li><p>prototype 属性和构造函数上的方法互相独立，且都是可以继承</p>
+</li>
+<li><p>区别在于构造函数上的方法和属性在实例之间是不共享的，原型上的是共享的<br> 构造函数上的这些方法通过 this 定义在其自身，hasOwnProperty 方法能返回</p>
+</li>
+<li><p>prototype 指向的对象才有 constructor 属性，指向正好和 <strong>proto</strong> 相反</p>
+</li>
+</ol>
+<p>参考博客<br><a href="https://www.cnblogs.com/lifeidg/p/10382770.html" target="_blank" rel="noopener">https://www.cnblogs.com/lifeidg/p/10382770.html</a><br>参考教程<br><a href="https://wangdoc.com/javascript/oop/new.html#%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95" target="_blank" rel="noopener">new 方法的原理 &amp;&amp; Object.create() 创建实例对象</a></p>
+<hr>
+<h2 id="ES6-中的-class"><a href="#ES6-中的-class" class="headerlink" title="ES6 中的 class"></a>ES6 中的 class</h2><h3 id="用法-amp-amp-和-ES5-中的类的关系"><a href="#用法-amp-amp-和-ES5-中的类的关系" class="headerlink" title="用法 &amp;&amp; 和 ES5 中的类的关系"></a>用法 &amp;&amp; 和 ES5 中的类的关系</h3><p>取代 es5 中用原型对象构造函数的写法，用 class 作为模板，让原型对象的写法更清晰，本质还是一样的</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span> </span>&#123;</span><br><span class="line"><span class="comment">// 1. constructor 表示构造方法</span></span><br><span class="line"><span class="comment">//【构造函数 --&gt; constructor】</span></span><br><span class="line"><span class="comment">// constructor 方法不同于 constructor 属性</span></span><br><span class="line"><span class="comment">// 就算不显式定义，也会新建一个空的 constructor 方法</span></span><br><span class="line">  <span class="keyword">constructor</span>(x, y) &#123;</span><br><span class="line">    <span class="keyword">this</span>.x = x;</span><br><span class="line">    <span class="comment">// 构造方法里的 this 代表实例对象</span></span><br><span class="line">    <span class="keyword">this</span>.y = y;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span></span><br><span class="line">    <span class="comment">// constructor 方法默认返回实例对象 this，你也可以指定成别的</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  toString() &#123;</span><br><span class="line">    <span class="comment">// 2. 方法</span></span><br><span class="line">    <span class="comment">// 不需要加 function 关键字</span></span><br><span class="line">    <span class="comment">// 方法之间不需要加逗号分隔</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'('</span> + <span class="keyword">this</span>.x + <span class="string">', '</span> + <span class="keyword">this</span>.y + <span class="string">')'</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// static 定义静态方法，即实例不能访问的方法</span></span><br><span class="line">  <span class="keyword">static</span> sayHi()&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"Hi"</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 类的所有的方法都在prototype中</span></span><br><span class="line"><span class="comment">// 类内部定义的所有方法都是不可枚举的</span></span><br><span class="line"><span class="comment">// 类必须用 new 调用</span></span><br><span class="line"><span class="comment">// 类的实例共享一个原型对象</span></span><br></pre></td></tr></table></figure>
+
+<p>super 关键字</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 1. 作为函数调用时，代表调用父类的构造函数，相当于</span></span><br><span class="line"><span class="keyword">super</span>() --&gt;</span><br><span class="line">A.prototype.constructor.call(<span class="keyword">this</span>)</span><br><span class="line"><span class="comment">// 2. super 作为对象时，在普通方法中，指向父类的原型对象；在静态方法中，指向父类。</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">super</span>.p())</span><br><span class="line"><span class="comment">// 意为打印 super 对象上的 p() 方法</span></span><br><span class="line"><span class="comment">// 因为是只能调用原型上的方法或属性，定义在父类实上的是不能调用的</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="父类及子类-amp-构造函数和实例之间的关系"><a href="#父类及子类-amp-构造函数和实例之间的关系" class="headerlink" title="父类及子类 &amp; 构造函数和实例之间的关系"></a>父类及子类 &amp; 构造函数和实例之间的关系</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent</span></span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name)&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> sayHello()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'hello'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    sayName()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'my name is '</span> + <span class="keyword">this</span>.name);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 类的继承，所有方法和属性都可以继承，也可以自己添加新的属性和方法</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Child</span> <span class="keyword">extends</span> <span class="title">Parent</span></span>&#123;</span><br><span class="line">    <span class="comment">// 通过 this 显式定义在自身的方法通过 constructor 继承</span></span><br><span class="line">    <span class="keyword">constructor</span>(name, age)&#123;</span><br><span class="line">        <span class="keyword">super</span>(name); <span class="comment">// 表示这个属性从父类中继承过来</span></span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">    sayAge()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'my age is '</span> + <span class="keyword">this</span>.age);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 这才是生成实例</span></span><br><span class="line"><span class="keyword">let</span> parent = <span class="keyword">new</span> Parent(<span class="string">'Parent'</span>);</span><br><span class="line"><span class="keyword">let</span> child = <span class="keyword">new</span> Child(<span class="string">'Child'</span>, <span class="number">18</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 父类上的方法和属性</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'parent: '</span>, parent); <span class="comment">// parent:  Parent &#123;name: "Parent"&#125;</span></span><br><span class="line">Parent.sayHello(); <span class="comment">// hello</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 父类的构造函数可以访问到父类的非静态方法</span></span><br><span class="line">parent.sayName(); <span class="comment">// my name is Parent</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 子类可以访问到父类的所有属性，包括静态属性</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'child: '</span>, child); <span class="comment">// child:  Child &#123;name: "Child", age: 18&#125;</span></span><br><span class="line">Child.sayHello(); <span class="comment">// hello</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 子类的实例</span></span><br><span class="line">child.sayName(); <span class="comment">// my name is Child</span></span><br><span class="line">child.sayAge(); <span class="comment">// my age is 18</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="ES6-extends-中的原型关系"><a href="#ES6-extends-中的原型关系" class="headerlink" title="ES6 extends 中的原型关系"></a>ES6 extends 中的原型关系</h3><p>类的方法内部如果含有this，它默认指向类的实例。但是，必须非常小心，一旦单独使用该方法，很可能报错。</p>
+<h4 id="ES5-amp-ES6-中类的继承"><a href="#ES5-amp-ES6-中类的继承" class="headerlink" title="ES5 &amp; ES6 中类的继承"></a>ES5 &amp; ES6 中类的继承</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">两者继承机制不同</span><br><span class="line"></span><br><span class="line">ES5</span><br><span class="line"><span class="number">1.</span> 先创造子类的实例对象<span class="keyword">this</span></span><br><span class="line"><span class="number">2.</span> 再将父类的方法添加到<span class="keyword">this</span>上面--Parent.apply(<span class="keyword">this</span>)</span><br><span class="line">------</span><br><span class="line">    常用方法：</span><br><span class="line">    在子类的构造函数中，调用父类的构造函数</span><br><span class="line">    让子类的原型指向父类的原型</span><br><span class="line"></span><br><span class="line">ES6</span><br><span class="line"><span class="number">1.</span> 先将父类实例对象的属性和方法，加到<span class="keyword">this</span>上面（所以必须先调用<span class="keyword">super</span>方法）</span><br><span class="line"><span class="number">2.</span> 再用子类的构造函数修改<span class="keyword">this</span>。</span><br></pre></td></tr></table></figure>
+
+<h4 id="class-中的继承-——-两条继承链"><a href="#class-中的继承-——-两条继承链" class="headerlink" title="class 中的继承 —— 两条继承链"></a>class 中的继承 —— 两条继承链</h4><p>因为每一个对象都有 <code>__proto__</code> 属性，指向对应的构造函数的 prototype 属性<br>class 同时有 prototype 属性和 <code>__proto__</code> 属性，因此同时有两条原型链</p>
+<p>两条继承链：</p>
+<ol>
+<li>构造器原型链 Child.<strong>proto</strong> === Parent</li>
+<li>实例原型链<br>child.<strong>proto</strong> === Child.prototype<br>Child.prototype.<strong>proto</strong> === Parent.protptype<br>parent.<strong>proto</strong> === Parent.prototype</li>
+</ol>
+<img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzI1MzQzMi1kNGMxMmY5MzA3NmVkZTAxLnBuZw.jpg" alt="aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzI1MzQzMi1kNGMxMmY5MzA3NmVkZTAxLnBuZw" style="zoom: 50%;" />
+
+<p><a href="https://blog.csdn.net/weixin_43312083/article/details/106608505" target="_blank" rel="noopener">参考博客，上图图源</a></p>
+<p><a href="https://wangdoc.com/es6/class.html" target="_blank" rel="noopener">阮一峰老师《ECMAScript 6 教程》– class 的基本语法 &amp; class 的继承</a></p>
+<hr>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ol>
+<li><code>prototype</code> 、<code>__proto__</code>、<code>constructor</code>之间的关系，他们是如何构成原型链的</li>
+<li>构造函数和 <code>prototype</code>指向的对象指向的关系</li>
+<li>ES5 &amp; ES6 中类的实现和原理</li>
+<li><code>ES6-class</code>中的继承关系 – 两条继承链</li>
+</ol>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>原型和继承</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
       </tags>
   </entry>
   <entry>
