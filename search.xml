@@ -128,6 +128,150 @@
       </categories>
   </entry>
   <entry>
+    <title>Git &amp; GitHub小结</title>
+    <url>/2020/06/29/Git-GitHub/</url>
+    <content><![CDATA[<p>Git 是目前世界上最先进的分布式版本控制系统；GitHub 为开源项目免费提供Git存储。</p>
+<a id="more"></a>
+
+<p><strong>目录</strong>：</p>
+<!-- TOC -->
+
+<ul>
+<li><a href="#hellogit">helloGit</a></li>
+<li><a href="#创建版本库">创建版本库</a></li>
+<li><a href="#本地库操作小结">本地库操作小结</a></li>
+<li><a href="#远程库">远程库</a></li>
+<li><a href="#分支管理">分支管理</a><ul>
+<li><a href="#解决冲突">解决冲突</a></li>
+<li><a href="#分支管理策略">分支管理策略</a></li>
+<li><a href="#bug分支">bug分支</a></li>
+<li><a href="#feature-分支">Feature 分支</a></li>
+<li><a href="#多人协作">多人协作</a></li>
+</ul>
+</li>
+<li><a href="#标签管理">标签管理</a></li>
+<li><a href="#使用-github">使用 GitHub</a></li>
+<li><a href="#gitee">Gitee</a></li>
+<li><a href="#自定义">自定义</a></li>
+<li><a href="#sourcetree">SourceTree</a></li>
+</ul>
+<!-- /TOC -->
+
+<h2 id="helloGit"><a href="#helloGit" class="headerlink" title="helloGit"></a>helloGit</h2><p>Git 是目前世界上最先进的分布式版本控制系统<br>GitHub 为开源项目免费提供Git存储</p>
+<p>分布式和集中式版本控制系统：</p>
+<p>集中式：集中存放在中央服务器，必须联网才能工作，效率低。<br>分布式：每个人的电脑都是一个完整的版本库，协作时只需要把各自的修改推送给对方，无需联网也可以工作；有一台充当“中央服务器”的电脑，用来方便交换大家的修改</p>
+<h2 id="创建版本库"><a href="#创建版本库" class="headerlink" title="创建版本库"></a>创建版本库</h2><p>版本库，repository，版本库下所有文件都可以被 Git 管理起来，每个文件的修改、删除 Git 都能跟踪</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建一个空文件</span></span><br><span class="line"><span class="comment"># 1. 显示当前目录</span></span><br><span class="line">    $ <span class="built_in">pwd</span></span><br><span class="line"><span class="comment"># 2. 初始化：把目录变成 Git 可以管理的仓库</span></span><br><span class="line">    $ git init</span><br><span class="line"><span class="comment"># 生成一个 .git 目录，是 Git 来追踪管理版本库的</span></span><br><span class="line"><span class="comment"># 这是一个隐藏目录，可以让他显示</span></span><br><span class="line">    $ ls -ah</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>把文件添加到版本库</li>
+</ul>
+<p>版本库只能跟踪文本文件的改动，比如TXT文件，网页，所有的程序代码（word 文件不可以）等等；而图片、视频等二进制文件就无法跟踪变化</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 编写一个文件，readme.txt</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 把文件添加到仓库</span></span><br><span class="line">$ git add &lt;file&gt;</span><br><span class="line">$ git add readme.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 把文件提交到仓库（-m 后面输入本次提交的说明）</span></span><br><span class="line">$ git commit -m &lt;message&gt;</span><br><span class="line">$ git commit -m <span class="string">"wrote a readme file"</span></span><br><span class="line"><span class="comment"># commit 一次可以提交多个 add 进来的内容</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改与版本</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看仓库状态，修改信息、提交状态等</span></span><br><span class="line">    $ git status</span><br><span class="line">    <span class="comment"># working tree clean</span></span><br><span class="line">    <span class="comment"># Changes to be committed:...</span></span><br><span class="line"><span class="comment"># 查看具体被修改的内容 —— Unix 通用的 diff 格式显示</span></span><br><span class="line">    $ git diff &lt;file&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 版本回退</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 查看历史记录 —— 显示所有的版本记录</span></span><br><span class="line">    $ git <span class="built_in">log</span></span><br><span class="line">    $ git <span class="built_in">log</span> --pretty=oneline</span><br><span class="line">    <span class="comment"># commit id : 是 SHA 计算出的十六进制数字，避免冲突</span></span><br><span class="line">    <span class="comment"># Author &amp; Date &amp; message</span></span><br><span class="line"><span class="comment"># 2. 回退</span></span><br><span class="line"><span class="comment">#  版本表示：</span></span><br><span class="line">    HEAD --&gt; 当前版本</span><br><span class="line">    HEAD^ --&gt; 上一版本</span><br><span class="line">    HEAD^^ --&gt; 上上版本</span><br><span class="line">    HEAD~100 --&gt; 往上 100 个</span><br><span class="line"><span class="comment">#  命令：</span></span><br><span class="line">    $ git reset --hard HEAD^ / commit id</span><br><span class="line"><span class="comment"># 【内部有个指向当前版本的 HEAD 指针，版本回退只是更改指针指向】</span></span><br><span class="line"></span><br><span class="line">----此时通过 status 已经无法读取之后版本了----</span><br><span class="line"></span><br><span class="line"><span class="comment"># 返回更新的版本</span></span><br><span class="line"><span class="comment"># 通过 commit id 回退，则需要查看命令的 id</span></span><br><span class="line">    $ git reflog</span><br></pre></td></tr></table></figure>
+
+<h2 id="本地库操作小结"><a href="#本地库操作小结" class="headerlink" title="本地库操作小结"></a>本地库操作小结</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">|—— 工作区 ==&gt; add</span><br><span class="line">|—— 版本库</span><br><span class="line">    +—— stage 暂存区  =&gt; commit</span><br><span class="line">    +—— master 分支：创建 Git 版本库时，自动为我们创建的唯一分支</span><br><span class="line">        提交到这里就是已经在仓库了</span><br><span class="line">     —— HEAD：指向 master 的指针</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>回退</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"> <span class="comment"># 工作区回退</span></span><br><span class="line">git reset HEAD \&lt;file&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 暂存库回退</span></span><br><span class="line">git checkout -- \&lt;file&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 版本库回退</span></span><br><span class="line"><span class="comment"># 1. 查看 git 版本操作记录</span></span><br><span class="line">git <span class="built_in">log</span> --pretty=oneline</span><br><span class="line">git reflog</span><br><span class="line"><span class="comment"># 2. 改变版本</span></span><br><span class="line">git reset --hard HEAD^</span><br><span class="line">git reset --hard \&lt;版本号id&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">+—— rm \&lt;file&gt;</span><br><span class="line">    +——<span class="comment"># 确实要删</span></span><br><span class="line">    |   +—— git rm \&lt;file&gt;</span><br><span class="line">    |   +—— git commit -m &lt;message&gt;</span><br><span class="line">    +—— 删错了 git checkout -- test.txt</span><br></pre></td></tr></table></figure>
+
+<h2 id="远程库"><a href="#远程库" class="headerlink" title="远程库"></a>远程库</h2><p>咋回事</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 远程仓库和本地仓库相关联，关联后远程库默认叫 origin</span></span><br><span class="line">git remote add origin git@github.com...</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把本地内容（当前分支 master）推送到远程库</span></span><br><span class="line">git push</span><br><span class="line"><span class="comment"># 第一次推送时还需要关联本地的 master 和远程的 master</span></span><br><span class="line"><span class="comment"># 则应该用</span></span><br><span class="line">git push -u oringin master</span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送最新修改到远端</span></span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 从远程库克隆到本地库</span></span><br><span class="line"><span class="comment"># Git支持多种协议，ssh协议速度最快</span></span><br><span class="line">git <span class="built_in">clone</span>@..</span><br><span class="line"><span class="comment"># 还可以https</span></span><br><span class="line">git <span class="built_in">clone</span> https:...</span><br></pre></td></tr></table></figure>
+
+<h2 id="分支管理"><a href="#分支管理" class="headerlink" title="分支管理"></a>分支管理</h2><p>分支：<br>工作时避免互相干扰，开发完毕后再一次性合并到原来的分支上</p>
+<p>HEAD 指针、分支、提交点：<br>HEAD 指向当前分支，分支有个指针指向当前的提交点</p>
+<p>新建分支：<br>如果建了新的分支 dev，就是新建对应的 dev 指针（指向最新的提交点），改变 HEAD 的指向，工作区没有变化<br>我们不断更新版本，dev 指针在版本链上的指针改变</p>
+<p>合并分支：有普通合并和快合并</p>
+<p>命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">1. <span class="comment"># 新建分支</span></span><br><span class="line">    git branch dev</span><br><span class="line">    <span class="comment"># 切换分支</span></span><br><span class="line">    git checkout dev</span><br><span class="line">    git seitch dev</span><br><span class="line">    <span class="comment"># 命令合并：新建并切换分支</span></span><br><span class="line">    git checkout -b dev</span><br><span class="line">    git switch -c dev</span><br><span class="line">    <span class="comment"># 查看分支：列出所有分支，当前分支带 *</span></span><br><span class="line">    git branch</span><br><span class="line"></span><br><span class="line">2. <span class="comment"># 然后正常修改正常提交</span></span><br><span class="line">3. <span class="comment"># 合并分支</span></span><br><span class="line">    git switch master <span class="comment"># 切回来</span></span><br><span class="line">    git merge dev <span class="comment"># 合并指定分支到当前分支（指向dev工作点）</span></span><br><span class="line">    <span class="comment"># 没有冲突，快速合并</span></span><br><span class="line">    git branch -d dev <span class="comment"># 删除分支</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="解决冲突"><a href="#解决冲突" class="headerlink" title="解决冲突"></a>解决冲突</h3><ol>
+<li>快速合并和禁用快合并</li>
+<li>手动解决冲突再进行合并<br> 这时有冲突的文件会有标记显示不同分支有冲突的内容<br> 手动进行修改合并后保存，重新 add &amp; commit</li>
+</ol>
+<p>删除分支</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">查看合并情况：</span><br><span class="line">git <span class="built_in">log</span> --graph 查看分支合并图</span><br><span class="line">git <span class="built_in">log</span> --graph --pretty=oneline --abbrev-commit</span><br></pre></td></tr></table></figure>
+
+<h3 id="分支管理策略"><a href="#分支管理策略" class="headerlink" title="分支管理策略"></a>分支管理策略</h3><p>禁用快速合并: –no-ff 方式的 git merge<br>可以在 merge 的时候生成一个带描述的 commit ，而不是默默就合并了，可以看出合并记录</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git merge --no-ff -m <span class="string">"merge with no-ff"</span> dev</span><br></pre></td></tr></table></figure>
+
+<p>快速模式合并就是没有冲突的时候只改变原来 master 分支的指针，指到新分支最新的版本去<br>而强制关闭 ff 模式，则会新建一个不同于 dev 最新版的 commit ，这样可以看出 dev 的版本，这样删除分支后就不会丢失分支信息，可以看出来曾经做过合并</p>
+<ul>
+<li>分支策略</li>
+</ul>
+<p>工作中一般不直接在 master 分支上操作，仅用来发布新版本<br>工作团队就在 dev 分支上工作</p>
+<h3 id="bug分支"><a href="#bug分支" class="headerlink" title="bug分支"></a>bug分支</h3><ul>
+<li>通过新建分支来修复 bug 再进行合并</li>
+<li>此时如果还有别的分支上的工作还在进行，可以同过<code>stash</code>功能来把当前工作现场先保存，再新建别的分支修复 bug</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">+—— git stash <span class="comment"># 储存起来</span></span><br><span class="line">+—— <span class="comment"># 出去新建分支 debug</span></span><br><span class="line">+—— git stash list <span class="comment"># 列出现场</span></span><br><span class="line">+—— <span class="comment"># 恢复现场</span></span><br><span class="line">    +—— git stash apply &lt;stash@id&gt; <span class="comment"># 查看，该现场还在现场列表中</span></span><br><span class="line">    |    git stash drop <span class="comment"># 删除 stash 内容</span></span><br><span class="line">    +—— git stash pop <span class="comment"># 弹出现场，删除栈顶现场</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># master 分支上的 bug 也需要在其他分支修复</span></span><br><span class="line"><span class="comment"># 这个时候可以直接把指定的改动赋值到指定分支</span></span><br><span class="line">    +—— git cherry-pick \&lt;commit id&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Feature-分支"><a href="#Feature-分支" class="headerlink" title="Feature 分支"></a>Feature 分支</h3><ul>
+<li>添加新功能</li>
+<li>添加新功能的时候先再新建的 feature 分支上开发，完成后再合并</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 要丢弃一个还没被合并过的分支需要强行删除</span></span><br><span class="line">git branch -D &lt;name&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="多人协作"><a href="#多人协作" class="headerlink" title="多人协作"></a>多人协作</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看远程库信息</span></span><br><span class="line">git remote</span><br><span class="line">git remove -v</span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送分支</span></span><br><span class="line">git push origin branchName</span><br><span class="line"></span><br><span class="line"><span class="comment"># 主分支和开发分支都需要远程同步</span></span><br><span class="line"><span class="comment"># bug 分支和 feature看情况啦</span></span><br></pre></td></tr></table></figure>
+
+<p>多人协作</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 抓取分支</span></span><br><span class="line"><span class="comment"># 从远程库克隆时默认情况下只能看到本地的 master</span></span><br><span class="line"><span class="comment"># 需要创建远程 origin 的 dev 到本地</span></span><br><span class="line">git checkout -b dev origin/dev</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解决冲突</span></span><br><span class="line"><span class="comment"># git push 时有冲突</span></span><br><span class="line"><span class="comment"># 两人同时修改了同个文件相同位置的内容</span></span><br><span class="line"><span class="comment"># 先把最新提交从 origin/dev 抓下来</span></span><br><span class="line">git branch --<span class="built_in">set</span>-upstream-to=origin/\&lt;branch&gt; dev</span><br><span class="line">git pull</span><br><span class="line"><span class="comment"># 在本地合并，解决冲突再 push</span></span><br></pre></td></tr></table></figure>
+
+<p>Rebase</p>
+<p>rebase操作可以把本地未push的分叉提交历史整理成直线</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 把多人协作解决冲突的提交历史的提交整理成一条直线</span></span><br><span class="line">git rebase</span><br></pre></td></tr></table></figure>
+
+<p>操作后 commit 会被挪动位置，从而修改的内容也会发生变化，但是提交的内容是一致的</p>
+<h2 id="标签管理"><a href="#标签管理" class="headerlink" title="标签管理"></a>标签管理</h2><p>在版本库中给版本打一个标签（tag），方便取出<br>是版本库的快照，实际上就是指向某个 commit 的指针</p>
+<p>标签的创建：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先切换到需要打标签的分支上</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建标签</span></span><br><span class="line"><span class="comment"># 给最新 commit 打标签</span></span><br><span class="line">git tag &lt;tagName&gt;</span><br><span class="line"><span class="comment"># 给历史 commit</span></span><br><span class="line">git tag &lt;tagName&gt; \&lt;commit id&gt;</span><br><span class="line"><span class="comment"># 创建带说明的 tag</span></span><br><span class="line"><span class="comment"># 用 -a 指定标签名，-m 指定 messege</span></span><br><span class="line">git tag -a &lt;tagName&gt; -m <span class="string">""</span> &lt;commit id&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看有哪些标签</span></span><br><span class="line">git tab</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看某标签指向的 commit 的具体说明文字</span></span><br><span class="line">git show &lt;tagName&gt;</span><br></pre></td></tr></table></figure>
+
+<p>标签的操作</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 推送到远端</span></span><br><span class="line">git push origin &lt;tagName&gt;</span><br><span class="line">git push origin --tags</span><br><span class="line"></span><br><span class="line"><span class="comment"># 本地删除</span></span><br><span class="line">git tag -d &lt;tagName&gt;</span><br><span class="line"><span class="comment"># 远端删除</span></span><br><span class="line"><span class="comment"># 先在本地删除，再</span></span><br><span class="line">git push origin :refs/tags/&lt;name\&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用-GitHub"><a href="#使用-GitHub" class="headerlink" title="使用 GitHub"></a>使用 GitHub</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Fork <span class="comment"># Fork 开源项目到自己的仓库</span></span><br><span class="line">git <span class="built_in">clone</span> <span class="comment"># 克隆到本地</span></span><br><span class="line"><span class="comment"># 然后就可以自己进行修复、增加功能等操作了</span></span><br><span class="line">pull request <span class="comment"># 给官方贡献代码</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Gitee"><a href="#Gitee" class="headerlink" title="Gitee"></a>Gitee</h2><p>国内的 git 托管服务<br>提供免费的 Git 仓库<br>本地库可以既关联 GitHub 又关联 Gitee</p>
+<h2 id="自定义"><a href="#自定义" class="headerlink" title="自定义"></a>自定义</h2><ol>
+<li><p>部署别名</p>
+</li>
+<li><p>忽略特殊文件<br> <code>gitignore</code><br> 在<code>.gitignore</code>中写入文件名或者正则表达式</p>
+</li>
+<li><p>配置别名：例如更改一些命令</p>
+ <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 在全局把 status 命令改成 st</span></span><br><span class="line">git config --global alias.st status</span><br></pre></td></tr></table></figure>
+
+<p> 配置文件在<code>.git/config</code><br> 别名在 <code>[alias]</code> 中</p>
+</li>
+<li><p>搭建 Git 服务器<br> 有缘再学</p>
+</li>
+</ol>
+<h2 id="SourceTree"><a href="#SourceTree" class="headerlink" title="SourceTree"></a>SourceTree</h2><p>GUI 工具<br>图形界面工具<br>明天看看</p>
+<hr>
+<p>参考：</p>
+<p><a href="https:#www.liaoxuefeng.com/wiki/896043488029600">廖雪峰老师的 Git 教程</a></p>
+]]></content>
+      <categories>
+        <category>工具</category>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>基础语法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>计算机网络学习笔记</title>
     <url>/2020/07/13/NetWork-Study/</url>
     <content><![CDATA[<p>主要是基于五层原理体系的学习</p>
@@ -987,7 +1131,9 @@
   <entry>
     <title>happy birthday</title>
     <url>/2020/07/15/happy-birthday/</url>
-    <content><![CDATA[<iframe src="//player.bilibili.com/player.html?aid=883812762&bvid=BV1yK4y1s7UL&cid=21248569&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+    <content><![CDATA[<a id="more"></a>
+
+<iframe src="//player.bilibili.com/player.html?aid=883812762&bvid=BV1yK4y1s7UL&cid=21248569&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
 
 <p>我猜你想知道怎么插入视频，其实灰常简单，只需要把视频源链接放到用到 <code>\&lt;iframe&gt;</code>标签（这个标签是可以理解为用来引入其他页面），添加 <code>src</code>属性，属性值为路径就 OK 啦</p>
 <p>像 b 站这种视频就更简单了</p>
@@ -1092,150 +1238,6 @@
       </categories>
       <tags>
         <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Git &amp; GitHub小结</title>
-    <url>/2020/06/29/Git-GitHub/</url>
-    <content><![CDATA[<p>Git 是目前世界上最先进的分布式版本控制系统；GitHub 为开源项目免费提供Git存储。</p>
-<a id="more"></a>
-
-<p><strong>目录</strong>：</p>
-<!-- TOC -->
-
-<ul>
-<li><a href="#hellogit">helloGit</a></li>
-<li><a href="#创建版本库">创建版本库</a></li>
-<li><a href="#本地库操作小结">本地库操作小结</a></li>
-<li><a href="#远程库">远程库</a></li>
-<li><a href="#分支管理">分支管理</a><ul>
-<li><a href="#解决冲突">解决冲突</a></li>
-<li><a href="#分支管理策略">分支管理策略</a></li>
-<li><a href="#bug分支">bug分支</a></li>
-<li><a href="#feature-分支">Feature 分支</a></li>
-<li><a href="#多人协作">多人协作</a></li>
-</ul>
-</li>
-<li><a href="#标签管理">标签管理</a></li>
-<li><a href="#使用-github">使用 GitHub</a></li>
-<li><a href="#gitee">Gitee</a></li>
-<li><a href="#自定义">自定义</a></li>
-<li><a href="#sourcetree">SourceTree</a></li>
-</ul>
-<!-- /TOC -->
-
-<h2 id="helloGit"><a href="#helloGit" class="headerlink" title="helloGit"></a>helloGit</h2><p>Git 是目前世界上最先进的分布式版本控制系统<br>GitHub 为开源项目免费提供Git存储</p>
-<p>分布式和集中式版本控制系统：</p>
-<p>集中式：集中存放在中央服务器，必须联网才能工作，效率低。<br>分布式：每个人的电脑都是一个完整的版本库，协作时只需要把各自的修改推送给对方，无需联网也可以工作；有一台充当“中央服务器”的电脑，用来方便交换大家的修改</p>
-<h2 id="创建版本库"><a href="#创建版本库" class="headerlink" title="创建版本库"></a>创建版本库</h2><p>版本库，repository，版本库下所有文件都可以被 Git 管理起来，每个文件的修改、删除 Git 都能跟踪</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建一个空文件</span></span><br><span class="line"><span class="comment"># 1. 显示当前目录</span></span><br><span class="line">    $ <span class="built_in">pwd</span></span><br><span class="line"><span class="comment"># 2. 初始化：把目录变成 Git 可以管理的仓库</span></span><br><span class="line">    $ git init</span><br><span class="line"><span class="comment"># 生成一个 .git 目录，是 Git 来追踪管理版本库的</span></span><br><span class="line"><span class="comment"># 这是一个隐藏目录，可以让他显示</span></span><br><span class="line">    $ ls -ah</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>把文件添加到版本库</li>
-</ul>
-<p>版本库只能跟踪文本文件的改动，比如TXT文件，网页，所有的程序代码（word 文件不可以）等等；而图片、视频等二进制文件就无法跟踪变化</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 编写一个文件，readme.txt</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 把文件添加到仓库</span></span><br><span class="line">$ git add &lt;file&gt;</span><br><span class="line">$ git add readme.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 把文件提交到仓库（-m 后面输入本次提交的说明）</span></span><br><span class="line">$ git commit -m &lt;message&gt;</span><br><span class="line">$ git commit -m <span class="string">"wrote a readme file"</span></span><br><span class="line"><span class="comment"># commit 一次可以提交多个 add 进来的内容</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>修改与版本</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看仓库状态，修改信息、提交状态等</span></span><br><span class="line">    $ git status</span><br><span class="line">    <span class="comment"># working tree clean</span></span><br><span class="line">    <span class="comment"># Changes to be committed:...</span></span><br><span class="line"><span class="comment"># 查看具体被修改的内容 —— Unix 通用的 diff 格式显示</span></span><br><span class="line">    $ git diff &lt;file&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 版本回退</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 查看历史记录 —— 显示所有的版本记录</span></span><br><span class="line">    $ git <span class="built_in">log</span></span><br><span class="line">    $ git <span class="built_in">log</span> --pretty=oneline</span><br><span class="line">    <span class="comment"># commit id : 是 SHA 计算出的十六进制数字，避免冲突</span></span><br><span class="line">    <span class="comment"># Author &amp; Date &amp; message</span></span><br><span class="line"><span class="comment"># 2. 回退</span></span><br><span class="line"><span class="comment">#  版本表示：</span></span><br><span class="line">    HEAD --&gt; 当前版本</span><br><span class="line">    HEAD^ --&gt; 上一版本</span><br><span class="line">    HEAD^^ --&gt; 上上版本</span><br><span class="line">    HEAD~100 --&gt; 往上 100 个</span><br><span class="line"><span class="comment">#  命令：</span></span><br><span class="line">    $ git reset --hard HEAD^ / commit id</span><br><span class="line"><span class="comment"># 【内部有个指向当前版本的 HEAD 指针，版本回退只是更改指针指向】</span></span><br><span class="line"></span><br><span class="line">----此时通过 status 已经无法读取之后版本了----</span><br><span class="line"></span><br><span class="line"><span class="comment"># 返回更新的版本</span></span><br><span class="line"><span class="comment"># 通过 commit id 回退，则需要查看命令的 id</span></span><br><span class="line">    $ git reflog</span><br></pre></td></tr></table></figure>
-
-<h2 id="本地库操作小结"><a href="#本地库操作小结" class="headerlink" title="本地库操作小结"></a>本地库操作小结</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">|—— 工作区 ==&gt; add</span><br><span class="line">|—— 版本库</span><br><span class="line">    +—— stage 暂存区  =&gt; commit</span><br><span class="line">    +—— master 分支：创建 Git 版本库时，自动为我们创建的唯一分支</span><br><span class="line">        提交到这里就是已经在仓库了</span><br><span class="line">     —— HEAD：指向 master 的指针</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>回退</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"> <span class="comment"># 工作区回退</span></span><br><span class="line">git reset HEAD \&lt;file&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 暂存库回退</span></span><br><span class="line">git checkout -- \&lt;file&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 版本库回退</span></span><br><span class="line"><span class="comment"># 1. 查看 git 版本操作记录</span></span><br><span class="line">git <span class="built_in">log</span> --pretty=oneline</span><br><span class="line">git reflog</span><br><span class="line"><span class="comment"># 2. 改变版本</span></span><br><span class="line">git reset --hard HEAD^</span><br><span class="line">git reset --hard \&lt;版本号id&gt;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>删除</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">+—— rm \&lt;file&gt;</span><br><span class="line">    +——<span class="comment"># 确实要删</span></span><br><span class="line">    |   +—— git rm \&lt;file&gt;</span><br><span class="line">    |   +—— git commit -m &lt;message&gt;</span><br><span class="line">    +—— 删错了 git checkout -- test.txt</span><br></pre></td></tr></table></figure>
-
-<h2 id="远程库"><a href="#远程库" class="headerlink" title="远程库"></a>远程库</h2><p>咋回事</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 远程仓库和本地仓库相关联，关联后远程库默认叫 origin</span></span><br><span class="line">git remote add origin git@github.com...</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把本地内容（当前分支 master）推送到远程库</span></span><br><span class="line">git push</span><br><span class="line"><span class="comment"># 第一次推送时还需要关联本地的 master 和远程的 master</span></span><br><span class="line"><span class="comment"># 则应该用</span></span><br><span class="line">git push -u oringin master</span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送最新修改到远端</span></span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 从远程库克隆到本地库</span></span><br><span class="line"><span class="comment"># Git支持多种协议，ssh协议速度最快</span></span><br><span class="line">git <span class="built_in">clone</span>@..</span><br><span class="line"><span class="comment"># 还可以https</span></span><br><span class="line">git <span class="built_in">clone</span> https:...</span><br></pre></td></tr></table></figure>
-
-<h2 id="分支管理"><a href="#分支管理" class="headerlink" title="分支管理"></a>分支管理</h2><p>分支：<br>工作时避免互相干扰，开发完毕后再一次性合并到原来的分支上</p>
-<p>HEAD 指针、分支、提交点：<br>HEAD 指向当前分支，分支有个指针指向当前的提交点</p>
-<p>新建分支：<br>如果建了新的分支 dev，就是新建对应的 dev 指针（指向最新的提交点），改变 HEAD 的指向，工作区没有变化<br>我们不断更新版本，dev 指针在版本链上的指针改变</p>
-<p>合并分支：有普通合并和快合并</p>
-<p>命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">1. <span class="comment"># 新建分支</span></span><br><span class="line">    git branch dev</span><br><span class="line">    <span class="comment"># 切换分支</span></span><br><span class="line">    git checkout dev</span><br><span class="line">    git seitch dev</span><br><span class="line">    <span class="comment"># 命令合并：新建并切换分支</span></span><br><span class="line">    git checkout -b dev</span><br><span class="line">    git switch -c dev</span><br><span class="line">    <span class="comment"># 查看分支：列出所有分支，当前分支带 *</span></span><br><span class="line">    git branch</span><br><span class="line"></span><br><span class="line">2. <span class="comment"># 然后正常修改正常提交</span></span><br><span class="line">3. <span class="comment"># 合并分支</span></span><br><span class="line">    git switch master <span class="comment"># 切回来</span></span><br><span class="line">    git merge dev <span class="comment"># 合并指定分支到当前分支（指向dev工作点）</span></span><br><span class="line">    <span class="comment"># 没有冲突，快速合并</span></span><br><span class="line">    git branch -d dev <span class="comment"># 删除分支</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="解决冲突"><a href="#解决冲突" class="headerlink" title="解决冲突"></a>解决冲突</h3><ol>
-<li>快速合并和禁用快合并</li>
-<li>手动解决冲突再进行合并<br> 这时有冲突的文件会有标记显示不同分支有冲突的内容<br> 手动进行修改合并后保存，重新 add &amp; commit</li>
-</ol>
-<p>删除分支</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">查看合并情况：</span><br><span class="line">git <span class="built_in">log</span> --graph 查看分支合并图</span><br><span class="line">git <span class="built_in">log</span> --graph --pretty=oneline --abbrev-commit</span><br></pre></td></tr></table></figure>
-
-<h3 id="分支管理策略"><a href="#分支管理策略" class="headerlink" title="分支管理策略"></a>分支管理策略</h3><p>禁用快速合并: –no-ff 方式的 git merge<br>可以在 merge 的时候生成一个带描述的 commit ，而不是默默就合并了，可以看出合并记录</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git merge --no-ff -m <span class="string">"merge with no-ff"</span> dev</span><br></pre></td></tr></table></figure>
-
-<p>快速模式合并就是没有冲突的时候只改变原来 master 分支的指针，指到新分支最新的版本去<br>而强制关闭 ff 模式，则会新建一个不同于 dev 最新版的 commit ，这样可以看出 dev 的版本，这样删除分支后就不会丢失分支信息，可以看出来曾经做过合并</p>
-<ul>
-<li>分支策略</li>
-</ul>
-<p>工作中一般不直接在 master 分支上操作，仅用来发布新版本<br>工作团队就在 dev 分支上工作</p>
-<h3 id="bug分支"><a href="#bug分支" class="headerlink" title="bug分支"></a>bug分支</h3><ul>
-<li>通过新建分支来修复 bug 再进行合并</li>
-<li>此时如果还有别的分支上的工作还在进行，可以同过<code>stash</code>功能来把当前工作现场先保存，再新建别的分支修复 bug</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">+—— git stash <span class="comment"># 储存起来</span></span><br><span class="line">+—— <span class="comment"># 出去新建分支 debug</span></span><br><span class="line">+—— git stash list <span class="comment"># 列出现场</span></span><br><span class="line">+—— <span class="comment"># 恢复现场</span></span><br><span class="line">    +—— git stash apply &lt;stash@id&gt; <span class="comment"># 查看，该现场还在现场列表中</span></span><br><span class="line">    |    git stash drop <span class="comment"># 删除 stash 内容</span></span><br><span class="line">    +—— git stash pop <span class="comment"># 弹出现场，删除栈顶现场</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># master 分支上的 bug 也需要在其他分支修复</span></span><br><span class="line"><span class="comment"># 这个时候可以直接把指定的改动赋值到指定分支</span></span><br><span class="line">    +—— git cherry-pick \&lt;commit id&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="Feature-分支"><a href="#Feature-分支" class="headerlink" title="Feature 分支"></a>Feature 分支</h3><ul>
-<li>添加新功能</li>
-<li>添加新功能的时候先再新建的 feature 分支上开发，完成后再合并</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 要丢弃一个还没被合并过的分支需要强行删除</span></span><br><span class="line">git branch -D &lt;name&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="多人协作"><a href="#多人协作" class="headerlink" title="多人协作"></a>多人协作</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看远程库信息</span></span><br><span class="line">git remote</span><br><span class="line">git remove -v</span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送分支</span></span><br><span class="line">git push origin branchName</span><br><span class="line"></span><br><span class="line"><span class="comment"># 主分支和开发分支都需要远程同步</span></span><br><span class="line"><span class="comment"># bug 分支和 feature看情况啦</span></span><br></pre></td></tr></table></figure>
-
-<p>多人协作</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 抓取分支</span></span><br><span class="line"><span class="comment"># 从远程库克隆时默认情况下只能看到本地的 master</span></span><br><span class="line"><span class="comment"># 需要创建远程 origin 的 dev 到本地</span></span><br><span class="line">git checkout -b dev origin/dev</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解决冲突</span></span><br><span class="line"><span class="comment"># git push 时有冲突</span></span><br><span class="line"><span class="comment"># 两人同时修改了同个文件相同位置的内容</span></span><br><span class="line"><span class="comment"># 先把最新提交从 origin/dev 抓下来</span></span><br><span class="line">git branch --<span class="built_in">set</span>-upstream-to=origin/\&lt;branch&gt; dev</span><br><span class="line">git pull</span><br><span class="line"><span class="comment"># 在本地合并，解决冲突再 push</span></span><br></pre></td></tr></table></figure>
-
-<p>Rebase</p>
-<p>rebase操作可以把本地未push的分叉提交历史整理成直线</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 把多人协作解决冲突的提交历史的提交整理成一条直线</span></span><br><span class="line">git rebase</span><br></pre></td></tr></table></figure>
-
-<p>操作后 commit 会被挪动位置，从而修改的内容也会发生变化，但是提交的内容是一致的</p>
-<h2 id="标签管理"><a href="#标签管理" class="headerlink" title="标签管理"></a>标签管理</h2><p>在版本库中给版本打一个标签（tag），方便取出<br>是版本库的快照，实际上就是指向某个 commit 的指针</p>
-<p>标签的创建：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先切换到需要打标签的分支上</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建标签</span></span><br><span class="line"><span class="comment"># 给最新 commit 打标签</span></span><br><span class="line">git tag &lt;tagName&gt;</span><br><span class="line"><span class="comment"># 给历史 commit</span></span><br><span class="line">git tag &lt;tagName&gt; \&lt;commit id&gt;</span><br><span class="line"><span class="comment"># 创建带说明的 tag</span></span><br><span class="line"><span class="comment"># 用 -a 指定标签名，-m 指定 messege</span></span><br><span class="line">git tag -a &lt;tagName&gt; -m <span class="string">""</span> &lt;commit id&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看有哪些标签</span></span><br><span class="line">git tab</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看某标签指向的 commit 的具体说明文字</span></span><br><span class="line">git show &lt;tagName&gt;</span><br></pre></td></tr></table></figure>
-
-<p>标签的操作</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 推送到远端</span></span><br><span class="line">git push origin &lt;tagName&gt;</span><br><span class="line">git push origin --tags</span><br><span class="line"></span><br><span class="line"><span class="comment"># 本地删除</span></span><br><span class="line">git tag -d &lt;tagName&gt;</span><br><span class="line"><span class="comment"># 远端删除</span></span><br><span class="line"><span class="comment"># 先在本地删除，再</span></span><br><span class="line">git push origin :refs/tags/&lt;name\&gt;</span><br></pre></td></tr></table></figure>
-
-<h2 id="使用-GitHub"><a href="#使用-GitHub" class="headerlink" title="使用 GitHub"></a>使用 GitHub</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Fork <span class="comment"># Fork 开源项目到自己的仓库</span></span><br><span class="line">git <span class="built_in">clone</span> <span class="comment"># 克隆到本地</span></span><br><span class="line"><span class="comment"># 然后就可以自己进行修复、增加功能等操作了</span></span><br><span class="line">pull request <span class="comment"># 给官方贡献代码</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="Gitee"><a href="#Gitee" class="headerlink" title="Gitee"></a>Gitee</h2><p>国内的 git 托管服务<br>提供免费的 Git 仓库<br>本地库可以既关联 GitHub 又关联 Gitee</p>
-<h2 id="自定义"><a href="#自定义" class="headerlink" title="自定义"></a>自定义</h2><ol>
-<li><p>部署别名</p>
-</li>
-<li><p>忽略特殊文件<br> <code>gitignore</code><br> 在<code>.gitignore</code>中写入文件名或者正则表达式</p>
-</li>
-<li><p>配置别名：例如更改一些命令</p>
- <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 在全局把 status 命令改成 st</span></span><br><span class="line">git config --global alias.st status</span><br></pre></td></tr></table></figure>
-
-<p> 配置文件在<code>.git/config</code><br> 别名在 <code>[alias]</code> 中</p>
-</li>
-<li><p>搭建 Git 服务器<br> 有缘再学</p>
-</li>
-</ol>
-<h2 id="SourceTree"><a href="#SourceTree" class="headerlink" title="SourceTree"></a>SourceTree</h2><p>GUI 工具<br>图形界面工具<br>明天看看</p>
-<hr>
-<p>参考：</p>
-<p><a href="https:#www.liaoxuefeng.com/wiki/896043488029600">廖雪峰老师的 Git 教程</a></p>
-]]></content>
-      <categories>
-        <category>工具</category>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>基础语法</tag>
       </tags>
   </entry>
   <entry>
