@@ -29,7 +29,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/@Z9FN[P%607Z~%7DKOKRGHO13OT.png">
 <meta property="article:published_time" content="2020-07-22T02:07:26.000Z">
-<meta property="article:modified_time" content="2020-07-23T16:45:51.103Z">
+<meta property="article:modified_time" content="2020-07-23T16:58:59.424Z">
 <meta property="article:author" content="WongZit">
 <meta property="article:tag" content="Browser;security">
 <meta name="twitter:card" content="summary">
@@ -224,7 +224,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-24 00:45" itemprop="dateModified" datetime="2020-07-24T00:45:51+08:00">2020-07-24</time>
+                <time title="Modified: 2020-07-24 00:58" itemprop="dateModified" datetime="2020-07-24T00:58:59+08:00">2020-07-24</time>
               </span>
 
           
@@ -255,7 +255,40 @@
         <p>浏览器安全包括：Web 页面安全（XSS 、CSRF 攻击及其防范）；浏览器系统安全（安全沙箱）；浏览器网络安全（HTTPS）</p>
 <a id="more"></a>
 
-<p>[TOC]</p>
+<!-- TOC -->
+
+<ul>
+<li><a href="#浏览器安全">浏览器安全</a><ul>
+<li><a href="#一-web-页面安全">一. Web 页面安全</a><ul>
+<li><a href="#1-跨站脚本攻击xss">1. 跨站脚本攻击（XSS）</a></li>
+<li><a href="#2-csrf-攻击">2. CSRF 攻击</a></li>
+</ul>
+</li>
+<li><a href="#二-安全沙箱">二. 安全沙箱</a><ul>
+<li><a href="#站点隔离site-isolation">站点隔离（Site Isolation）</a></li>
+</ul>
+</li>
+<li><a href="#三-网络安全网络安全协议-https">三. 网络安全：网络安全协议 HTTPS</a><ul>
+<li><a href="#1--加密技术">1.  加密技术</a></li>
+<li><a href="#2--数字证书">2.  数字证书：</a></li>
+<li><a href="#3-https-工作流程">3. HTTPS 工作流程</a></li>
+<li><a href="#4-https-存在的问题">4. HTTPS 存在的问题</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#internet-上使用的安全协议">Internet 上使用的安全协议</a><ul>
+<li><a href="#应用层安全ssl">应用层安全SSL</a></li>
+<li><a href="#网络层安全ipsec">网络层安全IPSec</a><ul>
+<li><a href="#安全关联-sa-security-association">安全关联 SA （security association）</a></li>
+<li><a href="#协议">协议</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<!-- /TOC -->
+
 <h2 id="浏览器安全"><a href="#浏览器安全" class="headerlink" title="浏览器安全"></a>浏览器安全</h2><h3 id="一-Web-页面安全"><a href="#一-Web-页面安全" class="headerlink" title="一. Web 页面安全"></a>一. Web 页面安全</h3><p>严格的同源策略会更加安全，但是也束缚了 Web。于是在默认页面中引入任意第三方资源，又引入 <code>CSP</code> 策略加以限制；默认 <code>XMLHttpRequest</code> 和 <code>Fetch</code> 不能跨站请求资源又通过 <code>CORS</code> 策略来支持其跨域。</p>
 <p>页面安全问题主要也是浏览器为同源策略开的这两个后门引起的啦</p>
 <h4 id="1-跨站脚本攻击（XSS）"><a href="#1-跨站脚本攻击（XSS）" class="headerlink" title="1. 跨站脚本攻击（XSS）"></a>1. 跨站脚本攻击（XSS）</h4><ul>
@@ -449,10 +482,18 @@
 <h4 id="3-HTTPS-工作流程"><a href="#3-HTTPS-工作流程" class="headerlink" title="3. HTTPS 工作流程"></a>3. HTTPS 工作流程</h4><p>TTP + 加密 + 认证 + 完整性保护 = HTTPS</p>
 <img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/@Z9FN[P`7Z~}KOKRGHO13OT.png" alt="img" style="zoom:80%;" />
 
-<pre><code>1. 1️⃣客户端通过发送 Client Hello 报文开始 SSL 通信
-- 客户端生成的随机数 random1
-- 客户端支持的 SSL 版本号
-- 加密组件（ Cipher Suite）列表：所使用的的加密算法及密钥长度等</code></pre><ol start="2">
+
+
+<ol>
+<li><p>1️⃣客户端通过发送 Client Hello 报文开始 SSL 通信</p>
+<ul>
+<li>客户端生成的随机数 random1</li>
+<li>客户端支持的 SSL 版本号</li>
+<li>加密组件（ Cipher Suite）列表：所使用的的加密算法及密钥长度等</li>
+</ul>
+</li>
+</ol>
+<ol start="2">
 <li><p>服务器发送进行应答</p>
 <ol>
 <li><p>2️⃣ Server Hello 报文</p>
