@@ -19,115 +19,6 @@
       </tags>
   </entry>
   <entry>
-    <title>先Mark住Markdown的常用符</title>
-    <url>/2020/04/29/MarkMarkdown/</url>
-    <content><![CDATA[<p>终于终于到了可以写博文的环节了，第一篇那就先总结一下我觉得我以后要markdown的一些常用语法吧，一边学一边写一边总结厚！</p>
-<a id="more"></a>
-
-<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><p> <a href="#一一些基础语法">一、一些基础语法</a></p>
-<ul>
-<li><a href="#代码块">代码块</a></li>
-<li><a href="#行内代码块">行内代码块</a></li>
-<li><a href="#整段代码块">整段代码块</a></li>
-<li><a href="#常用需要转义的符号">常用需要转义的符号</a></li>
-<li><a href="#加粗或斜体">加粗或斜体</a></li>
-<li><a href="#设置标题">设置标题</a></li>
-<li><a href="#超链接行内式和参考式自动链接">超链接：行内式和参考式，自动链接</a></li>
-<li><a href="#删除线">删除线</a></li>
-</ul>
-<p><a href="#二引用插入点什么">二、引用/插入点什么</a></p>
-<ul>
-<li><p><a href="#文字引用">文字引用</a></p>
-</li>
-<li><p><a href="#列表">列表</a></p>
-</li>
-<li><p><a href="#目录结构">目录结构</a></p>
-</li>
-<li><p><a href="#插入图像">插入图像</a></p>
-</li>
-<li><p><a href="#写公式">写公式</a></p>
-</li>
-<li><p><a href="#流程图">流程图</a></p>
-</li>
-<li><p><a href="#表格">表格</a></p>
-</li>
-<li><p><a href="#加入html标签">加入html标签</a></p>
-</li>
-<li><p><a href="#代办事项">代办事项</a></p>
-<p><a href="#三最后说点什么">三、最后说点什么</a></p>
-</li>
-</ul>
-<h2 id="一、一些基础语法"><a href="#一、一些基础语法" class="headerlink" title="一、一些基础语法"></a>一、一些基础语法</h2><h3 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h3><p>好像写语法总结需要把代码放上来，那就先写怎么引用代码叭（禁止套娃–||）</p>
-<h4 id="行内代码块"><a href="#行内代码块" class="headerlink" title="行内代码块"></a>行内代码块</h4><p>用单引号括住就ok了<br>这是设置字体的html代码’<font color="red">红色</font>‘</p>
-<h4 id="整段代码块"><a href="#整段代码块" class="headerlink" title="整段代码块"></a>整段代码块</h4><p>使用四个缩进或者双引号单引号表示代码块<br>反引号加语言名字</p>
-<h3 id="常用需要转义的符号"><a href="#常用需要转义的符号" class="headerlink" title="常用需要转义的符号"></a>常用需要转义的符号</h3><p>没想到一开头就要用到转义了hhh<br>Markdown里转义也是在特殊字符前面加一个反斜杠<br>常见的需呀转义的符号有<br>\ ‘ * _ {} [] () # + - . !</p>
-<h3 id="加粗或斜体"><a href="#加粗或斜体" class="headerlink" title="加粗或斜体"></a>加粗或斜体</h3><p>用*包着对应的文字，左右</p>
-<h3 id="设置标题"><a href="#设置标题" class="headerlink" title="设置标题"></a>设置标题</h3><p>在标题前面加’#’，越低级的标题用越多的’#’，可以加1~6个</p>
-<h3 id="超链接：行内式和参考式，自动链接"><a href="#超链接：行内式和参考式，自动链接" class="headerlink" title="超链接：行内式和参考式，自动链接"></a>超链接：行内式和参考式，自动链接</h3><h3 id="删除线"><a href="#删除线" class="headerlink" title="删除线"></a>删除线</h3><p>用~~包住语句就好啦</p>
-<h2 id="二、引用-插入点什么"><a href="#二、引用-插入点什么" class="headerlink" title="二、引用/插入点什么"></a>二、引用/插入点什么</h2><h3 id="文字引用"><a href="#文字引用" class="headerlink" title="文字引用"></a>文字引用</h3><p>用<code>&gt;</code>表示文字引用</p>
-<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p>无序列表：用<code>*</code>、<code>+</code>、<code>-</code>都可以表示无序列表<br>有序列表：用数字和点表示有序列表</p>
-<h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3><p>在文中任意位置输入单击，点插入OTC就好啦即可显示全文内容啦<br><code>&lt;!-- TOC --&gt;</code></p>
-<h3 id="插入图像"><a href="#插入图像" class="headerlink" title="插入图像"></a>插入图像</h3><p>使用 <code>![描述](url)</code> 插入图像</p>
-<p>###　写公式</p>
-<p><code>$</code>写行内公式，<code>$$</code>写整行公式</p>
-<h3 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h3><ol>
-<li>流程图从flow开始</li>
-<li>然后需要定义tag，基本类型包括：</li>
-</ol>
-<p>-start（开始框）<br>-end<br>-operation（执行）<br>-subroutine （分支）<br>-condition（条件结构）<br>-condition（yes和no，这个好像不需要定义啦）<br>3. 用=&gt;来定义，用-&gt;来表示路径</p>
-<h3 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h3><p>列：直接用|代替表格的竖线；行：直接换行就行<br>第二行用来表示字体显示的位置’-‘表示靠左，’-‘表示靠右，’:–:’表示居中</p>
-<h3 id="加入html标签"><a href="#加入html标签" class="headerlink" title="加入html标签"></a>加入html标签</h3><p>加个标签改变某个东东的属性这样子<br><font color="red">我是一段红色加粗的字</font></p>
-<h3 id="代办事项"><a href="#代办事项" class="headerlink" title="代办事项"></a>代办事项</h3><p>list前加<code>[]</code>或<code>[×]</code>表示完成或未完成</p>
-<p>[]1. xuexi</p>
-<h3 id="插入-emoji"><a href="#插入-emoji" class="headerlink" title="插入 emoji"></a>插入 <code>emoji</code></h3><p>看这里 <a href="https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md" target="_blank" rel="noopener">emoji-cheat-sheet</a></p>
-<table>
-<thead>
-<tr>
-<th align="center">emoji</th>
-<th align="left">shortcode</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">:rofl:</td>
-<td align="left"><code>:rofl:</code></td>
-</tr>
-<tr>
-<td align="center">:sweat_smile:</td>
-<td align="left"><code>:sweat_smile:</code></td>
-</tr>
-<tr>
-<td align="center">:upside_down_face:</td>
-<td align="left"><code>:upside_down_face:</code></td>
-</tr>
-<tr>
-<td align="center">:smiling_face_with_three_hearts:</td>
-<td align="left"><code>:smiling_face_with_three_hearts:</code></td>
-</tr>
-<tr>
-<td align="center">:star_struck:</td>
-<td align="left"><code>:star_struck:</code></td>
-</tr>
-<tr>
-<td align="center">:stuck_out_tongue_closed_eyes:</td>
-<td align="left"><code>:stuck_out_tongue_closed_eyes:</code></td>
-</tr>
-<tr>
-<td align="center">:sunglasses:</td>
-<td align="left"><code>:sunglasses:</code></td>
-</tr>
-</tbody></table>
-<h2 id="三、最后说点什么"><a href="#三、最后说点什么" class="headerlink" title="三、最后说点什么"></a>三、最后说点什么</h2><p>8行，我真的困了，不知到上面写的能实现多少，先挖个坑，改天来填</p>
-<img src="齐神说晚安.jpg" width="100px">
-
-<p><img src="%E9%BD%90%E7%A5%9E%E8%AF%B4%E6%99%9A%E5%AE%89.jpg" alt="alt"></p>
-<p>为啥图片显示不了哦？！</p>
-]]></content>
-      <categories>
-        <category>工具</category>
-        <category>Markdown</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Git &amp; GitHub小结</title>
     <url>/2020/06/29/Git-GitHub/</url>
     <content><![CDATA[<p>Git 是目前世界上最先进的分布式版本控制系统；GitHub 为开源项目免费提供Git存储。</p>
@@ -269,6 +160,493 @@
       </categories>
       <tags>
         <tag>基础语法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>web security</title>
+    <url>/2020/07/22/7.22_web-security/</url>
+    <content><![CDATA[<h2 id="浏览器安全"><a href="#浏览器安全" class="headerlink" title="浏览器安全"></a>浏览器安全</h2><h3 id="Web-页面安全"><a href="#Web-页面安全" class="headerlink" title="Web 页面安全"></a>Web 页面安全</h3><p>严格的同源策略会更加安全，但是也束缚了 Web。于是在默认页面中引入任意第三方资源，又引入 <code>CSP</code> 策略加以限制；默认 <code>XMLHttpRequest</code> 和 <code>Fetch</code> 不能跨站请求资源又通过 <code>CORS</code> 策略来支持其跨域。</p>
+<p>页面安全问题主要也是浏览器为同源策略开的这两个后门引起的啦</p>
+<h4 id="1-跨站脚本攻击（XSS）"><a href="#1-跨站脚本攻击（XSS）" class="headerlink" title="1. 跨站脚本攻击（XSS）"></a>1. 跨站脚本攻击（XSS）</h4><ul>
+<li><p>是什么</p>
+<p>Cross Site Scripting —— 是指黑客网 HTML 文件或 DOM 中注入而已脚本，从而在用户浏览页面时利用注入的恶意脚本对用户实施攻击。</p>
+<ul>
+<li>可以窃取 Cookie 信息</li>
+<li>监听用户行为</li>
+<li>修改 DOM</li>
+<li>在页面生成浮窗广告</li>
+</ul>
+</li>
+<li><p>恶意脚本是怎么注入的</p>
+<ul>
+<li><p>存储型 XSS 攻击</p>
+<ul>
+<li>利用站点漏洞将一段恶意 JavaScript 代码提交到网站的数据库</li>
+<li>用户想网站请求带有而已 JavaScript 脚本的页面</li>
+<li>当浏览器浏览该页面的时候，而已脚本就可以将用户的 cookie 信息等通过 <code>XMLHTTPRequest</code>或<code>Fetch</code>上传到恶意服务器</li>
+</ul>
+</li>
+<li><p>反射型 XSS 攻击</p>
+<p>恶意用户把 JavaScript 作为网络请求的一部分，随后网站把恶意 JavaScript 脚本返回给用户时，被加入的恶意脚本就可以执行</p>
+</li>
+<li><p>基于 DOM 的 XSS 攻击</p>
+<p>这种攻击不牵涉到页面的 Web 服务器。黑客通过各种手段将而已脚本注入用户的页面中，如通过网络劫持在页面传输过程中修改 HTML 内容等。是在 web 资源传输过程中或者在用户使用页面的过程中修改 Web 页面数据。</p>
+</li>
+</ul>
+</li>
+<li><p>如何阻止</p>
+<ul>
+<li><p>服务器对输入脚本进行过滤或转码，如<code>&lt;script&gt;</code></p>
+</li>
+<li><p>充分利用 <code>CSP</code></p>
+<ul>
+<li>限制加载其他域下的资源文件</li>
+<li>禁止向第三方提交数据</li>
+<li>禁止执行内联脚本或未授权的脚本</li>
+<li>提供上报机制</li>
+</ul>
+</li>
+<li><p>使用 <code>HttpOnly</code> 属性</p>
+<p>许多 <code>xss</code> 都是来窃取 Cookie 的</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-CSRF-攻击"><a href="#2-CSRF-攻击" class="headerlink" title="2. CSRF 攻击"></a>2. CSRF 攻击</h4><p>（陌生链接不要随便点）</p>
+<ul>
+<li><p>是什么</p>
+<p>Cross-site request forgery，跨站请求伪造，通常是引诱用户打开网站，在这个网站中，利用用户的登录状态发起跨站请求</p>
+</li>
+<li><p>怎么攻击</p>
+<ul>
+<li><p>自动发起 Get 请求</p>
+<p>如把转账请求接口隐藏在 <code>img</code>标签里</p>
+</li>
+<li><p>自动发起 POST 请求</p>
+<p>构建隐藏表单，点开后表单自动执行</p>
+</li>
+<li><p>引诱用户点击链接</p>
+<p>引诱用户点击图片下载链接</p>
+</li>
+</ul>
+</li>
+<li><p>如何防止</p>
+<ul>
+<li><p>Cookie的 <code>SameSite</code> 属性</p>
+<p>黑客利用用户的登录状态来发起 CSRF 攻击，而 Cookie 是浏览器和服务器之间维护登录状态的一个关键数据。最好保证，如果是第三方发来的请求就禁止发送关键Cookie、session 数据，同行一个网站就可以。可以通过在 HTTP 响应头中通过 <code>set-cookie</code>字段设置时，带上<code>SameSite</code>选项来实现。</p>
+<ul>
+<li><p>strict —— 完全禁止第三方</p>
+</li>
+<li><p>Lax —— 在第三方站点中使用 Post 方法时、通过 <code>img</code> 、<code>iframe</code>标签加载的 URL 不会懈怠 Cookie</p>
+</li>
+<li><p>None —— 任何情况都会发送</p>
+</li>
+</ul>
+</li>
+<li><p>验证请求的来源网站</p>
+<p>服务器要怎么判断请求是否来自第三方站点呢？HTTP 请求中的 <code>Referer</code>字段，记录了该 HTTP 请求的来源地址；以及<code>Origin</code>属性包含域名信息，没有具体路径。但是有时候为了安全不适合将源 URL 暴露给服务器，所以服务器的策略是优先判断 <code>Origin</code>属性，如果请求头中没有包含，那就根据实际情况判断是否使用 <code>Referer</code> 值</p>
+<p>针对重要的才做，需要再次验证，如短信验证码，确保你是你。</p>
+</li>
+<li><p>CSRF Token</p>
+<p>敏感接口数据采取加密传输、新增时效性或随机参数，增加信息不确定性。如</p>
+<p>浏览器发起请求时，服务器生成一个 CSRF Token（一个字符串），并把它植入返回的页面中。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;form action=<span class="string">"https://...."</span> method=<span class="string">"POST"</span>&gt;</span><br><span class="line">      &lt;input type=<span class="string">"hidden"</span> name=<span class="string">"csrf-token"</span> value=<span class="string">"nc98P987bcpncYhoadjoiydc9ajDlcn"</span>&gt;</span><br><span class="line">      ....</span><br><span class="line">    &lt;<span class="regexp">/form&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>body&gt;</span><br><span class="line">&lt;<span class="regexp">/html&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>然后在浏览器端如果要发起转账的请求，就需要带上页面上的 CSRF Token，服务器会进行验证</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="安全沙箱"><a href="#安全沙箱" class="headerlink" title="安全沙箱"></a>安全沙箱</h3><p>隔离渲染进程和操作系统</p>
+<ul>
+<li><p>是什么</p>
+<p>渲染进程中需要执行 DOM 解析，CSS 解析，网络图片解码等操作，如果渲染进程中存在系统级别的漏洞诶恶意站点获取到，进而获取操作系统的控制权限，就十分危险。而安全沙箱是隔离渲染进程和操作系统的一道墙。</p>
+<p>安全沙箱让渲染进程在执行过程中无法访问或修改操作系统的数据，当需要访问系统资源时，需要通过浏览器内核来实现，然后将访问的结果通过 <code>IPC</code> 转发给渲染进程。</p>
+<p>安全沙箱最小的保护单位是进程，所以单进程浏览器是无法被安全沙箱保护的</p>
+</li>
+<li><p>安全沙箱怎么影响各个模块功能</p>
+<blockquote>
+<p>先复习一下渲染进程和浏览器内核各自职责：</p>
+<p>渲染进程：HTML 解析、CSS 解码、图片解码、JavaScript执行、布局、绘制、XML 解析</p>
+<p>浏览器内核： Cookie 存储、Cache 存储、网络请求、文件读取、下载管理、SSL/TSL、浏览器窗口管理</p>
+</blockquote>
+<ul>
+<li><p>持久存储：为了解决渲染进程对 Cookie、文件的访问需求，现代浏览器把读写文件的操作全都放在了浏览器内核中实现，然后通过 <code>IPC</code>转发给渲染进程</p>
+</li>
+<li><p>网络访问：有了沙箱保护，在渲染进程内部不能知直接访问网络，还是需要通过浏览器内核。而浏览器内核会对请求的 URL 进行检查</p>
+</li>
+<li><p>用户交互：</p>
+<p><u>窗口句柄</u>：要实现 UI 程序时，操作系统会提供一个界面，允许应用程序与用户交互</p>
+<p>渲染进程不能直接操作窗口句柄：需要先渲染出位图，送到浏览器内核；操作系统没有将用户输入施加直接传递给渲染进程，而是将事件传递给浏览器内核，再根据界面状态进行处理。</p>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p> 为什么一定要通过浏览器内核请进化成资源，再发送给渲染进程，而不是从进程内部请求网络资源？</p>
+<p>为什么渲染进程只负责生成页面图片，生成图片还要经过 IPC 通知浏览器内核模块，然后让浏览器内核去展示图片？</p>
+</blockquote>
+<h4 id="站点隔离（Site-Isolation）"><a href="#站点隔离（Site-Isolation）" class="headerlink" title="站点隔离（Site Isolation）"></a>站点隔离（Site Isolation）</h4><p>Chrome 将统一站点（包含了相同根域名和相同协议的地址）中互联的页面放到同一个渲染进程中执行。最初是按照标签页来划分渲染进程的，如果一个标签里有多个不同源的 <code>iframe</code> ，那么这些 <code>iframe</code> 也会被分配到同一个渲染进程张红，这样就很容易让黑客通过 <code>iframe</code> 来攻击当前渲染进程中。</p>
+<p>而站点隔离会将不同源的  <code>iframe</code> 分配到不同的渲染进程中，这样黑客进行攻击时也不会影响到其他渲染进程。</p>
+<hr>
+<h3 id="网络安全：网络安全协议-HTTPS"><a href="#网络安全：网络安全协议-HTTPS" class="headerlink" title="网络安全：网络安全协议 HTTPS"></a>网络安全：网络安全协议 HTTPS</h3><ul>
+<li><p>中间人攻击与安全层：</p>
+<p>HTTP 是以明文传输数据的，在将 HTTP 数据提交给 TCP 层后，传输过程中的每一个环节，数据都有可能在到达服务器之前被窃取或者篡改，这意味着可能还有个中间人在掌控着通信过程。于是在 TCP 和 HTTP 之间插入一个<strong>安全层</strong> SSL ，他的职责是，对发起 HTTP 请求的数据进行加密操作和对接收到的 HTTP 内容进行解密操作。</p>
+<blockquote>
+<p>HTTPS 使用 SSL（Secure Socket Layer） 和 TLS（Transport Layer Security）这两个协议。TSL 是以 SSL 为原型开发的协议，有时会统一称该协议为 SSL。HTTPS，其实就是身披 SSL 协议这层外壳的 HTTP。</p>
+</blockquote>
+</li>
+<li><p>流程：</p>
+<ul>
+<li><p>发送方，SSL 接收应用层的数据（HTTP 或 IMAP 报文），对数据进行加密，然后把加密后的纾解送往 TCP 套接字。</p>
+</li>
+<li><p>在接收方，SSL 从 TCP 套接字读取书，解密后把数据交给应用层。</p>
+</li>
+</ul>
+</li>
+<li><p>https使用的是 443 端口</p>
+</li>
+<li><p>一开始需要协商安全套接字，所以一开始不太快</p>
+</li>
+</ul>
+<h3 id="HTTPS-协议"><a href="#HTTPS-协议" class="headerlink" title="HTTPS 协议"></a>HTTPS 协议</h3><h4 id="1-加密技术"><a href="#1-加密技术" class="headerlink" title="1.  加密技术"></a>1.  加密技术</h4><p>报文经过加密算法生成密文，伪装数据，使入侵者不能从截取的数据中获取任何信息。</p>
+<p>A 为加密算法提供一个秘钥，加密算法以秘钥和明文报文为输入，生成的密文作为输出。</p>
+<p>B 为解密算法提供一个秘钥，解密算法以秘钥和密文为输入，初始报文为输出，</p>
+<p>对称加密</p>
+<p><strong>对称秘钥系统</strong>——对称加密中，A 和 B 秘钥是相同的且秘密的。</p>
+<p>对称秘钥加密时，密钥需要发给对方。在互联网上转发密钥时，如果通信被监听那么密钥就可会落入攻击者之手，同时也就失去了加密的意义。另外还得设法安全地保管接收到的密钥。</p>
+<p><strong>公开秘钥系统</strong>——非对称加密</p>
+<p>公开密钥加密使用一对非对称的密钥。</p>
+<ul>
+<li>私有密钥（private key）：不能让其他任何人知道</li>
+<li>公开密钥（public key）：公开密钥则可以随意发布，任何人都可以获得。</li>
+<li>服务端用私钥加密的内容，可以通过它的公钥进行解密</li>
+</ul>
+<p>但是存在加密效率太低、无法保证服务器发送给浏览器的数据安全（私钥加密公钥解密，但是公钥是可以被获取的）</p>
+<p><strong>HTTPS 采用混合加密机制</strong> —— 非对称加密交换秘钥、对称加密数据</p>
+<p>DNS 劫持、如何保证服务器是可信的？</p>
+<p><strong>需要CA 权威机构保证服务的可信性</strong>⬇⬇⬇⬇⬇</p>
+<h4 id="2-数字证书："><a href="#2-数字证书：" class="headerlink" title="2.  数字证书："></a>2.  数字证书：</h4><ul>
+<li><p>数字签名：</p>
+<ul>
+<li><p>根据内容用密码散列函数 <code>hash</code> 计算得出一个摘要，然后用私钥加密，把公钥、加密后的摘要（二进制128位）、文件一起传输</p>
+</li>
+<li><p>得到后用公钥解密，并比对生成的签名是否一致</p>
+</li>
+<li><p>能够防止发送防抵赖，也能能够确保内容不被篡改</p>
+</li>
+</ul>
+</li>
+<li><p>证书：</p>
+<ul>
+<li><p>怎么样才能知道私钥是谁的呢，需要证书颁发机构——<code>CA</code>进行认证</p>
+</li>
+<li><p>流程：</p>
+<ul>
+<li>申请，CA 给申请人产生证书，里面有公钥和私钥，有 CA 的签名</li>
+<li>送出去的公钥上会有 <code>CA</code>的签名，看公钥的来源，先确认一下是不是 CA 发放的，有没有更改过</li>
+</ul>
+</li>
+<li><p>申请证书要通过域名来缴费</p>
+</li>
+<li><p>如果数字证书丢了，要向证书颁发机构挂失，放到 CRL 中</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-HTTPS-工作流程"><a href="#3-HTTPS-工作流程" class="headerlink" title="3. HTTPS 工作流程"></a>3. HTTPS 工作流程</h4><p>TTP + 加密 + 认证 + 完整性保护 = HTTPS</p>
+<img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/@Z9FN[P`7Z~}KOKRGHO13OT.png" alt="img" style="zoom:80%;" />
+
+<pre><code>1. 1️⃣客户端通过发送 Client Hello 报文开始 SSL 通信
+- 客户端生成的随机数 random1
+- 客户端支持的 SSL 版本号
+- 加密组件（ Cipher Suite）列表：所使用的的加密算法及密钥长度等</code></pre><ol start="2">
+<li><p>服务器发送进行应答</p>
+<ol>
+<li><p>2️⃣ Server Hello 报文</p>
+<ul>
+<li>确认通信协议版本；</li>
+<li>筛选并确认加密组件；</li>
+<li>服务器生成的随机数 random 2</li>
+</ul>
+</li>
+<li><p>3️⃣服务器证书 Certificate</p>
+</li>
+<li><p>4️⃣确认</p>
+</li>
+</ol>
+</li>
+<li><p>客户端回应</p>
+<p>验证证书有效性，若证书不是可信机构颁发的，或者证书中域名和实际域名不一样，或者已过期，就会向访问者显示一个警告，由其选择是否还要通信。如果证书没问题，则用 random1 和 random2 生成 <code>pre-master</code>，并从证书中取出服务器的公钥进行加密，然后向服务器发送</p>
+<ol>
+<li><p>5️⃣上面生成的随机数 <code>pre-master</code>（用公钥加密）</p>
+</li>
+<li><p>6️⃣编码改变通知：提示服务器此后报文通信将采用  <code>pre-master</code> 密钥加密</p>
+</li>
+<li><p>⑦ Finish报文：客户端握手结束通知。该报文包含连接至今全部报文的整体叫验证，这次握手协商能否成功，要以服务器是否能够正确解密该报文作为判定标准。</p>
+</li>
+</ol>
+</li>
+<li><p>服务器你收到第三个随机数之后，计算本次会话所用的会话加密，然后向客户端发送：</p>
+<ul>
+<li>8️⃣编码改变通知</li>
+<li>9️⃣Finish报文：服务器握手结束，也是前面所有内容的 hash 值，供服务器校验—</li>
+</ul>
+<p>————————–至此握手已经成功，SSL 连接建立完成————————-</p>
+</li>
+<li><p>可以进行应用层协议通信了</p>
+<ol>
+<li>发送 HTTP 请求</li>
+<li>HTTP 响应</li>
+<li>断开连接</li>
+</ol>
+</li>
+</ol>
+<h4 id="4-HTTPS-存在的问题"><a href="#4-HTTPS-存在的问题" class="headerlink" title="4. HTTPS 存在的问题"></a>4. HTTPS 存在的问题</h4><p>HTTPS 也存在一些问题，那就是当使用 SSL 时，它的处理速度会变慢。</p>
+<p>SSL证书信用体系不绝对安全</p>
+<hr>
+<h2 id="Internet-上使用的安全协议"><a href="#Internet-上使用的安全协议" class="headerlink" title="Internet 上使用的安全协议"></a>Internet 上使用的安全协议</h2><h3 id="应用层安全SSL"><a href="#应用层安全SSL" class="headerlink" title="应用层安全SSL"></a>应用层安全SSL</h3><p>在 Internet 上使用的安全协议</p>
+<p>imaps tcp-993</p>
+<p>pop3 tcp-995</p>
+<p>smtps tcp-465</p>
+<p>https tcp-443 </p>
+<h4 id="SSL除了加密之外还有别的功能"><a href="#SSL除了加密之外还有别的功能" class="headerlink" title="SSL除了加密之外还有别的功能"></a>SSL除了加密之外还有别的功能</h4><ul>
+<li>SSL 服务器鉴别：允许用户验证服务器的身份，具有 SSL 功能的浏览器上维持一个表，上面有可信赖的认证中心 CA 和它们的公钥</li>
+<li>加密的 SSL 会话</li>
+<li>SSL 客户鉴别</li>
+</ul>
+<h3 id="网络层安全IPSec"><a href="#网络层安全IPSec" class="headerlink" title="网络层安全IPSec"></a>网络层安全IPSec</h3><p>网卡加密</p>
+<p>身份验证，协商加密秘钥</p>
+<h4 id="安全关联-SA-（security-association）"><a href="#安全关联-SA-（security-association）" class="headerlink" title="安全关联 SA （security association）"></a>安全关联 SA （security association）</h4><p>两个通信实体经协商建立起来的一种协定，决定保护数据分组安全的安全协议（AH 或 ESP 协议）、转码方式、秘钥及秘钥的有效存在时间</p>
+<h4 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h4><h5 id="鉴别首部-AH"><a href="#鉴别首部-AH" class="headerlink" title="鉴别首部 AH"></a>鉴别首部 AH</h5><p>签名不加密</p>
+<p>鉴别源点和检查数据完整性，但不能保密</p>
+<p>使用鉴别首部协议 AH 的时候，把 AH 首部插在元数据报数据部分的前面，同时把 IP 首部的协议字段设置为51，再加上 IP 首部</p>
+<p>传输过程中中间路由不查看 AH 首部，到达的时候目的主机才处理，然后进行鉴别</p>
+<h5 id="封装安全有效载荷-ESP"><a href="#封装安全有效载荷-ESP" class="headerlink" title="封装安全有效载荷 ESP"></a>封装安全有效载荷 ESP</h5><p>签名+加密</p>
+<hr>
+<p>Reference：</p>
+<p><a href="https://everbrez.github.io/network/2019/02/22/HTTPS/" target="_blank" rel="noopener">https://everbrez.github.io/network/2019/02/22/HTTPS/</a></p>
+<p><a href="https://time.geekbang.org/column/intro/216" target="_blank" rel="noopener">极客时间-浏览器工作原理及实践-浏览器安全</a></p>
+<p>《图解 HTTP》</p>
+]]></content>
+      <tags>
+        <tag>Browser security</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Cookie</title>
+    <url>/2020/07/20/Cookie/</url>
+    <content><![CDATA[<h2 id="Cookie-是什么"><a href="#Cookie-是什么" class="headerlink" title="Cookie 是什么"></a>Cookie 是什么</h2><p>是浏览器储存再用户电脑上的一小段文本文件。一个 Web 页面或服务器告知浏览器安</p>
+]]></content>
+      <tags>
+        <tag>NetWork</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>HTTP</title>
+    <url>/2020/07/20/HTTP/</url>
+    <content><![CDATA[<h2 id="0-是什么"><a href="#0-是什么" class="headerlink" title="0 是什么"></a>0 是什么</h2><p>HTTP 定义了浏览器（即万维网客户进程）怎样向万维网服务器请求万维网文档，以及万维网如何把万维网文档传给浏览器。HTTP 基于 TCP/IP 通信协议来传输数据的（HTML 文件、图片文件、查询结果等）</p>
+<h2 id="1-HTTP-报文结构"><a href="#1-HTTP-报文结构" class="headerlink" title="1 HTTP 报文结构"></a>1 HTTP 报文结构</h2><h3 id="1-1-客户端请求消息"><a href="#1-1-客户端请求消息" class="headerlink" title="1.1 客户端请求消息"></a>1.1 客户端请求消息</h3><ul>
+<li>请求行（request line）</li>
+<li>请求头部（header）</li>
+<li>空行</li>
+<li>请求数据</li>
+</ul>
+<img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/FH}FFT_6QOXGKBYO$U`QAXV.png" alt="img" style="zoom: 80%;" />
+
+<h3 id="1-2-服务器响应消息"><a href="#1-2-服务器响应消息" class="headerlink" title="1.2 服务器响应消息"></a>1.2 服务器响应消息</h3><ul>
+<li>状态行：协议版本 + 状态码 + 状态描述</li>
+<li>消息报头</li>
+<li>空行</li>
+<li>消息报头</li>
+</ul>
+<h2 id="HTTP-请求方法"><a href="#HTTP-请求方法" class="headerlink" title="HTTP 请求方法"></a>HTTP 请求方法</h2><ul>
+<li><p>HTTP 1.0 ：<code>GRT</code>（返回指定页面）, <code>POST</code>（提交数据进行处理请求）, <code>HEAD</code>（仅获取报头）</p>
+</li>
+<li><p>HTTP 1.1 :  <code>PUT</code>（用我发的东西去取代指定内容）, <code>PATCH</code>（局部更新）,<code>DELETE</code>,  </p>
+<p> <code>TRACE</code>（显示服务器收到的请求）, <code>CONNECT</code>，<code>OPTIONS</code>（允许客户端查看服务器的性能）</p>
+</li>
+</ul>
+<h2 id="各版本及其特点"><a href="#各版本及其特点" class="headerlink" title="各版本及其特点"></a>各版本及其特点</h2><ul>
+<li><p>HTTP/1.0</p>
+<p>采用非连续连接方式，每次浏览器要请求一个文件都要与服务器建立 TCP 连接，当收到响应后就立即关闭连接。为了减少时延，浏览器通常建立多个并行的 TCP 连接同时请求多个对象，但这样会大量占用万维网服务器资源。</p>
+</li>
+<li><p>HTTP/1.1</p>
+<p>非持续连接，在该方式下，万维网在发送响应后仍然保持这条连接，还可以继续交换报文。并布局向在传送同一个页面上引用的对象，而是这些文档都在一个服务器上就行。</p>
+<p>可以使用流水线方式工作。</p>
+</li>
+<li><p>HTTP 报文格式</p>
+<p>  请求报文</p>
+<p>  <img src="C:%5CUsers%5Chz%5CAppData%5CRoaming%5CTencent%5CUsers%5C1440961573%5CQQ%5CWinTemp%5CRichOle%5C@$DX2%5BGNJIWOER2%5D$ML%25L" alt="img">)M.png)</p>
+<p>  响应报文</p>
+</li>
+</ul>
+<h2 id="HTTP-状态码"><a href="#HTTP-状态码" class="headerlink" title="HTTP 状态码"></a>HTTP 状态码</h2><h2 id="POST-和-get"><a href="#POST-和-get" class="headerlink" title="POST 和 get"></a>POST 和 get</h2><h2 id="HTTP-各版本"><a href="#HTTP-各版本" class="headerlink" title="HTTP 各版本"></a>HTTP 各版本</h2><p>HTTP/2</p>
+<ul>
+<li>二进制传输</li>
+<li>多路复用</li>
+<li>Header 压缩</li>
+<li>服务端 PUSH</li>
+</ul>
+<p>HTTP/3</p>
+<h3 id="QUIC"><a href="#QUIC" class="headerlink" title="QUIC"></a>QUIC</h3><ul>
+<li>多路复用</li>
+<li>0-RTT</li>
+<li>纠错机制</li>
+</ul>
+<h2 id="HTTP-报文结构"><a href="#HTTP-报文结构" class="headerlink" title="HTTP 报文结构"></a>HTTP 报文结构</h2><p>状态码和相应的短语</p>
+<h3 id="状态码分类"><a href="#状态码分类" class="headerlink" title="状态码分类"></a>状态码分类</h3><ul>
+<li><p><code>1**</code> 信息，服务器收到请求，需要请求者继续执行操作<br>（收是收到了，还需要你干点事情）</p>
+<ul>
+<li>100 continue 等待状态码</li>
+<li>101 switching Protocol 切换协议。服务器根据客户端的请求切换协议，如切换到 HTTP 的新版本协议</li>
+</ul>
+</li>
+<li><p><code>2**</code> 某种请求执行成功了</p>
+<ul>
+<li><strong>200</strong> OK 请求成功，一般用于 GET 或 POST 请求</li>
+<li>201 Created</li>
+<li>202 Accepted</li>
+<li>204 No-content 处理成功但是没有内容返回</li>
+<li>206 Partial Content</li>
+</ul>
+</li>
+<li><p><code>3**</code> 重定向状态码，需要附加操作以完成请求</p>
+<ul>
+<li><strong>301</strong> Moved Permanently 资源或网页被永久转移到其他 URI</li>
+<li>302 Found 临时移动，继续使用原有URI</li>
+<li>303 See Other 查看其他地址，使用 GET 和 POST 请求查看</li>
+<li>304 Not Modified</li>
+<li>307 Temporary Redirect 不会从POST变成GET</li>
+</ul>
+</li>
+<li><p><code>4**</code>客户端错误</p>
+<ul>
+<li>400 Bad Request 请求有语法错误</li>
+<li>401 Unauthorized 需要身份认证</li>
+<li>402 Forbidden 理解了但拒绝请求</li>
+<li><strong>404</strong> Not Found 服务器无法根据客户端的请求找到资源</li>
+<li>412 Precondition Fail 客户端请求信息的先决条件错误</li>
+<li>417 Expectation Fail 服务器无法满足Expect的请求头信息</li>
+</ul>
+</li>
+<li><p><code>5**</code>服务器错误</p>
+<ul>
+<li>500 Inernal Server Error 服务器内部出现错误</li>
+<li>503 Service Unavailable 超负荷或系统维护</li>
+<li>504 Gateway Timeout  网关等待服务器响应超时</li>
+</ul>
+</li>
+</ul>
+<p>头部字段</p>
+]]></content>
+      <tags>
+        <tag>NetWork</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>HTTPS</title>
+    <url>/2020/07/20/HTTPS/</url>
+    <content><![CDATA[<h2 id="TLS"><a href="#TLS" class="headerlink" title="TLS"></a>TLS</h2><h2 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h2><h2 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h2><h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><h2 id="数字证书"><a href="#数字证书" class="headerlink" title="数字证书"></a>数字证书</h2>]]></content>
+      <tags>
+        <tag>NetWork</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaScript 的原型和继承</title>
+    <url>/2020/07/07/class-constructor-prototype/</url>
+    <content><![CDATA[<p>发现到现在还是没有很弄明白 JavaScript 的原型和继承，看得晕晕的，决定先总结一下</p>
+<a id="more"></a>
+
+<h2 id="先厘清概念"><a href="#先厘清概念" class="headerlink" title="先厘清概念"></a>先厘清概念</h2><ul>
+<li><p>构造函数</p>
+<p>  构造函数是对象的模板，实例对象的属性和方法可以定义在内部</p>
+<p>  可以继承，但是<strong>实例之间无法共享</strong></p>
+</li>
+<li><p>原型对象（prototype）和 <code>__proto__</code> 属性</p>
+<p>  每个<strong>函数</strong>都有一个 prototype 属性，指向一个对象；这个原型对象的所有属性和方法，都能被实例对象共享<br>  每个<strong>对象</strong>都有<code>__proto__</code>属性，指向对应的构造函数的 prototype 属性；但是这个属性是社区创造的，建议使用 <code>Object.getPrototypeOf()</code> 代替</p>
+</li>
+<li><p>原型链（prototype chain）</p>
+<p>  任何对象都可以充当其他对象的原型，原型对象也是对象，也有自己的原型，一层层上溯到 <code>Object.prototype</code>，尽头是 null</p>
+</li>
+<li><p>constructor 属性</p>
+<p>  是 prototype 中的属性，默认指向 prototype 所在的构造函数</p>
+<ol>
+<li>可以得知某个实例对象是由哪个构造函数产生的</li>
+<li>可以从一个实例对象新建另一个实例</li>
+</ol>
+</li>
+</ul>
+<h2 id="相互关系"><a href="#相互关系" class="headerlink" title="相互关系"></a>相互关系</h2><h3 id="prototype-constructor-proto属性"><a href="#prototype-constructor-proto属性" class="headerlink" title="prototype, constructor, proto属性"></a>prototype, constructor, <strong>proto</strong>属性</h3><img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/image-20200707231813070.png" alt="image-20200707231813070" style="zoom: 50%;" />
+
+<p><a href="https://www.cnblogs.com/cloud-/p/9152761.html" target="_blank" rel="noopener">绕完这个大概就很清楚了</a></p>
+<ol>
+<li><p>构造出来的函数.<strong>proto</strong> === 构造函数.prototype</p>
+</li>
+<li><p>prototype 和 constructor 都是一个属性，可以作为一个指针</p>
+</li>
+<li><p>prototype 对象也是对象，他们也有自己的原型，而所有这些内建对象的源型都指向 Object.prototype</p>
+</li>
+<li><p>而 object 对象本质也可以看作是由内置构造函数 Function 构造而来，所以其 <strong>proto</strong> 指向 Function.prototype<br> Object，Number，Error等等这些函数都是Function创建的，这些的constructor就是Function，</p>
+</li>
+<li><p>这个比较迷惑 Object.<strong>proto</strong> === Function.prototype === Function.<strong>proto</strong></p>
+</li>
+<li><p>存在于原型上的方法是为了方便实例之间共享</p>
+</li>
+<li><p>建议用 Object.getPrototypeOf 取代 <strong>proto</strong> 属性来获得对象的 [[prototype]]</p>
+</li>
+</ol>
+<h3 id="关于构造函数、prototype属性、ownProperty-和继承的关系"><a href="#关于构造函数、prototype属性、ownProperty-和继承的关系" class="headerlink" title="关于构造函数、prototype属性、ownProperty 和继承的关系"></a>关于构造函数、prototype属性、ownProperty 和继承的关系</h3><ol>
+<li><p>new 关键字创建的实例，包括构造函数上和原型上的方法和属性，即两个这部分都继承了<br>// new 方法原理：新建一个空对象，把其原型指向构造函数的 prototype 属性；把空对象赋值给函数内部的this关键字。</p>
+</li>
+<li><p>Object.creat() 方法则仅仅继承 prototype 属性指向的对象</p>
+</li>
+<li><p>prototype 属性和构造函数上的方法互相独立，且都是可以继承</p>
+</li>
+<li><p>区别在于构造函数上的方法和属性在实例之间是不共享的，原型上的是共享的<br> 构造函数上的这些方法通过 this 定义在其自身，hasOwnProperty 方法能返回</p>
+</li>
+<li><p>prototype 指向的对象才有 constructor 属性，指向正好和 <strong>proto</strong> 相反</p>
+</li>
+</ol>
+<p>参考博客<br><a href="https://www.cnblogs.com/lifeidg/p/10382770.html" target="_blank" rel="noopener">https://www.cnblogs.com/lifeidg/p/10382770.html</a><br>参考教程<br><a href="https://wangdoc.com/javascript/oop/new.html#%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95" target="_blank" rel="noopener">new 方法的原理 &amp;&amp; Object.create() 创建实例对象</a></p>
+<hr>
+<h2 id="ES6-中的-class"><a href="#ES6-中的-class" class="headerlink" title="ES6 中的 class"></a>ES6 中的 class</h2><h3 id="用法-amp-amp-和-ES5-中的类的关系"><a href="#用法-amp-amp-和-ES5-中的类的关系" class="headerlink" title="用法 &amp;&amp; 和 ES5 中的类的关系"></a>用法 &amp;&amp; 和 ES5 中的类的关系</h3><p>取代 es5 中用原型对象构造函数的写法，用 class 作为模板，让原型对象的写法更清晰，本质还是一样的</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span> </span>&#123;</span><br><span class="line"><span class="comment">// 1. constructor 表示构造方法</span></span><br><span class="line"><span class="comment">//【构造函数 --&gt; constructor】</span></span><br><span class="line"><span class="comment">// constructor 方法不同于 constructor 属性</span></span><br><span class="line"><span class="comment">// 就算不显式定义，也会新建一个空的 constructor 方法</span></span><br><span class="line">  <span class="keyword">constructor</span>(x, y) &#123;</span><br><span class="line">    <span class="keyword">this</span>.x = x;</span><br><span class="line">    <span class="comment">// 构造方法里的 this 代表实例对象</span></span><br><span class="line">    <span class="keyword">this</span>.y = y;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span></span><br><span class="line">    <span class="comment">// constructor 方法默认返回实例对象 this，你也可以指定成别的</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  toString() &#123;</span><br><span class="line">    <span class="comment">// 2. 方法</span></span><br><span class="line">    <span class="comment">// 不需要加 function 关键字</span></span><br><span class="line">    <span class="comment">// 方法之间不需要加逗号分隔</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'('</span> + <span class="keyword">this</span>.x + <span class="string">', '</span> + <span class="keyword">this</span>.y + <span class="string">')'</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// static 定义静态方法，即实例不能访问的方法</span></span><br><span class="line">  <span class="keyword">static</span> sayHi()&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"Hi"</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 类的所有的方法都在prototype中</span></span><br><span class="line"><span class="comment">// 类内部定义的所有方法都是不可枚举的</span></span><br><span class="line"><span class="comment">// 类必须用 new 调用</span></span><br><span class="line"><span class="comment">// 类的实例共享一个原型对象</span></span><br></pre></td></tr></table></figure>
+
+<p>super 关键字</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 1. 作为函数调用时，代表调用父类的构造函数，相当于</span></span><br><span class="line"><span class="keyword">super</span>() --&gt;</span><br><span class="line">A.prototype.constructor.call(<span class="keyword">this</span>)</span><br><span class="line"><span class="comment">// 2. super 作为对象时，在普通方法中，指向父类的原型对象；在静态方法中，指向父类。</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">super</span>.p())</span><br><span class="line"><span class="comment">// 意为打印 super 对象上的 p() 方法</span></span><br><span class="line"><span class="comment">// 因为是只能调用原型上的方法或属性，定义在父类实上的是不能调用的</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="父类及子类-amp-构造函数和实例之间的关系"><a href="#父类及子类-amp-构造函数和实例之间的关系" class="headerlink" title="父类及子类 &amp; 构造函数和实例之间的关系"></a>父类及子类 &amp; 构造函数和实例之间的关系</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent</span></span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name)&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> sayHello()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'hello'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    sayName()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'my name is '</span> + <span class="keyword">this</span>.name);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 类的继承，所有方法和属性都可以继承，也可以自己添加新的属性和方法</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Child</span> <span class="keyword">extends</span> <span class="title">Parent</span></span>&#123;</span><br><span class="line">    <span class="comment">// 通过 this 显式定义在自身的方法通过 constructor 继承</span></span><br><span class="line">    <span class="keyword">constructor</span>(name, age)&#123;</span><br><span class="line">        <span class="keyword">super</span>(name); <span class="comment">// 表示这个属性从父类中继承过来</span></span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">    sayAge()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'my age is '</span> + <span class="keyword">this</span>.age);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 这才是生成实例</span></span><br><span class="line"><span class="keyword">let</span> parent = <span class="keyword">new</span> Parent(<span class="string">'Parent'</span>);</span><br><span class="line"><span class="keyword">let</span> child = <span class="keyword">new</span> Child(<span class="string">'Child'</span>, <span class="number">18</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 父类上的方法和属性</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'parent: '</span>, parent); <span class="comment">// parent:  Parent &#123;name: "Parent"&#125;</span></span><br><span class="line">Parent.sayHello(); <span class="comment">// hello</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 父类的构造函数可以访问到父类的非静态方法</span></span><br><span class="line">parent.sayName(); <span class="comment">// my name is Parent</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 子类可以访问到父类的所有属性，包括静态属性</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'child: '</span>, child); <span class="comment">// child:  Child &#123;name: "Child", age: 18&#125;</span></span><br><span class="line">Child.sayHello(); <span class="comment">// hello</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 子类的实例</span></span><br><span class="line">child.sayName(); <span class="comment">// my name is Child</span></span><br><span class="line">child.sayAge(); <span class="comment">// my age is 18</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="ES6-extends-中的原型关系"><a href="#ES6-extends-中的原型关系" class="headerlink" title="ES6 extends 中的原型关系"></a>ES6 extends 中的原型关系</h3><p>类的方法内部如果含有this，它默认指向类的实例。但是，必须非常小心，一旦单独使用该方法，很可能报错。</p>
+<h4 id="ES5-amp-ES6-中类的继承"><a href="#ES5-amp-ES6-中类的继承" class="headerlink" title="ES5 &amp; ES6 中类的继承"></a>ES5 &amp; ES6 中类的继承</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">两者继承机制不同</span><br><span class="line"></span><br><span class="line">ES5</span><br><span class="line"><span class="number">1.</span> 先创造子类的实例对象<span class="keyword">this</span></span><br><span class="line"><span class="number">2.</span> 再将父类的方法添加到<span class="keyword">this</span>上面--Parent.apply(<span class="keyword">this</span>)</span><br><span class="line">------</span><br><span class="line">    常用方法：</span><br><span class="line">    在子类的构造函数中，调用父类的构造函数</span><br><span class="line">    让子类的原型指向父类的原型</span><br><span class="line"></span><br><span class="line">ES6</span><br><span class="line"><span class="number">1.</span> 先将父类实例对象的属性和方法，加到<span class="keyword">this</span>上面（所以必须先调用<span class="keyword">super</span>方法）</span><br><span class="line"><span class="number">2.</span> 再用子类的构造函数修改<span class="keyword">this</span>。</span><br></pre></td></tr></table></figure>
+
+<h4 id="class-中的继承-——-两条继承链"><a href="#class-中的继承-——-两条继承链" class="headerlink" title="class 中的继承 —— 两条继承链"></a>class 中的继承 —— 两条继承链</h4><p>因为每一个对象都有 <code>__proto__</code> 属性，指向对应的构造函数的 prototype 属性<br>class 同时有 prototype 属性和 <code>__proto__</code> 属性，因此同时有两条原型链</p>
+<p>两条继承链：</p>
+<ol>
+<li>构造器原型链 Child.<strong>proto</strong> === Parent</li>
+<li>实例原型链<br>child.<strong>proto</strong> === Child.prototype<br>Child.prototype.<strong>proto</strong> === Parent.protptype<br>parent.<strong>proto</strong> === Parent.prototype</li>
+</ol>
+<img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzI1MzQzMi1kNGMxMmY5MzA3NmVkZTAxLnBuZw.jpg" alt="aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzI1MzQzMi1kNGMxMmY5MzA3NmVkZTAxLnBuZw" style="zoom: 50%;" />
+
+<p><a href="https://blog.csdn.net/weixin_43312083/article/details/106608505" target="_blank" rel="noopener">参考博客，上图图源</a></p>
+<p><a href="https://wangdoc.com/es6/class.html" target="_blank" rel="noopener">阮一峰老师《ECMAScript 6 教程》– class 的基本语法 &amp; class 的继承</a></p>
+<hr>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ol>
+<li><code>prototype</code> 、<code>__proto__</code>、<code>constructor</code>之间的关系，他们是如何构成原型链的</li>
+<li>构造函数和 <code>prototype</code>指向的对象指向的关系</li>
+<li>ES5 &amp; ES6 中类的实现和原理</li>
+<li><code>ES6-class</code>中的继承关系 – 两条继承链</li>
+</ol>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>原型和继承</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
       </tags>
   </entry>
   <entry>
@@ -1131,7 +1509,8 @@
   <entry>
     <title>happy birthday</title>
     <url>/2020/07/15/happy-birthday/</url>
-    <content><![CDATA[<a id="more"></a>
+    <content><![CDATA[<p>雨天生日快乐</p>
+<a id="more"></a>
 
 <iframe src="//player.bilibili.com/player.html?aid=883812762&bvid=BV1yK4y1s7UL&cid=21248569&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
 
@@ -1143,102 +1522,6 @@
 <hr>
 <p><img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/qqpyimg1594744286.gif" alt="img"></p>
 <div align="center">和彬彬幸福美满！！大厂预定！！一起发财！！！！！<div>]]></content>
-  </entry>
-  <entry>
-    <title>JavaScript 的原型和继承</title>
-    <url>/2020/07/07/class-constructor-prototype/</url>
-    <content><![CDATA[<p>发现到现在还是没有很弄明白 JavaScript 的原型和继承，看得晕晕的，决定先总结一下</p>
-<a id="more"></a>
-
-<h2 id="先厘清概念"><a href="#先厘清概念" class="headerlink" title="先厘清概念"></a>先厘清概念</h2><ul>
-<li><p>构造函数</p>
-<p>  构造函数是对象的模板，实例对象的属性和方法可以定义在内部</p>
-<p>  可以继承，但是<strong>实例之间无法共享</strong></p>
-</li>
-<li><p>原型对象（prototype）和 <code>__proto__</code> 属性</p>
-<p>  每个<strong>函数</strong>都有一个 prototype 属性，指向一个对象；这个原型对象的所有属性和方法，都能被实例对象共享<br>  每个<strong>对象</strong>都有<code>__proto__</code>属性，指向对应的构造函数的 prototype 属性；但是这个属性是社区创造的，建议使用 <code>Object.getPrototypeOf()</code> 代替</p>
-</li>
-<li><p>原型链（prototype chain）</p>
-<p>  任何对象都可以充当其他对象的原型，原型对象也是对象，也有自己的原型，一层层上溯到 <code>Object.prototype</code>，尽头是 null</p>
-</li>
-<li><p>constructor 属性</p>
-<p>  是 prototype 中的属性，默认指向 prototype 所在的构造函数</p>
-<ol>
-<li>可以得知某个实例对象是由哪个构造函数产生的</li>
-<li>可以从一个实例对象新建另一个实例</li>
-</ol>
-</li>
-</ul>
-<h2 id="相互关系"><a href="#相互关系" class="headerlink" title="相互关系"></a>相互关系</h2><h3 id="prototype-constructor-proto属性"><a href="#prototype-constructor-proto属性" class="headerlink" title="prototype, constructor, proto属性"></a>prototype, constructor, <strong>proto</strong>属性</h3><img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/image-20200707231813070.png" alt="image-20200707231813070" style="zoom: 50%;" />
-
-<p><a href="https://www.cnblogs.com/cloud-/p/9152761.html" target="_blank" rel="noopener">绕完这个大概就很清楚了</a></p>
-<ol>
-<li><p>构造出来的函数.<strong>proto</strong> === 构造函数.prototype</p>
-</li>
-<li><p>prototype 和 constructor 都是一个属性，可以作为一个指针</p>
-</li>
-<li><p>prototype 对象也是对象，他们也有自己的原型，而所有这些内建对象的源型都指向 Object.prototype</p>
-</li>
-<li><p>而 object 对象本质也可以看作是由内置构造函数 Function 构造而来，所以其 <strong>proto</strong> 指向 Function.prototype<br> Object，Number，Error等等这些函数都是Function创建的，这些的constructor就是Function，</p>
-</li>
-<li><p>这个比较迷惑 Object.<strong>proto</strong> === Function.prototype === Function.<strong>proto</strong></p>
-</li>
-<li><p>存在于原型上的方法是为了方便实例之间共享</p>
-</li>
-<li><p>建议用 Object.getPrototypeOf 取代 <strong>proto</strong> 属性来获得对象的 [[prototype]]</p>
-</li>
-</ol>
-<h3 id="关于构造函数、prototype属性、ownProperty-和继承的关系"><a href="#关于构造函数、prototype属性、ownProperty-和继承的关系" class="headerlink" title="关于构造函数、prototype属性、ownProperty 和继承的关系"></a>关于构造函数、prototype属性、ownProperty 和继承的关系</h3><ol>
-<li><p>new 关键字创建的实例，包括构造函数上和原型上的方法和属性，即两个这部分都继承了<br>// new 方法原理：新建一个空对象，把其原型指向构造函数的 prototype 属性；把空对象赋值给函数内部的this关键字。</p>
-</li>
-<li><p>Object.creat() 方法则仅仅继承 prototype 属性指向的对象</p>
-</li>
-<li><p>prototype 属性和构造函数上的方法互相独立，且都是可以继承</p>
-</li>
-<li><p>区别在于构造函数上的方法和属性在实例之间是不共享的，原型上的是共享的<br> 构造函数上的这些方法通过 this 定义在其自身，hasOwnProperty 方法能返回</p>
-</li>
-<li><p>prototype 指向的对象才有 constructor 属性，指向正好和 <strong>proto</strong> 相反</p>
-</li>
-</ol>
-<p>参考博客<br><a href="https://www.cnblogs.com/lifeidg/p/10382770.html" target="_blank" rel="noopener">https://www.cnblogs.com/lifeidg/p/10382770.html</a><br>参考教程<br><a href="https://wangdoc.com/javascript/oop/new.html#%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95" target="_blank" rel="noopener">new 方法的原理 &amp;&amp; Object.create() 创建实例对象</a></p>
-<hr>
-<h2 id="ES6-中的-class"><a href="#ES6-中的-class" class="headerlink" title="ES6 中的 class"></a>ES6 中的 class</h2><h3 id="用法-amp-amp-和-ES5-中的类的关系"><a href="#用法-amp-amp-和-ES5-中的类的关系" class="headerlink" title="用法 &amp;&amp; 和 ES5 中的类的关系"></a>用法 &amp;&amp; 和 ES5 中的类的关系</h3><p>取代 es5 中用原型对象构造函数的写法，用 class 作为模板，让原型对象的写法更清晰，本质还是一样的</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span> </span>&#123;</span><br><span class="line"><span class="comment">// 1. constructor 表示构造方法</span></span><br><span class="line"><span class="comment">//【构造函数 --&gt; constructor】</span></span><br><span class="line"><span class="comment">// constructor 方法不同于 constructor 属性</span></span><br><span class="line"><span class="comment">// 就算不显式定义，也会新建一个空的 constructor 方法</span></span><br><span class="line">  <span class="keyword">constructor</span>(x, y) &#123;</span><br><span class="line">    <span class="keyword">this</span>.x = x;</span><br><span class="line">    <span class="comment">// 构造方法里的 this 代表实例对象</span></span><br><span class="line">    <span class="keyword">this</span>.y = y;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span></span><br><span class="line">    <span class="comment">// constructor 方法默认返回实例对象 this，你也可以指定成别的</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  toString() &#123;</span><br><span class="line">    <span class="comment">// 2. 方法</span></span><br><span class="line">    <span class="comment">// 不需要加 function 关键字</span></span><br><span class="line">    <span class="comment">// 方法之间不需要加逗号分隔</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'('</span> + <span class="keyword">this</span>.x + <span class="string">', '</span> + <span class="keyword">this</span>.y + <span class="string">')'</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// static 定义静态方法，即实例不能访问的方法</span></span><br><span class="line">  <span class="keyword">static</span> sayHi()&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"Hi"</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 类的所有的方法都在prototype中</span></span><br><span class="line"><span class="comment">// 类内部定义的所有方法都是不可枚举的</span></span><br><span class="line"><span class="comment">// 类必须用 new 调用</span></span><br><span class="line"><span class="comment">// 类的实例共享一个原型对象</span></span><br></pre></td></tr></table></figure>
-
-<p>super 关键字</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 1. 作为函数调用时，代表调用父类的构造函数，相当于</span></span><br><span class="line"><span class="keyword">super</span>() --&gt;</span><br><span class="line">A.prototype.constructor.call(<span class="keyword">this</span>)</span><br><span class="line"><span class="comment">// 2. super 作为对象时，在普通方法中，指向父类的原型对象；在静态方法中，指向父类。</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">super</span>.p())</span><br><span class="line"><span class="comment">// 意为打印 super 对象上的 p() 方法</span></span><br><span class="line"><span class="comment">// 因为是只能调用原型上的方法或属性，定义在父类实上的是不能调用的</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="父类及子类-amp-构造函数和实例之间的关系"><a href="#父类及子类-amp-构造函数和实例之间的关系" class="headerlink" title="父类及子类 &amp; 构造函数和实例之间的关系"></a>父类及子类 &amp; 构造函数和实例之间的关系</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent</span></span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name)&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> sayHello()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'hello'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    sayName()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'my name is '</span> + <span class="keyword">this</span>.name);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 类的继承，所有方法和属性都可以继承，也可以自己添加新的属性和方法</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Child</span> <span class="keyword">extends</span> <span class="title">Parent</span></span>&#123;</span><br><span class="line">    <span class="comment">// 通过 this 显式定义在自身的方法通过 constructor 继承</span></span><br><span class="line">    <span class="keyword">constructor</span>(name, age)&#123;</span><br><span class="line">        <span class="keyword">super</span>(name); <span class="comment">// 表示这个属性从父类中继承过来</span></span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">    sayAge()&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'my age is '</span> + <span class="keyword">this</span>.age);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 这才是生成实例</span></span><br><span class="line"><span class="keyword">let</span> parent = <span class="keyword">new</span> Parent(<span class="string">'Parent'</span>);</span><br><span class="line"><span class="keyword">let</span> child = <span class="keyword">new</span> Child(<span class="string">'Child'</span>, <span class="number">18</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 父类上的方法和属性</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'parent: '</span>, parent); <span class="comment">// parent:  Parent &#123;name: "Parent"&#125;</span></span><br><span class="line">Parent.sayHello(); <span class="comment">// hello</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 父类的构造函数可以访问到父类的非静态方法</span></span><br><span class="line">parent.sayName(); <span class="comment">// my name is Parent</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 子类可以访问到父类的所有属性，包括静态属性</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'child: '</span>, child); <span class="comment">// child:  Child &#123;name: "Child", age: 18&#125;</span></span><br><span class="line">Child.sayHello(); <span class="comment">// hello</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 子类的实例</span></span><br><span class="line">child.sayName(); <span class="comment">// my name is Child</span></span><br><span class="line">child.sayAge(); <span class="comment">// my age is 18</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="ES6-extends-中的原型关系"><a href="#ES6-extends-中的原型关系" class="headerlink" title="ES6 extends 中的原型关系"></a>ES6 extends 中的原型关系</h3><p>类的方法内部如果含有this，它默认指向类的实例。但是，必须非常小心，一旦单独使用该方法，很可能报错。</p>
-<h4 id="ES5-amp-ES6-中类的继承"><a href="#ES5-amp-ES6-中类的继承" class="headerlink" title="ES5 &amp; ES6 中类的继承"></a>ES5 &amp; ES6 中类的继承</h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line">两者继承机制不同</span><br><span class="line"></span><br><span class="line">ES5</span><br><span class="line"><span class="number">1.</span> 先创造子类的实例对象<span class="keyword">this</span></span><br><span class="line"><span class="number">2.</span> 再将父类的方法添加到<span class="keyword">this</span>上面--Parent.apply(<span class="keyword">this</span>)</span><br><span class="line">------</span><br><span class="line">    常用方法：</span><br><span class="line">    在子类的构造函数中，调用父类的构造函数</span><br><span class="line">    让子类的原型指向父类的原型</span><br><span class="line"></span><br><span class="line">ES6</span><br><span class="line"><span class="number">1.</span> 先将父类实例对象的属性和方法，加到<span class="keyword">this</span>上面（所以必须先调用<span class="keyword">super</span>方法）</span><br><span class="line"><span class="number">2.</span> 再用子类的构造函数修改<span class="keyword">this</span>。</span><br></pre></td></tr></table></figure>
-
-<h4 id="class-中的继承-——-两条继承链"><a href="#class-中的继承-——-两条继承链" class="headerlink" title="class 中的继承 —— 两条继承链"></a>class 中的继承 —— 两条继承链</h4><p>因为每一个对象都有 <code>__proto__</code> 属性，指向对应的构造函数的 prototype 属性<br>class 同时有 prototype 属性和 <code>__proto__</code> 属性，因此同时有两条原型链</p>
-<p>两条继承链：</p>
-<ol>
-<li>构造器原型链 Child.<strong>proto</strong> === Parent</li>
-<li>实例原型链<br>child.<strong>proto</strong> === Child.prototype<br>Child.prototype.<strong>proto</strong> === Parent.protptype<br>parent.<strong>proto</strong> === Parent.prototype</li>
-</ol>
-<img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzI1MzQzMi1kNGMxMmY5MzA3NmVkZTAxLnBuZw.jpg" alt="aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xMzI1MzQzMi1kNGMxMmY5MzA3NmVkZTAxLnBuZw" style="zoom: 50%;" />
-
-<p><a href="https://blog.csdn.net/weixin_43312083/article/details/106608505" target="_blank" rel="noopener">参考博客，上图图源</a></p>
-<p><a href="https://wangdoc.com/es6/class.html" target="_blank" rel="noopener">阮一峰老师《ECMAScript 6 教程》– class 的基本语法 &amp; class 的继承</a></p>
-<hr>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ol>
-<li><code>prototype</code> 、<code>__proto__</code>、<code>constructor</code>之间的关系，他们是如何构成原型链的</li>
-<li>构造函数和 <code>prototype</code>指向的对象指向的关系</li>
-<li>ES5 &amp; ES6 中类的实现和原理</li>
-<li><code>ES6-class</code>中的继承关系 – 两条继承链</li>
-</ol>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-        <category>原型和继承</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-      </tags>
   </entry>
   <entry>
     <title>hexo</title>
@@ -1384,5 +1667,114 @@
       <tags>
         <tag>基础语法</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>先Mark住Markdown的常用符</title>
+    <url>/2020/04/29/MarkMarkdown/</url>
+    <content><![CDATA[<p>终于终于到了可以写博文的环节了，第一篇那就先总结一下我觉得我以后要markdown的一些常用语法吧，一边学一边写一边总结厚！</p>
+<a id="more"></a>
+
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><p> <a href="#一一些基础语法">一、一些基础语法</a></p>
+<ul>
+<li><a href="#代码块">代码块</a></li>
+<li><a href="#行内代码块">行内代码块</a></li>
+<li><a href="#整段代码块">整段代码块</a></li>
+<li><a href="#常用需要转义的符号">常用需要转义的符号</a></li>
+<li><a href="#加粗或斜体">加粗或斜体</a></li>
+<li><a href="#设置标题">设置标题</a></li>
+<li><a href="#超链接行内式和参考式自动链接">超链接：行内式和参考式，自动链接</a></li>
+<li><a href="#删除线">删除线</a></li>
+</ul>
+<p><a href="#二引用插入点什么">二、引用/插入点什么</a></p>
+<ul>
+<li><p><a href="#文字引用">文字引用</a></p>
+</li>
+<li><p><a href="#列表">列表</a></p>
+</li>
+<li><p><a href="#目录结构">目录结构</a></p>
+</li>
+<li><p><a href="#插入图像">插入图像</a></p>
+</li>
+<li><p><a href="#写公式">写公式</a></p>
+</li>
+<li><p><a href="#流程图">流程图</a></p>
+</li>
+<li><p><a href="#表格">表格</a></p>
+</li>
+<li><p><a href="#加入html标签">加入html标签</a></p>
+</li>
+<li><p><a href="#代办事项">代办事项</a></p>
+<p><a href="#三最后说点什么">三、最后说点什么</a></p>
+</li>
+</ul>
+<h2 id="一、一些基础语法"><a href="#一、一些基础语法" class="headerlink" title="一、一些基础语法"></a>一、一些基础语法</h2><h3 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h3><p>好像写语法总结需要把代码放上来，那就先写怎么引用代码叭（禁止套娃–||）</p>
+<h4 id="行内代码块"><a href="#行内代码块" class="headerlink" title="行内代码块"></a>行内代码块</h4><p>用单引号括住就ok了<br>这是设置字体的html代码’<font color="red">红色</font>‘</p>
+<h4 id="整段代码块"><a href="#整段代码块" class="headerlink" title="整段代码块"></a>整段代码块</h4><p>使用四个缩进或者双引号单引号表示代码块<br>反引号加语言名字</p>
+<h3 id="常用需要转义的符号"><a href="#常用需要转义的符号" class="headerlink" title="常用需要转义的符号"></a>常用需要转义的符号</h3><p>没想到一开头就要用到转义了hhh<br>Markdown里转义也是在特殊字符前面加一个反斜杠<br>常见的需呀转义的符号有<br>\ ‘ * _ {} [] () # + - . !</p>
+<h3 id="加粗或斜体"><a href="#加粗或斜体" class="headerlink" title="加粗或斜体"></a>加粗或斜体</h3><p>用*包着对应的文字，左右</p>
+<h3 id="设置标题"><a href="#设置标题" class="headerlink" title="设置标题"></a>设置标题</h3><p>在标题前面加’#’，越低级的标题用越多的’#’，可以加1~6个</p>
+<h3 id="超链接：行内式和参考式，自动链接"><a href="#超链接：行内式和参考式，自动链接" class="headerlink" title="超链接：行内式和参考式，自动链接"></a>超链接：行内式和参考式，自动链接</h3><h3 id="删除线"><a href="#删除线" class="headerlink" title="删除线"></a>删除线</h3><p>用~~包住语句就好啦</p>
+<h2 id="二、引用-插入点什么"><a href="#二、引用-插入点什么" class="headerlink" title="二、引用/插入点什么"></a>二、引用/插入点什么</h2><h3 id="文字引用"><a href="#文字引用" class="headerlink" title="文字引用"></a>文字引用</h3><p>用<code>&gt;</code>表示文字引用</p>
+<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p>无序列表：用<code>*</code>、<code>+</code>、<code>-</code>都可以表示无序列表<br>有序列表：用数字和点表示有序列表</p>
+<h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3><p>在文中任意位置输入单击，点插入OTC就好啦即可显示全文内容啦<br><code>&lt;!-- TOC --&gt;</code></p>
+<h3 id="插入图像"><a href="#插入图像" class="headerlink" title="插入图像"></a>插入图像</h3><p>使用 <code>![描述](url)</code> 插入图像</p>
+<p>###　写公式</p>
+<p><code>$</code>写行内公式，<code>$$</code>写整行公式</p>
+<h3 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h3><ol>
+<li>流程图从flow开始</li>
+<li>然后需要定义tag，基本类型包括：</li>
+</ol>
+<p>-start（开始框）<br>-end<br>-operation（执行）<br>-subroutine （分支）<br>-condition（条件结构）<br>-condition（yes和no，这个好像不需要定义啦）<br>3. 用=&gt;来定义，用-&gt;来表示路径</p>
+<h3 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h3><p>列：直接用|代替表格的竖线；行：直接换行就行<br>第二行用来表示字体显示的位置’-‘表示靠左，’-‘表示靠右，’:–:’表示居中</p>
+<h3 id="加入html标签"><a href="#加入html标签" class="headerlink" title="加入html标签"></a>加入html标签</h3><p>加个标签改变某个东东的属性这样子<br><font color="red">我是一段红色加粗的字</font></p>
+<h3 id="代办事项"><a href="#代办事项" class="headerlink" title="代办事项"></a>代办事项</h3><p>list前加<code>[]</code>或<code>[×]</code>表示完成或未完成</p>
+<p>[]1. xuexi</p>
+<h3 id="插入-emoji"><a href="#插入-emoji" class="headerlink" title="插入 emoji"></a>插入 <code>emoji</code></h3><p>看这里 <a href="https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md" target="_blank" rel="noopener">emoji-cheat-sheet</a></p>
+<table>
+<thead>
+<tr>
+<th align="center">emoji</th>
+<th align="left">shortcode</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">:rofl:</td>
+<td align="left"><code>:rofl:</code></td>
+</tr>
+<tr>
+<td align="center">:sweat_smile:</td>
+<td align="left"><code>:sweat_smile:</code></td>
+</tr>
+<tr>
+<td align="center">:upside_down_face:</td>
+<td align="left"><code>:upside_down_face:</code></td>
+</tr>
+<tr>
+<td align="center">:smiling_face_with_three_hearts:</td>
+<td align="left"><code>:smiling_face_with_three_hearts:</code></td>
+</tr>
+<tr>
+<td align="center">:star_struck:</td>
+<td align="left"><code>:star_struck:</code></td>
+</tr>
+<tr>
+<td align="center">:stuck_out_tongue_closed_eyes:</td>
+<td align="left"><code>:stuck_out_tongue_closed_eyes:</code></td>
+</tr>
+<tr>
+<td align="center">:sunglasses:</td>
+<td align="left"><code>:sunglasses:</code></td>
+</tr>
+</tbody></table>
+<h2 id="三、最后说点什么"><a href="#三、最后说点什么" class="headerlink" title="三、最后说点什么"></a>三、最后说点什么</h2><p>8行，我真的困了，不知到上面写的能实现多少，先挖个坑，改天来填</p>
+<img src="齐神说晚安.jpg" width="100px">
+
+<p><img src="%E9%BD%90%E7%A5%9E%E8%AF%B4%E6%99%9A%E5%AE%89.jpg" alt="alt"></p>
+<p>为啥图片显示不了哦？！</p>
+]]></content>
+      <categories>
+        <category>工具</category>
+        <category>Markdown</category>
+      </categories>
   </entry>
 </search>
