@@ -20,18 +20,17 @@
     var CONFIG = {"hostname":"skylarjiang.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="0 是什么HTTP 定义了浏览器（即万维网客户进程）怎样向万维网服务器请求万维网文档，以及万维网如何把万维网文档传给浏览器。HTTP 基于 TCP&#x2F;IP 通信协议来传输数据的（HTML 文件、图片文件、查询结果等） 1 HTTP 报文结构1.1 客户端请求消息 请求行（request line） 请求头部（header） 空行 请求数据    1.2 服务器响应消息 状态行：协议版本 + 状态码">
+  <meta name="description" content="HTTP报文结构总结；HTTP 各版本特点及不足">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTTP">
 <meta property="og:url" content="https://skylarjiang.github.io/2020/07/20/HTTP/index.html">
 <meta property="og:site_name" content="YouAreBangBang">
-<meta property="og:description" content="0 是什么HTTP 定义了浏览器（即万维网客户进程）怎样向万维网服务器请求万维网文档，以及万维网如何把万维网文档传给浏览器。HTTP 基于 TCP&#x2F;IP 通信协议来传输数据的（HTML 文件、图片文件、查询结果等） 1 HTTP 报文结构1.1 客户端请求消息 请求行（request line） 请求头部（header） 空行 请求数据    1.2 服务器响应消息 状态行：协议版本 + 状态码">
+<meta property="og:description" content="HTTP报文结构总结；HTTP 各版本特点及不足">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/FH%7DFFT_6QOXGKBYO$U%60QAXV.png">
 <meta property="article:published_time" content="2020-07-20T09:17:50.000Z">
-<meta property="article:modified_time" content="2020-07-24T17:05:38.477Z">
+<meta property="article:modified_time" content="2020-07-24T17:10:44.983Z">
 <meta property="article:author" content="WongZit">
-<meta property="article:tag" content="NetWork">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/FH%7DFFT_6QOXGKBYO$U%60QAXV.png">
 
@@ -224,7 +223,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-25 01:05" itemprop="dateModified" datetime="2020-07-25T01:05:38+08:00">2020-07-25</time>
+                <time title="Modified: 2020-07-25 01:10" itemprop="dateModified" datetime="2020-07-25T01:10:44+08:00">2020-07-25</time>
               </span>
 
           
@@ -252,7 +251,37 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="0-是什么"><a href="#0-是什么" class="headerlink" title="0 是什么"></a>0 是什么</h2><p>HTTP 定义了浏览器（即万维网客户进程）怎样向万维网服务器请求万维网文档，以及万维网如何把万维网文档传给浏览器。HTTP 基于 TCP/IP 通信协议来传输数据的（HTML 文件、图片文件、查询结果等）</p>
+        <p>HTTP报文结构总结；HTTP 各版本特点及不足</p>
+<a id="more"></a>
+
+<!-- TOC -->
+
+<ul>
+<li><a href="#0-是什么">0 是什么</a></li>
+<li><a href="#1-http-报文结构">1 HTTP 报文结构</a><ul>
+<li><a href="#11-客户端请求消息">1.1 客户端请求消息</a></li>
+<li><a href="#12-服务器响应消息">1.2 服务器响应消息</a></li>
+</ul>
+</li>
+<li><a href="#2-http-请求方法">2 HTTP 请求方法</a><ul>
+<li><a href="#21-get-和-post-的区别">2.1 GET 和 POST 的区别</a></li>
+<li><a href="#22-put-和-post-的区别">2.2 PUT 和 POST 的区别</a></li>
+</ul>
+</li>
+<li><a href="#3-http-常用首部">3 HTTP 常用首部</a></li>
+<li><a href="#4-常用状态码">4 常用状态码</a></li>
+<li><a href="#5-各版本及其特点">5 各版本及其特点</a><ul>
+<li><a href="#51-http09">5.1 HTTP/0.9</a></li>
+<li><a href="#52-http10">5.2 HTTP/1.0</a></li>
+<li><a href="#53-http11">5.3 HTTP/1.1</a></li>
+<li><a href="#54-http2">5.4 HTTP/2</a></li>
+<li><a href="#55-http3">5.5 HTTP/3</a></li>
+</ul>
+</li>
+</ul>
+<!-- /TOC -->
+
+<h2 id="0-是什么"><a href="#0-是什么" class="headerlink" title="0 是什么"></a>0 是什么</h2><p>HTTP 定义了浏览器（即万维网客户进程）怎样向万维网服务器请求万维网文档，以及万维网如何把万维网文档传给浏览器。HTTP 基于 TCP/IP 通信协议来传输数据的（HTML 文件、图片文件、查询结果等）</p>
 <h2 id="1-HTTP-报文结构"><a href="#1-HTTP-报文结构" class="headerlink" title="1 HTTP 报文结构"></a>1 HTTP 报文结构</h2><h3 id="1-1-客户端请求消息"><a href="#1-1-客户端请求消息" class="headerlink" title="1.1 客户端请求消息"></a>1.1 客户端请求消息</h3><ul>
 <li>请求行（request line）</li>
 <li>请求头部（header）</li>
@@ -484,9 +513,6 @@
     
 
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/NetWork/" rel="tag"># NetWork</a>
-          </div>
 
         
 
