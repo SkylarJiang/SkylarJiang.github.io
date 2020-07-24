@@ -1,41 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Cannot read property bindings of null 解决方法</title>
-    <url>/2020/07/03/Cannot-read-property-bindings-of-null-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<p>babel 的编译问题</p>
-<a id="more"></a>
-
-<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>把老的 babel-preset-env 换掉</p>
-<h3 id="安装-babel-preset-env"><a href="#安装-babel-preset-env" class="headerlink" title="安装@babel/preset-env"></a>安装@babel/preset-env</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">npm install @babel/preset-env</span><br></pre></td></tr></table></figure>
-
-<h3 id="更新配置项"><a href="#更新配置项" class="headerlink" title="更新配置项"></a>更新配置项</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 把</span></span><br><span class="line">preset: [<span class="string">"env"</span>]</span><br><span class="line"><span class="comment"># 换成</span></span><br><span class="line">presets: [<span class="string">"@babel/preset-env"</span>]</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>工具</category>
-      </categories>
-      <tags>
-        <tag>一些坑</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Cookie</title>
-    <url>/2020/07/20/Cookie/</url>
-    <content><![CDATA[<h2 id="Cookie-是什么"><a href="#Cookie-是什么" class="headerlink" title="Cookie 是什么"></a>Cookie 是什么</h2><p>是浏览器储存再用户电脑上的一小段文本文件。一个 Web 页面或服务器告知浏览器安</p>
-]]></content>
-      <tags>
-        <tag>NetWork</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>HTTPS</title>
-    <url>/2020/07/20/HTTPS/</url>
-    <content><![CDATA[<h2 id="TLS"><a href="#TLS" class="headerlink" title="TLS"></a>TLS</h2><h2 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h2><h2 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h2><h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><h2 id="数字证书"><a href="#数字证书" class="headerlink" title="数字证书"></a>数字证书</h2>]]></content>
-      <tags>
-        <tag>NetWork</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>browser security</title>
     <url>/2020/07/22/7.22_web-security/</url>
     <content><![CDATA[<p>浏览器安全包括：Web 页面安全（XSS 、CSRF 攻击及其防范）；浏览器系统安全（安全沙箱）；浏览器网络安全（HTTPS）</p>
@@ -356,6 +321,265 @@
       </tags>
   </entry>
   <entry>
+    <title>Cookie</title>
+    <url>/2020/07/20/Cookie/</url>
+    <content><![CDATA[<h2 id="Cookie-是什么"><a href="#Cookie-是什么" class="headerlink" title="Cookie 是什么"></a>Cookie 是什么</h2><p>是浏览器储存再用户电脑上的一小段文本文件。一个 Web 页面或服务器告知浏览器安</p>
+]]></content>
+      <tags>
+        <tag>NetWork</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>HTTP</title>
+    <url>/2020/07/20/HTTP/</url>
+    <content><![CDATA[<h2 id="0-是什么"><a href="#0-是什么" class="headerlink" title="0 是什么"></a>0 是什么</h2><p>HTTP 定义了浏览器（即万维网客户进程）怎样向万维网服务器请求万维网文档，以及万维网如何把万维网文档传给浏览器。HTTP 基于 TCP/IP 通信协议来传输数据的（HTML 文件、图片文件、查询结果等）</p>
+<h2 id="1-HTTP-报文结构"><a href="#1-HTTP-报文结构" class="headerlink" title="1 HTTP 报文结构"></a>1 HTTP 报文结构</h2><h3 id="1-1-客户端请求消息"><a href="#1-1-客户端请求消息" class="headerlink" title="1.1 客户端请求消息"></a>1.1 客户端请求消息</h3><ul>
+<li>请求行（request line）</li>
+<li>请求头部（header）</li>
+<li>空行</li>
+<li>请求数据</li>
+</ul>
+<img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/FH}FFT_6QOXGKBYO$U`QAXV.png" alt="img" style="zoom: 80%;" />
+
+<h3 id="1-2-服务器响应消息"><a href="#1-2-服务器响应消息" class="headerlink" title="1.2 服务器响应消息"></a>1.2 服务器响应消息</h3><ul>
+<li>状态行：协议版本 + 状态码 + 状态描述</li>
+<li>消息报头</li>
+<li>空行</li>
+<li>消息报头</li>
+</ul>
+<h2 id="2-HTTP-请求方法"><a href="#2-HTTP-请求方法" class="headerlink" title="2 HTTP 请求方法"></a>2 HTTP 请求方法</h2><ul>
+<li><p>HTTP 1.0 ：</p>
+<ul>
+<li><code>GET</code>：获取资源，返回指定页面。资源是文本就原样返回；是程序就返回执行后的结果</li>
+<li><code>POST</code>：传输实体主体。POST 主要用来传输数据，而 GET 主要用来获取资源</li>
+<li><code>HEAD</code>：仅获取报头，主要用于确认 URL 的有效性和资源更新的日期等</li>
+<li><code>PUT</code>：上传文件，把请求报文中的文件内容，保存带请求 URI 指定的位置。一般不用。</li>
+<li><code>DELETE</code>：是 PUT 的反方法，按请求 URI 删除指定资源。</li>
+</ul>
+</li>
+<li><p>HTTP 1.1 新增: </p>
+<ul>
+<li><p><code>PATCH</code>（局部更新）,</p>
+</li>
+<li><p><code>OPTIONS</code>：查询针对请求 URI 指定的资源所支持的方法</p>
+</li>
+<li><p><code>TRACE</code>：可以查询发出去的请求是怎么被加工修改的。容易引发 XST（跨站追踪）</p>
+</li>
+<li><p><code>CONNECT</code>：使用隧道协议连接代理。使用 SSL 安全套接层和 TSL 传输层安全协议把通信内容加密后经网络隧道传输</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-1-GET-和-POST-的区别"><a href="#2-1-GET-和-POST-的区别" class="headerlink" title="2.1 GET 和 POST 的区别"></a>2.1 GET 和 POST 的区别</h3><p><code>GET</code> 用于获取信息，无副作用，幂等，且可缓存；</p>
+<p><code>POST</code> 用于修改服务器上的数据，有副作用，非幂等，不可缓存</p>
+<blockquote>
+<p>副作用：指的是对服务器上资源的改变。比如搜索是无副作用的，更新是有副作用的</p>
+<p>GET 和 HEAD 被 RFC 认为是一种安全的方法，即不会在服务器上产生结果</p>
+<p>幂等：指一次或多次请求某一个资源都应该具有同一个副作用。对同一个 URL 应该返回同样结果。</p>
+</blockquote>
+<p><strong>本质是报文格式的区别</strong>：</p>
+<p><u>默认 GET 方法的参数放在 URL 中，POST 方法参数放在 <code>request body</code>中</u></p>
+<ol>
+<li><p><strong>安全</strong>：默认 GET 方法的参数放在 URL 中，POST 方法参数放在 <code>request body</code>中。而且 GET 数据可以缓存，有人查看浏览器历史记录就可能拿到，从这个角度来说 <code>POST</code> <strong>相对安全</strong>。</p>
+<p>但是从传输的角度来说，这两种都是 HTTP 协议的请求方法，在传输层都是用同一个传输层协议，传输上没有区别，因为 HTTP 在网络上是明文传播，因此两者都是不安全的，要 HTTPS 加密才能实现安全传输。</p>
+</li>
+<li><p><strong>参数长度的限制</strong>：（http 本身没有限制）但是如果URL 太长，服务器处理长 URL 需要消耗比较多的资源，为了性能和安全，一般浏览器和服务器端会给 URL 长度加限制。</p>
+</li>
+<li><p>GET 能请求缓存， POST 不能</p>
+</li>
+<li><p>POST 支持更多编码类型且不对数据类型限制</p>
+</li>
+<li><p>GET 请求时幂等的，POST 请求时不幂等的 </p>
+</li>
+</ol>
+<p>参考：<a href="https://mp.weixin.qq.com/s?__biz=MzU4ODI1MjA3NQ==&mid=2247484769&idx=1&sn=070163c3ea7e54e1e6cfdd9fb5c422dd&chksm=fdded3a5caa95ab3145cd69b85020b6cabe394da325b5bfc903fcbd66eae25c8b7f0d1730c2c&mpshare=1&scene=23&srcid=0724faZA0UvawiyAKpqjFBBc&sharer_sharetime=1595593887456&sharer_shareid=ea5b244367b07f46b974b98b66797390#rd" target="_blank" rel="noopener">GET 和 POST 区别 - CodeSheep</a></p>
+<h3 id="2-2-PUT-和-POST-的区别"><a href="#2-2-PUT-和-POST-的区别" class="headerlink" title="2.2 PUT 和 POST 的区别"></a>2.2 PUT 和 POST 的区别</h3><p>PUT 和 POST 都可以用于更新和新建请求，新建是天然的幂等，更新从语义上来说非幂等</p>
+<p>对于更新，PUT 是将请求完全替换原资源，多次的 PUT 更新是完全幂等的（覆盖原来的值），POST 则没有幂等的保障（更新或创建资源）</p>
+<h2 id="3-HTTP-常用首部"><a href="#3-HTTP-常用首部" class="headerlink" title="3 HTTP 常用首部"></a>3 HTTP 常用首部</h2><ul>
+<li><p>通用首部字段：指请求报文和响应报文双方都会使用的首部</p>
+<ol>
+<li><p>Cache-Control：控制缓存行为</p>
+</li>
+<li><p>Connection：</p>
+<ul>
+<li>控制不再转发给代理的首部字段（有些字段需要删除后再转发）</li>
+<li>管理持久连接。HTTP/1.1 前的版本都默认非持久连接，所以旧版本需要制定 Connection 首部字段的值为 Keep-Alive</li>
+</ul>
+</li>
+<li><p>Date：创建 HTTP 报文的日期和时间</p>
+</li>
+<li><p>Transfer-Encoding：传输报文主体时的编码方式</p>
+</li>
+</ol>
+</li>
+<li><p>请求首部字段</p>
+<ol>
+<li>Accept：通知服务器，用户代理能够处理的媒体类型及媒体类型的相对优先级，使用<code>type/subtype</code>形式可以一次指定多种媒体类型，如 text/html</li>
+<li>Accept-Charset/Encoding/Language：通知服务器用户代理支持的字符集、编码方式、语言及相对优先级；<code>q</code>值表示相对优先级</li>
+<li>Authorization：告知服务器认证消息，通常服务器返回 401 状态码时把该字段加入请求</li>
+<li>Expect：期待服务器返回某种状态码</li>
+<li>From：告知服务器用户代理的用户的电子邮箱</li>
+<li>Host：告知所请求的资源所处的互联网主机号和端口号【是HTTP/1.1中唯一必填字段】</li>
+<li>If-Xxx：请求条件</li>
+<li>Range：请求的资源的范围</li>
+</ol>
+</li>
+<li><p>响应首部字段</p>
+<ol>
+<li>Accept-Range</li>
+<li>Age：源服务器多久前创建了资源</li>
+</ol>
+</li>
+<li><p>实体首部字段</p>
+<ol>
+<li>Allow：通知客户端有什么 HTTP 方法是支持的，要是服务器收到不符合的返回 405</li>
+<li>Content-Encoding/Language/Length/Location/Range/Type：实体的主体部分的情况描述</li>
+<li>Expires：资源失效时期</li>
+<li>Last-Modified</li>
+</ol>
+</li>
+<li><p>为 Cookie 服务的首部字段</p>
+<ol>
+<li><p>Set-Cookie：服务器开始管理客户端状态时，会事先通知各种信息，在此处指定一系列属性值（Name/ Expires/ path/ domain/ Secure/ HttpOnly）</p>
+</li>
+<li><p>Cookie</p>
+</li>
+</ol>
+</li>
+</ul>
+<p>参考：<a href="https://www.cnblogs.com/jycboy/p/http_head.html" target="_blank" rel="noopener">HTTP 首部字段详细介绍</a></p>
+<h2 id="4-常用状态码"><a href="#4-常用状态码" class="headerlink" title="4 常用状态码"></a>4 常用状态码</h2><ul>
+<li><p><code>1**</code> 信息，服务器收到请求，需要请求者继续执行操作<br>（收是收到了，还需要你干点事情）</p>
+<ul>
+<li>100 continue 等待状态码</li>
+<li>101 switching Protocol 切换协议。服务器根据客户端的请求切换协议，如切换到 HTTP 的新版本协议</li>
+</ul>
+</li>
+<li><p><code>2**</code> 某种请求执行成功了</p>
+<ul>
+<li><strong>200</strong> OK 请求成功，一般用于 GET 或 POST 请求</li>
+<li>201 Created</li>
+<li>202 Accepted</li>
+<li>204 No-content 处理成功但是没有内容返回</li>
+<li>206 Partial Content</li>
+</ul>
+</li>
+<li><p><code>3**</code> 重定向状态码，需要附加操作以完成请求</p>
+<ul>
+<li><strong>301</strong> Moved Permanently 资源或网页被永久转移到其他 URI</li>
+<li>302 Found 临时移动，继续使用原有URI</li>
+<li>303 See Other 查看其他地址，使用 GET 和 POST 请求查看</li>
+<li>304 Not Modified</li>
+<li>307 Temporary Redirect 不会从POST变成GET</li>
+</ul>
+</li>
+<li><p><code>4**</code>客户端错误</p>
+<ul>
+<li>400 Bad Request 请求有语法错误</li>
+<li>401 Unauthorized 需要身份认证</li>
+<li>402 Forbidden 理解了但拒绝请求</li>
+<li><strong>404</strong> Not Found 服务器无法根据客户端的请求找到资源</li>
+<li>412 Precondition Fail 客户端请求信息的先决条件错误</li>
+<li>417 Expectation Fail 服务器无法满足Expect的请求头信息</li>
+</ul>
+</li>
+<li><p><code>5**</code>服务器错误</p>
+<ul>
+<li>500 Inernal Server Error 服务器内部出现错误</li>
+<li>503 Service Unavailable 超负荷或系统维护</li>
+<li>504 Gateway Timeout  网关等待服务器响应超时</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="5-各版本及其特点"><a href="#5-各版本及其特点" class="headerlink" title="5 各版本及其特点"></a>5 各版本及其特点</h2><h3 id="5-1-HTTP-0-9"><a href="#5-1-HTTP-0-9" class="headerlink" title="5.1 HTTP/0.9"></a>5.1 HTTP/0.9</h3><p>需求简单，只用来传输体积很小的 HTML 文件</p>
+<ol>
+<li><p>只有请求行，没有请求头和请求题</p>
+</li>
+<li><p>服务器没有返回头信息，只返回数据</p>
+</li>
+<li><p>返回的内容使用 ASCII 字符流传输</p>
+</li>
+</ol>
+<h3 id="5-2-HTTP-1-0"><a href="#5-2-HTTP-1-0" class="headerlink" title="5.2 HTTP/1.0"></a>5.2 HTTP/1.0</h3><ol>
+<li><p>引进了<strong>请求头</strong>和<strong>响应头</strong>，以便<u>对多类型文件提供良好支持</u>（核心诉求），Key-Value 形式保存，通过头协商更多信息，如文件编码、压缩方式、文件类型等、语言等</p>
+</li>
+<li><p>引入<strong>状态码</strong>，状态码通过响应行通知浏览器。</p>
+</li>
+<li><p>提供 Cache 机制：缓存已经下载过的数据。缓解服务器压力</p>
+</li>
+<li><p>请求头加入用户代理字段</p>
+</li>
+</ol>
+<p>问题：用非连续连接方式，每次浏览器要请求一个文件都要与服务器建立 TCP 连接，当收到响应后就立即关闭连接。为了减少时延，浏览器通常建立多个并行的 TCP 连接同时请求多个对象，但这样会大量占用万维网服务器资源。</p>
+<h3 id="5-3-HTTP-1-1"><a href="#5-3-HTTP-1-1" class="headerlink" title="5.3 HTTP/1.1"></a>5.3 HTTP/1.1</h3><ol>
+<li><p>改进持久连接：在一个 TCP 连接上可以传输多个 HTTP 请求，只要浏览器或服务器没有明确断开，都会一直保持</p>
+</li>
+<li><p>HTTP 管线化：</p>
+<blockquote>
+<p>队头阻塞问题：持久连接中如果 TCP 通道中某个请求没有及时返回，就会阻塞后面所有请求</p>
+</blockquote>
+<blockquote>
+<p>管线化（pipelining）：不用等待响应亦可直接发送下一个请求</p>
+</blockquote>
+<p>在同一个TCP连接里面，客户端可以同时发送多个请求，不过服务器依然需要根据请求顺序来回复浏览器的请求。</p>
+</li>
+<li><p>Content-Length 字段：用于区分数据包是属于哪个回应</p>
+</li>
+<li><p>分块传输编码（Chunk transfer ）：使用 Content-Length 需要完成所有操作之后才能发送数据。而 Chunk transfer  是产生一块数据就发送一块数据，用“流模式”（stream）代替“缓存模式”（buffer）。每一个非空的数据块之前都有一个 16 进制的数值表示块的长度，随后是一个大小为 0 的块表示本次数据发送完了。</p>
+</li>
+<li><p>提供虚拟主机的支持：实现一台物理主机上绑定多个虚拟主机，每个虚拟主机有自己单独的域名，HTTP/1.1 增加了 <code>Host</code> 字段，表示当前域名</p>
+</li>
+<li><p>客户端 Cookie 、安全机制的引入；新增了<code>PUT</code> <code>PATCH</code> <code>HEAD</code> <code>OPTION</code> <code>DELETE</code> 方法</p>
+<p>问题：</p>
+</li>
+</ol>
+<p>HTTP/1.1 对带宽利用率不够理想</p>
+<ul>
+<li>TCP 慢启动</li>
+<li>多条 TCP 连接竞争固定带宽；关键资源速度受到影响</li>
+<li>队头阻塞问题：共用一个 TCP 管道，数据不能并行请求</li>
+</ul>
+<h3 id="5-4-HTTP-2"><a href="#5-4-HTTP-2" class="headerlink" title="5.4 HTTP/2"></a>5.4 HTTP/2</h3><p>采用多路复用技术，只通过一个 TCP 连接就可以传输所有的请求，很好地解决了浏览器限制同一域名下的请求数量问题，同时更容易实现全速传输。</p>
+<ol>
+<li><p>二进制传输：在之前的 HTTP 版本都是通过文本的方式（ACSII编码）传输数据的，引入新的编码机制，所有的数据都会被分隔，并采用二进制格式编码。</p>
+</li>
+<li><p>多路复用：</p>
+<p>HTTP/2 中有两个非常重要的概念，分别是帧（frame）和流（stream），帧代表最小的数据三维，多个帧组成流，帧中包含着流的标识。</p>
+<p>多路复用就是一个 TCP 连接中可以存在多条流。换句话说，就是可以发送多个请求，对端可以通过识别帧中流的标识而区分不用的请求</p>
+</li>
+<li><p>可设置优先级：发送请求时标上优先级，服务器会有限处理高级请求</p>
+</li>
+<li><p>服务端 PUSH ：可在某个用户请求之后，主动推送其他资源</p>
+</li>
+<li><p>Header 压缩：重复的 Cookie 和 User Agent 浪费带宽。使用 <code>gzip</code> 或 <code>compress</code>压缩格式对传输的 header 进行压缩；同时在两端维护索引表，用于记录出现过的 header 字段，生成索引号，以后就可以只发送索引号</p>
+</li>
+</ol>
+<h3 id="5-5-HTTP-3"><a href="#5-5-HTTP-3" class="headerlink" title="5.5 HTTP/3"></a>5.5 HTTP/3</h3><p>甩掉  </p>
+]]></content>
+      <tags>
+        <tag>NetWork</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Cannot read property bindings of null 解决方法</title>
+    <url>/2020/07/03/Cannot-read-property-bindings-of-null-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<p>babel 的编译问题</p>
+<a id="more"></a>
+
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>把老的 babel-preset-env 换掉</p>
+<h3 id="安装-babel-preset-env"><a href="#安装-babel-preset-env" class="headerlink" title="安装@babel/preset-env"></a>安装@babel/preset-env</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">npm install @babel/preset-env</span><br></pre></td></tr></table></figure>
+
+<h3 id="更新配置项"><a href="#更新配置项" class="headerlink" title="更新配置项"></a>更新配置项</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 把</span></span><br><span class="line">preset: [<span class="string">"env"</span>]</span><br><span class="line"><span class="comment"># 换成</span></span><br><span class="line">presets: [<span class="string">"@babel/preset-env"</span>]</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>一些坑</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Git &amp; GitHub小结</title>
     <url>/2020/06/29/Git-GitHub/</url>
     <content><![CDATA[<p>Git 是目前世界上最先进的分布式版本控制系统；GitHub 为开源项目免费提供Git存储。</p>
@@ -500,235 +724,12 @@
       </tags>
   </entry>
   <entry>
-    <title>HTTP</title>
-    <url>/2020/07/20/HTTP/</url>
-    <content><![CDATA[<h2 id="0-是什么"><a href="#0-是什么" class="headerlink" title="0 是什么"></a>0 是什么</h2><p>HTTP 定义了浏览器（即万维网客户进程）怎样向万维网服务器请求万维网文档，以及万维网如何把万维网文档传给浏览器。HTTP 基于 TCP/IP 通信协议来传输数据的（HTML 文件、图片文件、查询结果等）</p>
-<h2 id="1-HTTP-报文结构"><a href="#1-HTTP-报文结构" class="headerlink" title="1 HTTP 报文结构"></a>1 HTTP 报文结构</h2><h3 id="1-1-客户端请求消息"><a href="#1-1-客户端请求消息" class="headerlink" title="1.1 客户端请求消息"></a>1.1 客户端请求消息</h3><ul>
-<li>请求行（request line）</li>
-<li>请求头部（header）</li>
-<li>空行</li>
-<li>请求数据</li>
-</ul>
-<img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/FH}FFT_6QOXGKBYO$U`QAXV.png" alt="img" style="zoom: 80%;" />
-
-<h3 id="1-2-服务器响应消息"><a href="#1-2-服务器响应消息" class="headerlink" title="1.2 服务器响应消息"></a>1.2 服务器响应消息</h3><ul>
-<li>状态行：协议版本 + 状态码 + 状态描述</li>
-<li>消息报头</li>
-<li>空行</li>
-<li>消息报头</li>
-</ul>
-<h2 id="HTTP-请求方法"><a href="#HTTP-请求方法" class="headerlink" title="HTTP 请求方法"></a>HTTP 请求方法</h2><ul>
-<li><p>HTTP 1.0 ：<code>GRT</code>（返回指定页面）, <code>POST</code>（提交数据进行处理请求）, <code>HEAD</code>（仅获取报头）</p>
-</li>
-<li><p>HTTP 1.1 :  <code>PUT</code>（用我发的东西去取代指定内容）, <code>PATCH</code>（局部更新）,<code>DELETE</code>,  </p>
-<p> <code>TRACE</code>（显示服务器收到的请求）, <code>CONNECT</code>，<code>OPTIONS</code>（允许客户端查看服务器的性能）</p>
-</li>
-</ul>
-<h2 id="各版本及其特点"><a href="#各版本及其特点" class="headerlink" title="各版本及其特点"></a>各版本及其特点</h2><ul>
-<li><p>HTTP/1.0</p>
-<p>采用非连续连接方式，每次浏览器要请求一个文件都要与服务器建立 TCP 连接，当收到响应后就立即关闭连接。为了减少时延，浏览器通常建立多个并行的 TCP 连接同时请求多个对象，但这样会大量占用万维网服务器资源。</p>
-</li>
-<li><p>HTTP/1.1</p>
-<p>非持续连接，在该方式下，万维网在发送响应后仍然保持这条连接，还可以继续交换报文。并布局向在传送同一个页面上引用的对象，而是这些文档都在一个服务器上就行。</p>
-<p>可以使用流水线方式工作。</p>
-</li>
-<li><p>HTTP 报文格式</p>
-<p>  请求报文</p>
-<p>  <img src="C:%5CUsers%5Chz%5CAppData%5CRoaming%5CTencent%5CUsers%5C1440961573%5CQQ%5CWinTemp%5CRichOle%5C@$DX2%5BGNJIWOER2%5D$ML%25L" alt="img">)M.png)</p>
-<p>  响应报文</p>
-</li>
-</ul>
-<h2 id="HTTP-状态码"><a href="#HTTP-状态码" class="headerlink" title="HTTP 状态码"></a>HTTP 状态码</h2><h2 id="POST-和-get"><a href="#POST-和-get" class="headerlink" title="POST 和 get"></a>POST 和 get</h2><h2 id="HTTP-各版本"><a href="#HTTP-各版本" class="headerlink" title="HTTP 各版本"></a>HTTP 各版本</h2><p>HTTP/2</p>
-<ul>
-<li>二进制传输</li>
-<li>多路复用</li>
-<li>Header 压缩</li>
-<li>服务端 PUSH</li>
-</ul>
-<p>HTTP/3</p>
-<h3 id="QUIC"><a href="#QUIC" class="headerlink" title="QUIC"></a>QUIC</h3><ul>
-<li>多路复用</li>
-<li>0-RTT</li>
-<li>纠错机制</li>
-</ul>
-<h2 id="HTTP-报文结构"><a href="#HTTP-报文结构" class="headerlink" title="HTTP 报文结构"></a>HTTP 报文结构</h2><p>状态码和相应的短语</p>
-<h3 id="状态码分类"><a href="#状态码分类" class="headerlink" title="状态码分类"></a>状态码分类</h3><ul>
-<li><p><code>1**</code> 信息，服务器收到请求，需要请求者继续执行操作<br>（收是收到了，还需要你干点事情）</p>
-<ul>
-<li>100 continue 等待状态码</li>
-<li>101 switching Protocol 切换协议。服务器根据客户端的请求切换协议，如切换到 HTTP 的新版本协议</li>
-</ul>
-</li>
-<li><p><code>2**</code> 某种请求执行成功了</p>
-<ul>
-<li><strong>200</strong> OK 请求成功，一般用于 GET 或 POST 请求</li>
-<li>201 Created</li>
-<li>202 Accepted</li>
-<li>204 No-content 处理成功但是没有内容返回</li>
-<li>206 Partial Content</li>
-</ul>
-</li>
-<li><p><code>3**</code> 重定向状态码，需要附加操作以完成请求</p>
-<ul>
-<li><strong>301</strong> Moved Permanently 资源或网页被永久转移到其他 URI</li>
-<li>302 Found 临时移动，继续使用原有URI</li>
-<li>303 See Other 查看其他地址，使用 GET 和 POST 请求查看</li>
-<li>304 Not Modified</li>
-<li>307 Temporary Redirect 不会从POST变成GET</li>
-</ul>
-</li>
-<li><p><code>4**</code>客户端错误</p>
-<ul>
-<li>400 Bad Request 请求有语法错误</li>
-<li>401 Unauthorized 需要身份认证</li>
-<li>402 Forbidden 理解了但拒绝请求</li>
-<li><strong>404</strong> Not Found 服务器无法根据客户端的请求找到资源</li>
-<li>412 Precondition Fail 客户端请求信息的先决条件错误</li>
-<li>417 Expectation Fail 服务器无法满足Expect的请求头信息</li>
-</ul>
-</li>
-<li><p><code>5**</code>服务器错误</p>
-<ul>
-<li>500 Inernal Server Error 服务器内部出现错误</li>
-<li>503 Service Unavailable 超负荷或系统维护</li>
-<li>504 Gateway Timeout  网关等待服务器响应超时</li>
-</ul>
-</li>
-</ul>
-<p>头部字段</p>
-]]></content>
+    <title>HTTPS</title>
+    <url>/2020/07/20/HTTPS/</url>
+    <content><![CDATA[<h2 id="TLS"><a href="#TLS" class="headerlink" title="TLS"></a>TLS</h2><h2 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h2><h2 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h2><h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><h2 id="数字证书"><a href="#数字证书" class="headerlink" title="数字证书"></a>数字证书</h2>]]></content>
       <tags>
         <tag>NetWork</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>先Mark住Markdown的常用符</title>
-    <url>/2020/04/29/MarkMarkdown/</url>
-    <content><![CDATA[<p>终于终于到了可以写博文的环节了，第一篇那就先总结一下我觉得我以后要markdown的一些常用语法吧，一边学一边写一边总结厚！</p>
-<a id="more"></a>
-
-<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><p> <a href="#一一些基础语法">一、一些基础语法</a></p>
-<ul>
-<li><a href="#代码块">代码块</a></li>
-<li><a href="#行内代码块">行内代码块</a></li>
-<li><a href="#整段代码块">整段代码块</a></li>
-<li><a href="#常用需要转义的符号">常用需要转义的符号</a></li>
-<li><a href="#加粗或斜体">加粗或斜体</a></li>
-<li><a href="#设置标题">设置标题</a></li>
-<li><a href="#超链接行内式和参考式自动链接">超链接：行内式和参考式，自动链接</a></li>
-<li><a href="#删除线">删除线</a></li>
-</ul>
-<p><a href="#二引用插入点什么">二、引用/插入点什么</a></p>
-<ul>
-<li><p><a href="#文字引用">文字引用</a></p>
-</li>
-<li><p><a href="#列表">列表</a></p>
-</li>
-<li><p><a href="#目录结构">目录结构</a></p>
-</li>
-<li><p><a href="#插入图像">插入图像</a></p>
-</li>
-<li><p><a href="#写公式">写公式</a></p>
-</li>
-<li><p><a href="#流程图">流程图</a></p>
-</li>
-<li><p><a href="#表格">表格</a></p>
-</li>
-<li><p><a href="#加入html标签">加入html标签</a></p>
-</li>
-<li><p><a href="#代办事项">代办事项</a></p>
-<p><a href="#三最后说点什么">三、最后说点什么</a></p>
-</li>
-</ul>
-<h2 id="一、一些基础语法"><a href="#一、一些基础语法" class="headerlink" title="一、一些基础语法"></a>一、一些基础语法</h2><h3 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h3><p>好像写语法总结需要把代码放上来，那就先写怎么引用代码叭（禁止套娃–||）</p>
-<h4 id="行内代码块"><a href="#行内代码块" class="headerlink" title="行内代码块"></a>行内代码块</h4><p>用单引号括住就ok了<br>这是设置字体的html代码’<font color="red">红色</font>‘</p>
-<h4 id="整段代码块"><a href="#整段代码块" class="headerlink" title="整段代码块"></a>整段代码块</h4><p>使用四个缩进或者双引号单引号表示代码块<br>反引号加语言名字</p>
-<h3 id="常用需要转义的符号"><a href="#常用需要转义的符号" class="headerlink" title="常用需要转义的符号"></a>常用需要转义的符号</h3><p>没想到一开头就要用到转义了hhh<br>Markdown里转义也是在特殊字符前面加一个反斜杠<br>常见的需呀转义的符号有<br>\ ‘ * _ {} [] () # + - . !</p>
-<h3 id="加粗或斜体"><a href="#加粗或斜体" class="headerlink" title="加粗或斜体"></a>加粗或斜体</h3><p>用*包着对应的文字，左右</p>
-<h3 id="设置标题"><a href="#设置标题" class="headerlink" title="设置标题"></a>设置标题</h3><p>在标题前面加’#’，越低级的标题用越多的’#’，可以加1~6个</p>
-<h3 id="超链接：行内式和参考式，自动链接"><a href="#超链接：行内式和参考式，自动链接" class="headerlink" title="超链接：行内式和参考式，自动链接"></a>超链接：行内式和参考式，自动链接</h3><h3 id="删除线"><a href="#删除线" class="headerlink" title="删除线"></a>删除线</h3><p>用~~包住语句就好啦</p>
-<h2 id="二、引用-插入点什么"><a href="#二、引用-插入点什么" class="headerlink" title="二、引用/插入点什么"></a>二、引用/插入点什么</h2><h3 id="文字引用"><a href="#文字引用" class="headerlink" title="文字引用"></a>文字引用</h3><p>用<code>&gt;</code>表示文字引用</p>
-<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p>无序列表：用<code>*</code>、<code>+</code>、<code>-</code>都可以表示无序列表<br>有序列表：用数字和点表示有序列表</p>
-<h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3><p>在文中任意位置输入单击，点插入OTC就好啦即可显示全文内容啦<br><code>&lt;!-- TOC --&gt;</code></p>
-<h3 id="插入图像"><a href="#插入图像" class="headerlink" title="插入图像"></a>插入图像</h3><p>使用 <code>![描述](url)</code> 插入图像</p>
-<p>###　写公式</p>
-<p><code>$</code>写行内公式，<code>$$</code>写整行公式</p>
-<h3 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h3><ol>
-<li>流程图从flow开始</li>
-<li>然后需要定义tag，基本类型包括：</li>
-</ol>
-<p>-start（开始框）<br>-end<br>-operation（执行）<br>-subroutine （分支）<br>-condition（条件结构）<br>-condition（yes和no，这个好像不需要定义啦）<br>3. 用=&gt;来定义，用-&gt;来表示路径</p>
-<h3 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h3><p>列：直接用|代替表格的竖线；行：直接换行就行<br>第二行用来表示字体显示的位置’-‘表示靠左，’-‘表示靠右，’:–:’表示居中</p>
-<h3 id="加入html标签"><a href="#加入html标签" class="headerlink" title="加入html标签"></a>加入html标签</h3><p>加个标签改变某个东东的属性这样子<br><font color="red">我是一段红色加粗的字</font></p>
-<h3 id="代办事项"><a href="#代办事项" class="headerlink" title="代办事项"></a>代办事项</h3><p>list前加<code>[]</code>或<code>[×]</code>表示完成或未完成</p>
-<p>[]1. xuexi</p>
-<h3 id="插入-emoji"><a href="#插入-emoji" class="headerlink" title="插入 emoji"></a>插入 <code>emoji</code></h3><p>看这里 <a href="https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md" target="_blank" rel="noopener">emoji-cheat-sheet</a></p>
-<table>
-<thead>
-<tr>
-<th align="center">emoji</th>
-<th align="left">shortcode</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">:rofl:</td>
-<td align="left"><code>:rofl:</code></td>
-</tr>
-<tr>
-<td align="center">:sweat_smile:</td>
-<td align="left"><code>:sweat_smile:</code></td>
-</tr>
-<tr>
-<td align="center">:upside_down_face:</td>
-<td align="left"><code>:upside_down_face:</code></td>
-</tr>
-<tr>
-<td align="center">:smiling_face_with_three_hearts:</td>
-<td align="left"><code>:smiling_face_with_three_hearts:</code></td>
-</tr>
-<tr>
-<td align="center">:star_struck:</td>
-<td align="left"><code>:star_struck:</code></td>
-</tr>
-<tr>
-<td align="center">:stuck_out_tongue_closed_eyes:</td>
-<td align="left"><code>:stuck_out_tongue_closed_eyes:</code></td>
-</tr>
-<tr>
-<td align="center">:sunglasses:</td>
-<td align="left"><code>:sunglasses:</code></td>
-</tr>
-</tbody></table>
-<h2 id="三、最后说点什么"><a href="#三、最后说点什么" class="headerlink" title="三、最后说点什么"></a>三、最后说点什么</h2><p>8行，我真的困了，不知到上面写的能实现多少，先挖个坑，改天来填</p>
-<img src="齐神说晚安.jpg" width="100px">
-
-<p><img src="%E9%BD%90%E7%A5%9E%E8%AF%B4%E6%99%9A%E5%AE%89.jpg" alt="alt"></p>
-<p>为啥图片显示不了哦？！</p>
-]]></content>
-      <categories>
-        <category>工具</category>
-        <category>Markdown</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>hexo</title>
-    <url>/2020/07/05/hexo/</url>
-    <content><![CDATA[<p>hexo</p>
-<a id="more"></a>
-
-<h2 id="next主题优化"><a href="#next主题优化" class="headerlink" title="next主题优化"></a>next主题优化</h2><h3 id="选择主题"><a href="#选择主题" class="headerlink" title="选择主题"></a>选择主题</h3><h3 id="分类和标签"><a href="#分类和标签" class="headerlink" title="分类和标签"></a>分类和标签</h3><ul>
-<li>设置</li>
-<li>实现分类层级</li>
-</ul>
-<h3 id="代码块样式"><a href="#代码块样式" class="headerlink" title="代码块样式"></a>代码块样式</h3><ul>
-<li>样式</li>
-<li>复制</li>
-</ul>
-<h3 id="头像显示"><a href="#头像显示" class="headerlink" title="头像显示"></a>头像显示</h3><p>sidebar avatar打开<br>首先你要把博客的社交模块打开<br>在主题配置文件 _config.yml 的 social<br>在主题的 source/images/ 下的 avatar.gif 更换成你的图片<br>好像没出来</p>
-<h3 id="加入分享功能"><a href="#加入分享功能" class="headerlink" title="加入分享功能"></a>加入分享功能</h3><p>项目的 _config.yml 中加入<br>duoshuo_share 字段，值为 true<br>好像也没出来</p>
-<h3 id="链接样式改变"><a href="#链接样式改变" class="headerlink" title="链接样式改变"></a>链接样式改变</h3><h3 id="图片显示"><a href="#图片显示" class="headerlink" title="图片显示"></a>图片显示</h3>
-
-<h3 id=""><a href="#" class="headerlink" title=""></a></h3>]]></content>
   </entry>
   <entry>
     <title>JavaScript 的原型和继承</title>
@@ -1684,6 +1685,152 @@
       </tags>
   </entry>
   <entry>
+    <title>hexo</title>
+    <url>/2020/07/05/hexo/</url>
+    <content><![CDATA[<p>hexo</p>
+<a id="more"></a>
+
+<h2 id="next主题优化"><a href="#next主题优化" class="headerlink" title="next主题优化"></a>next主题优化</h2><h3 id="选择主题"><a href="#选择主题" class="headerlink" title="选择主题"></a>选择主题</h3><h3 id="分类和标签"><a href="#分类和标签" class="headerlink" title="分类和标签"></a>分类和标签</h3><ul>
+<li>设置</li>
+<li>实现分类层级</li>
+</ul>
+<h3 id="代码块样式"><a href="#代码块样式" class="headerlink" title="代码块样式"></a>代码块样式</h3><ul>
+<li>样式</li>
+<li>复制</li>
+</ul>
+<h3 id="头像显示"><a href="#头像显示" class="headerlink" title="头像显示"></a>头像显示</h3><p>sidebar avatar打开<br>首先你要把博客的社交模块打开<br>在主题配置文件 _config.yml 的 social<br>在主题的 source/images/ 下的 avatar.gif 更换成你的图片<br>好像没出来</p>
+<h3 id="加入分享功能"><a href="#加入分享功能" class="headerlink" title="加入分享功能"></a>加入分享功能</h3><p>项目的 _config.yml 中加入<br>duoshuo_share 字段，值为 true<br>好像也没出来</p>
+<h3 id="链接样式改变"><a href="#链接样式改变" class="headerlink" title="链接样式改变"></a>链接样式改变</h3><h3 id="图片显示"><a href="#图片显示" class="headerlink" title="图片显示"></a>图片显示</h3>
+
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3>]]></content>
+  </entry>
+  <entry>
+    <title>先Mark住Markdown的常用符</title>
+    <url>/2020/04/29/MarkMarkdown/</url>
+    <content><![CDATA[<p>终于终于到了可以写博文的环节了，第一篇那就先总结一下我觉得我以后要markdown的一些常用语法吧，一边学一边写一边总结厚！</p>
+<a id="more"></a>
+
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><p> <a href="#一一些基础语法">一、一些基础语法</a></p>
+<ul>
+<li><a href="#代码块">代码块</a></li>
+<li><a href="#行内代码块">行内代码块</a></li>
+<li><a href="#整段代码块">整段代码块</a></li>
+<li><a href="#常用需要转义的符号">常用需要转义的符号</a></li>
+<li><a href="#加粗或斜体">加粗或斜体</a></li>
+<li><a href="#设置标题">设置标题</a></li>
+<li><a href="#超链接行内式和参考式自动链接">超链接：行内式和参考式，自动链接</a></li>
+<li><a href="#删除线">删除线</a></li>
+</ul>
+<p><a href="#二引用插入点什么">二、引用/插入点什么</a></p>
+<ul>
+<li><p><a href="#文字引用">文字引用</a></p>
+</li>
+<li><p><a href="#列表">列表</a></p>
+</li>
+<li><p><a href="#目录结构">目录结构</a></p>
+</li>
+<li><p><a href="#插入图像">插入图像</a></p>
+</li>
+<li><p><a href="#写公式">写公式</a></p>
+</li>
+<li><p><a href="#流程图">流程图</a></p>
+</li>
+<li><p><a href="#表格">表格</a></p>
+</li>
+<li><p><a href="#加入html标签">加入html标签</a></p>
+</li>
+<li><p><a href="#代办事项">代办事项</a></p>
+<p><a href="#三最后说点什么">三、最后说点什么</a></p>
+</li>
+</ul>
+<h2 id="一、一些基础语法"><a href="#一、一些基础语法" class="headerlink" title="一、一些基础语法"></a>一、一些基础语法</h2><h3 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h3><p>好像写语法总结需要把代码放上来，那就先写怎么引用代码叭（禁止套娃–||）</p>
+<h4 id="行内代码块"><a href="#行内代码块" class="headerlink" title="行内代码块"></a>行内代码块</h4><p>用单引号括住就ok了<br>这是设置字体的html代码’<font color="red">红色</font>‘</p>
+<h4 id="整段代码块"><a href="#整段代码块" class="headerlink" title="整段代码块"></a>整段代码块</h4><p>使用四个缩进或者双引号单引号表示代码块<br>反引号加语言名字</p>
+<h3 id="常用需要转义的符号"><a href="#常用需要转义的符号" class="headerlink" title="常用需要转义的符号"></a>常用需要转义的符号</h3><p>没想到一开头就要用到转义了hhh<br>Markdown里转义也是在特殊字符前面加一个反斜杠<br>常见的需呀转义的符号有<br>\ ‘ * _ {} [] () # + - . !</p>
+<h3 id="加粗或斜体"><a href="#加粗或斜体" class="headerlink" title="加粗或斜体"></a>加粗或斜体</h3><p>用*包着对应的文字，左右</p>
+<h3 id="设置标题"><a href="#设置标题" class="headerlink" title="设置标题"></a>设置标题</h3><p>在标题前面加’#’，越低级的标题用越多的’#’，可以加1~6个</p>
+<h3 id="超链接：行内式和参考式，自动链接"><a href="#超链接：行内式和参考式，自动链接" class="headerlink" title="超链接：行内式和参考式，自动链接"></a>超链接：行内式和参考式，自动链接</h3><h3 id="删除线"><a href="#删除线" class="headerlink" title="删除线"></a>删除线</h3><p>用~~包住语句就好啦</p>
+<h2 id="二、引用-插入点什么"><a href="#二、引用-插入点什么" class="headerlink" title="二、引用/插入点什么"></a>二、引用/插入点什么</h2><h3 id="文字引用"><a href="#文字引用" class="headerlink" title="文字引用"></a>文字引用</h3><p>用<code>&gt;</code>表示文字引用</p>
+<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p>无序列表：用<code>*</code>、<code>+</code>、<code>-</code>都可以表示无序列表<br>有序列表：用数字和点表示有序列表</p>
+<h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3><p>在文中任意位置输入单击，点插入OTC就好啦即可显示全文内容啦<br><code>&lt;!-- TOC --&gt;</code></p>
+<h3 id="插入图像"><a href="#插入图像" class="headerlink" title="插入图像"></a>插入图像</h3><p>使用 <code>![描述](url)</code> 插入图像</p>
+<p>###　写公式</p>
+<p><code>$</code>写行内公式，<code>$$</code>写整行公式</p>
+<h3 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h3><ol>
+<li>流程图从flow开始</li>
+<li>然后需要定义tag，基本类型包括：</li>
+</ol>
+<p>-start（开始框）<br>-end<br>-operation（执行）<br>-subroutine （分支）<br>-condition（条件结构）<br>-condition（yes和no，这个好像不需要定义啦）<br>3. 用=&gt;来定义，用-&gt;来表示路径</p>
+<h3 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h3><p>列：直接用|代替表格的竖线；行：直接换行就行<br>第二行用来表示字体显示的位置’-‘表示靠左，’-‘表示靠右，’:–:’表示居中</p>
+<h3 id="加入html标签"><a href="#加入html标签" class="headerlink" title="加入html标签"></a>加入html标签</h3><p>加个标签改变某个东东的属性这样子<br><font color="red">我是一段红色加粗的字</font></p>
+<h3 id="代办事项"><a href="#代办事项" class="headerlink" title="代办事项"></a>代办事项</h3><p>list前加<code>[]</code>或<code>[×]</code>表示完成或未完成</p>
+<p>[]1. xuexi</p>
+<h3 id="插入-emoji"><a href="#插入-emoji" class="headerlink" title="插入 emoji"></a>插入 <code>emoji</code></h3><p>看这里 <a href="https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md" target="_blank" rel="noopener">emoji-cheat-sheet</a></p>
+<table>
+<thead>
+<tr>
+<th align="center">emoji</th>
+<th align="left">shortcode</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">:rofl:</td>
+<td align="left"><code>:rofl:</code></td>
+</tr>
+<tr>
+<td align="center">:sweat_smile:</td>
+<td align="left"><code>:sweat_smile:</code></td>
+</tr>
+<tr>
+<td align="center">:upside_down_face:</td>
+<td align="left"><code>:upside_down_face:</code></td>
+</tr>
+<tr>
+<td align="center">:smiling_face_with_three_hearts:</td>
+<td align="left"><code>:smiling_face_with_three_hearts:</code></td>
+</tr>
+<tr>
+<td align="center">:star_struck:</td>
+<td align="left"><code>:star_struck:</code></td>
+</tr>
+<tr>
+<td align="center">:stuck_out_tongue_closed_eyes:</td>
+<td align="left"><code>:stuck_out_tongue_closed_eyes:</code></td>
+</tr>
+<tr>
+<td align="center">:sunglasses:</td>
+<td align="left"><code>:sunglasses:</code></td>
+</tr>
+</tbody></table>
+<h2 id="三、最后说点什么"><a href="#三、最后说点什么" class="headerlink" title="三、最后说点什么"></a>三、最后说点什么</h2><p>8行，我真的困了，不知到上面写的能实现多少，先挖个坑，改天来填</p>
+<img src="齐神说晚安.jpg" width="100px">
+
+<p><img src="%E9%BD%90%E7%A5%9E%E8%AF%B4%E6%99%9A%E5%AE%89.jpg" alt="alt"></p>
+<p>为啥图片显示不了哦？！</p>
+]]></content>
+      <categories>
+        <category>工具</category>
+        <category>Markdown</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>happy birthday</title>
+    <url>/2020/07/15/happy-birthday/</url>
+    <content><![CDATA[<p>雨天生日快乐</p>
+<a id="more"></a>
+
+<iframe src="//player.bilibili.com/player.html?aid=883812762&bvid=BV1yK4y1s7UL&cid=21248569&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+
+<p>我猜你想知道怎么插入视频，其实灰常简单，只需要把视频源链接放到用到 <code>\&lt;iframe&gt;</code>标签（这个标签是可以理解为用来引入其他页面），添加 <code>src</code>属性，属性值为路径就 OK 啦</p>
+<p>像 b 站这种视频就更简单了</p>
+<img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/903E7FF3576E3DEC5098D2487271744E.jpg" alt="img" style="zoom:67%;" />
+
+<p>把这个链接复制粘贴一下就能以默认样式引入视频啦~</p>
+<hr>
+<p><img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/qqpyimg1594744286.gif" alt="img"></p>
+<div align="center">和彬彬幸福美满！！大厂预定！！一起发财！！！！！<div>]]></content>
+  </entry>
+  <entry>
     <title>npm卸载及重装</title>
     <url>/2020/07/03/npm%E5%8D%B8%E8%BD%BD%E5%92%8C%E9%87%8D%E8%A3%85/</url>
     <content><![CDATA[<p>删得删彻底</p>
@@ -1717,23 +1864,6 @@
       <tags>
         <tag>一些坑</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>happy birthday</title>
-    <url>/2020/07/15/happy-birthday/</url>
-    <content><![CDATA[<p>雨天生日快乐</p>
-<a id="more"></a>
-
-<iframe src="//player.bilibili.com/player.html?aid=883812762&bvid=BV1yK4y1s7UL&cid=21248569&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
-
-<p>我猜你想知道怎么插入视频，其实灰常简单，只需要把视频源链接放到用到 <code>\&lt;iframe&gt;</code>标签（这个标签是可以理解为用来引入其他页面），添加 <code>src</code>属性，属性值为路径就 OK 啦</p>
-<p>像 b 站这种视频就更简单了</p>
-<img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/903E7FF3576E3DEC5098D2487271744E.jpg" alt="img" style="zoom:67%;" />
-
-<p>把这个链接复制粘贴一下就能以默认样式引入视频啦~</p>
-<hr>
-<p><img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/qqpyimg1594744286.gif" alt="img"></p>
-<div align="center">和彬彬幸福美满！！大厂预定！！一起发财！！！！！<div>]]></content>
   </entry>
   <entry>
     <title>npm的基本用法</title>
