@@ -321,6 +321,130 @@
       </tags>
   </entry>
   <entry>
+    <title>Cookie</title>
+    <url>/2020/07/20/Cookie/</url>
+    <content><![CDATA[<p>Cookie 的创建、选项、维护等内容的小结。</p>
+<a id="more"></a>
+
+<p>[TOC]</p>
+<h2 id="0-Cookie-是什么"><a href="#0-Cookie-是什么" class="headerlink" title="0 Cookie 是什么"></a>0 Cookie 是什么</h2><ul>
+<li><p>是服务器发送到用户浏览器上的一小段文本文件，浏览器会进行储存然后随着下次的请求一起发回给服务器，Web 服务器就可以使用这些信息来识别不同的用户。</p>
+</li>
+<li><p>是纯文本格式，不含任何可执行的代码</p>
+</li>
+<li><p>使用目的：</p>
+<ul>
+<li>Session 管理：登录、购物车、游戏进度等</li>
+<li>个性化（Personalization）</li>
+<li>用户跟踪（Tracking）：记录分析用户行为</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-创建-Cookie"><a href="#1-创建-Cookie" class="headerlink" title="1 创建 Cookie"></a>1 创建 Cookie</h2><p>Set-Cookie： HTTP 响应头发送给用户，信息头</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Set</span>-Cookie:&lt;cookie-name01&gt;=&lt;cookie-value01&gt;</span><br><span class="line">Set-Cookie:&lt;cookie-name02&gt;=&lt;cookie-value02&gt;</span><br><span class="line">// 每个 cookie 用一个 Set-Cookie</span><br></pre></td></tr></table></figure>
+
+<p>Cookie：浏览器在收到 <code>Set-Cookie</code> 之后的每一次请求头都要把所有显示存储的 cookies 一起发回去</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">Cookie:&lt;cookie-name01&gt;=&lt;cookie-value01&gt;;&lt;cookie-name02&gt;=&lt;cookie-value02&gt;</span><br><span class="line">// 用分号进行分隔</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-Cookie-编码"><a href="#2-Cookie-编码" class="headerlink" title="2 Cookie 编码"></a>2 Cookie 编码</h2><p>原始规范：必须进行编码的只有：<code>;</code> <code>,</code> <code>=</code> ；可以进行 URL 编码，但不是必须</p>
+<p>几乎有实现都对 Cookie 值进行了一系列 URL 编码，对于 <code>name=Vvalue</code> 格式，通常会对 <code>name</code> 和 <code>value</code> 进行 URL 编码，而不对 <code>=</code> 进行编码    </p>
+<h2 id="3-支持选项"><a href="#3-支持选项" class="headerlink" title="3 支持选项"></a>3 支持选项</h2><ol>
+<li>Expires &amp; Max-age</li>
+<li>Secure &amp; HTTPOnly</li>
+<li>Domain &amp; Path</li>
+<li>SameSite</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Set</span>-Cookie: id=a3fWa; Expires=Wed, <span class="number">21</span> Oct <span class="number">2015</span> <span class="number">07</span>:<span class="number">28</span>:<span class="number">00</span> GMT; Secure; HttpOnly</span><br><span class="line"><span class="comment">// Cookie 值之后的每一个选项以分号和空格分开</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-1-Lifetime-：Expires-amp-Max-Age"><a href="#3-1-Lifetime-：Expires-amp-Max-Age" class="headerlink" title="3.1 Lifetime ：Expires &amp; Max-Age"></a>3.1 Lifetime ：Expires &amp; Max-Age</h3><p><code>Max-age</code> 是指有效时间有多长，<code>Expires</code> 是到某个时间点失效</p>
+<p>如果 expires 设置了一个过去的时间点，或者Max-Age 为 0，那么这个 cookie 会立即被删除</p>
+<p>没有设置 <code>expires</code> 和<code>Max-Age</code> 选项时，cookie 的生命周期仅限于当前会话。</p>
+<p>登录 Web 应用时询问是否记住登录信息就是选择是否把 <code>expires</code> 附加到登录 Cookie 中。</p>
+<h3 id="3-2-Restrict-access"><a href="#3-2-Restrict-access" class="headerlink" title="3.2 Restrict access:"></a>3.2 Restrict access:</h3><ul>
+<li><code>HTTPOnly</code>:</li>
+</ul>
+<p>设置 <code>HttpOnly</code> 后无法通过 <code>document.cookie</code>（禁止通过 JavaScript 访问）访问，当然也没办法通过 JavaScript 来进行 <code>HTTPOnly</code> 选项的设置。</p>
+<p>设计该特征意在提供一个安全措施来帮助阻止通过 JavaScript 发起的跨站脚本攻击 (XSS) 窃取 cookie 的行为。</p>
+<ul>
+<li><code>secure</code></li>
+</ul>
+<p>当一个请求通过 SSL 或 HTTPS 创建时，包含 <code>secure</code> 选项的 cookie 才能被发送至服务器。默认情况下，在 HTTPS 连接上传输的 cookie 都会被自动添加上 <code>secure</code> 选项。</p>
+<p>以纯文本方式进行传递很有可能被篡改。</p>
+<ul>
+<li><code>SameSite</code></li>
+</ul>
+<p>cookie 不允许跨域请求，帮助阻止伪造跨域请求攻击 (CSRF)</p>
+<p><code>Strict</code>   <code>Lax</code>   <code>none</code></p>
+<h3 id="3-3-Domain-amp-Path"><a href="#3-3-Domain-amp-Path" class="headerlink" title="3.3 Domain &amp; Path"></a>3.3 Domain &amp; Path</h3><p><code>Domain</code> 和 <code>Path</code> 制定了 cookie 的作用域：即 cookie 应该发送给那些 URL</p>
+<ul>
+<li><p><code>Domain</code>：</p>
+<ul>
+<li><p>标识制定了哪些主机可以接收 cookie，如果不指定，默认为当前主机（不包含子域名）</p>
+</li>
+<li><p>扩充 cookie 可发送域的数量：</p>
+<p>如 <code>name.yahoo.com</code> 形式的某个站点把其 cookie 的 <code>domain</code> 选项设置为 <code>yahoo.com</code> 就可以将该 cookie 的值发送至所有这些站点。</p>
+</li>
+</ul>
+<p>​       domain 的值根请求的域名的<strong>尾部比较</strong></p>
+</li>
+<li><p><code>Path</code> </p>
+<ul>
+<li><p>选项指定了请求的资源 URL 中必须<u>存在</u>指定的路径时，才会发送<code>Cookie</code> 消息头</p>
+</li>
+<li><p>这个比较通常是将 <code>path</code> 选项的值与请求的 URL <strong>从头开始</strong>逐字符比较完成的。</p>
+<p>如果设置 <code>Path=/blog</code> 也会匹配 <code>/blogrool</code> ，任何以 <code>/blog</code> 开头的选项都是合法的</p>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>只有在 domain 选项核实完毕之后才会对 path 属性进行比较。</p>
+</blockquote>
+<h2 id="维护"><a href="#维护" class="headerlink" title="维护"></a>维护</h2><ul>
+<li><p>选项：</p>
+<p>cookie 中可以指定任意数量的选项，顺序任意</p>
+</li>
+<li><p>修改和覆盖：</p>
+<p>想要改变 cookie 的值，必须发送另一个所有标识符都相同的 <code>Set-Cookie</code> 消息头；如果修改 cookie 选项中任意一项都将创建一个新的 cookie</p>
+</li>
+<li><p>Cookie 中的排序：同名的 cookie，按照<code>domain-path-secure</code>的顺序，值越详细则越靠前</p>
+</li>
+<li><p><code>Expires</code> 和 <code>Max-Age</code> 不是表示符的一部分，所以修改 cookie 的值的时候不需要重新制定过期时间</p>
+</li>
+</ul>
+<h2 id="自动删除"><a href="#自动删除" class="headerlink" title="自动删除"></a>自动删除</h2><ul>
+<li>Session cookie 在会话结束时被删除</li>
+<li>持久化 cookie (Persistent Cookie) 到达失效日期</li>
+<li>浏览器中 cookie 数量达到限制</li>
+</ul>
+<h2 id="cookie-的限制条件"><a href="#cookie-的限制条件" class="headerlink" title="cookie 的限制条件"></a>cookie 的限制条件</h2><ul>
+<li>cookie 的属性</li>
+<li>cookie 的数量限制</li>
+<li>cookie 的总大小：发向服务器的所有 cookie 的最大数量（空间）仍旧维持原始规范中所指出的：4KB。</li>
+</ul>
+<h2 id="Subcookies"><a href="#Subcookies" class="headerlink" title="Subcookies"></a>Subcookies</h2><p>subcookies 观点：增加 cookie 的存储量。允许单个 cookie 中保存多个 <code>name-value</code>对</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">name=a=b&amp;c=d&amp;g=h</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><p>在 JavaScript 中通过 <code>document.cookie</code> 属性，你可以创建、维护和删除 cookie。创建 cookie 时该属性等同于 <code>Set-Cookie</code> 消息头，而在读取 cookie 时则等同于 <code>Cookie</code> 消息头。</p>
+<p>注意：一旦 cookie 通过 JavaScript 设置后便不能提取它的选项，所以你将不能知道 <code>domain</code>，<code>path</code>，<code>expires</code> 日期或 <code>secure</code> 标记。</p>
+<h2 id="Cookie-amp-Session"><a href="#Cookie-amp-Session" class="headerlink" title="Cookie &amp; Session"></a>Cookie &amp; Session</h2><p>常用cookie来保存 session</p>
+<p>在网站开发中，最常用的就是用 cookie 来保存 session，但是二者并不等价。cookie 是存在客户端，session 是存在服务器端。服务端根据客户发过来的 cookie（eg.cookie 中有 session_id）定位到这个客户的信息（session），给他提供最合适的响应 </p>
+<p>……</p>
+<p>参考：</p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies" target="_blank" rel="noopener">MDN - Using HTTP cookies</a></p>
+<p><a href="https://www.kancloud.cn/kancloud/http-cookies-explained" target="_blank" rel="noopener">KanCloud - HTTP cookies 详解</a></p>
+]]></content>
+      <tags>
+        <tag>Network</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Cannot read property bindings of null 解决方法</title>
     <url>/2020/07/03/Cannot-read-property-bindings-of-null-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<p>babel 的编译问题</p>
@@ -339,57 +463,147 @@
       </tags>
   </entry>
   <entry>
-    <title>Cookie</title>
-    <url>/2020/07/20/Cookie/</url>
-    <content><![CDATA[<h2 id="0-Cookie-是什么"><a href="#0-Cookie-是什么" class="headerlink" title="0 Cookie 是什么"></a>0 Cookie 是什么</h2><ul>
-<li><p>是服务器发送到用户浏览器上的一小段文本文件，浏览器会进行储存然后随着下次的请求一起发回给服务器，Web 服务器就可以使用这些信息来识别 不同的用户。</p>
-</li>
-<li><p>是纯文本格式，不含任何可执行的代码</p>
-</li>
-<li><p>使用目的：</p>
+    <title>Git &amp; GitHub小结</title>
+    <url>/2020/06/29/Git-GitHub/</url>
+    <content><![CDATA[<p>Git 是目前世界上最先进的分布式版本控制系统；GitHub 为开源项目免费提供Git存储。</p>
+<a id="more"></a>
+
+<p><strong>目录</strong>：</p>
+<!-- TOC -->
+
 <ul>
-<li>Session 管理：登录、购物车、游戏进度等</li>
-<li>个性化（Personalization）</li>
-<li>用户跟踪（Tracking）：记录分析用户行为</li>
+<li><a href="#hellogit">helloGit</a></li>
+<li><a href="#创建版本库">创建版本库</a></li>
+<li><a href="#本地库操作小结">本地库操作小结</a></li>
+<li><a href="#远程库">远程库</a></li>
+<li><a href="#分支管理">分支管理</a><ul>
+<li><a href="#解决冲突">解决冲突</a></li>
+<li><a href="#分支管理策略">分支管理策略</a></li>
+<li><a href="#bug分支">bug分支</a></li>
+<li><a href="#feature-分支">Feature 分支</a></li>
+<li><a href="#多人协作">多人协作</a></li>
 </ul>
 </li>
+<li><a href="#标签管理">标签管理</a></li>
+<li><a href="#使用-github">使用 GitHub</a></li>
+<li><a href="#gitee">Gitee</a></li>
+<li><a href="#自定义">自定义</a></li>
+<li><a href="#sourcetree">SourceTree</a></li>
 </ul>
-<h2 id="1-创建-Cookie"><a href="#1-创建-Cookie" class="headerlink" title="1 创建 Cookie"></a>1 创建 Cookie</h2><p>Set-Cookie： HTTP 响应头发送给用户，信息头</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Set</span>-Cookie:&lt;cookie-name01&gt;=&lt;cookie-value01&gt;</span><br><span class="line">Set-Cookie:&lt;cookie-name02&gt;=&lt;cookie-value02&gt;</span><br><span class="line">// 每个 cookie 用一个 Set-Cookie</span><br></pre></td></tr></table></figure>
+<!-- /TOC -->
 
-<p>Cookie：浏览器在收到 <code>Set-Cookie</code> 之后的每一次请求头都要把所有显示存储的 cookies 一起发回去</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">Cookie:&lt;cookie-name01&gt;=&lt;cookie-value01&gt;;&lt;cookie-name02&gt;=&lt;cookie-value02&gt;</span><br><span class="line">// 用分号进行分隔</span><br></pre></td></tr></table></figure>
+<h2 id="helloGit"><a href="#helloGit" class="headerlink" title="helloGit"></a>helloGit</h2><p>Git 是目前世界上最先进的分布式版本控制系统<br>GitHub 为开源项目免费提供Git存储</p>
+<p>分布式和集中式版本控制系统：</p>
+<p>集中式：集中存放在中央服务器，必须联网才能工作，效率低。<br>分布式：每个人的电脑都是一个完整的版本库，协作时只需要把各自的修改推送给对方，无需联网也可以工作；有一台充当“中央服务器”的电脑，用来方便交换大家的修改</p>
+<h2 id="创建版本库"><a href="#创建版本库" class="headerlink" title="创建版本库"></a>创建版本库</h2><p>版本库，repository，版本库下所有文件都可以被 Git 管理起来，每个文件的修改、删除 Git 都能跟踪</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建一个空文件</span></span><br><span class="line"><span class="comment"># 1. 显示当前目录</span></span><br><span class="line">    $ <span class="built_in">pwd</span></span><br><span class="line"><span class="comment"># 2. 初始化：把目录变成 Git 可以管理的仓库</span></span><br><span class="line">    $ git init</span><br><span class="line"><span class="comment"># 生成一个 .git 目录，是 Git 来追踪管理版本库的</span></span><br><span class="line"><span class="comment"># 这是一个隐藏目录，可以让他显示</span></span><br><span class="line">    $ ls -ah</span><br></pre></td></tr></table></figure>
 
-<p>cookie 中可以指定任意数量的选项，顺序任意</p>
-<p>修改和覆盖</p>
-<p>name = value 是 cookie 的值，其他只是附加的属性而已</p>
-<p>想要改变 Cookie 的值，就必须发送一个所有选项值都相同的 Set - Cookie 信息头，不然就会新建一个</p>
-<p>会有两个同名的 Cookie , path 越详细越靠前</p>
-<h2 id="2-Cookie-编码"><a href="#2-Cookie-编码" class="headerlink" title="2 Cookie 编码"></a>2 Cookie 编码</h2><p>原始规范：必须进行编码的只有：<code>;</code> <code>,</code> <code>=</code> ；可以进行 URL 编码，但不是必须</p>
-<p>几乎有实现都对 Cookie 值进行了一系列 URL 编码，对于 <code>name=Vvalue</code> 格式，通常会对 <code>name</code> 和 <code>value</code> 进行 URL 编码，而不对 <code>=</code> 进行编码    </p>
-<h2 id="3-支持选项"><a href="#3-支持选项" class="headerlink" title="3 支持选项"></a>3 支持选项</h2><ol>
-<li>Expires &amp; Max-age</li>
-<li>Secure：只在 HTTPS 时发送</li>
-<li>HTTPOnly：规定不能使用 JavaScript</li>
-<li>Domain &amp; Path</li>
-<li>SameSite</li>
+<ul>
+<li>把文件添加到版本库</li>
+</ul>
+<p>版本库只能跟踪文本文件的改动，比如TXT文件，网页，所有的程序代码（word 文件不可以）等等；而图片、视频等二进制文件就无法跟踪变化</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 编写一个文件，readme.txt</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 把文件添加到仓库</span></span><br><span class="line">$ git add &lt;file&gt;</span><br><span class="line">$ git add readme.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 把文件提交到仓库（-m 后面输入本次提交的说明）</span></span><br><span class="line">$ git commit -m &lt;message&gt;</span><br><span class="line">$ git commit -m <span class="string">"wrote a readme file"</span></span><br><span class="line"><span class="comment"># commit 一次可以提交多个 add 进来的内容</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改与版本</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看仓库状态，修改信息、提交状态等</span></span><br><span class="line">    $ git status</span><br><span class="line">    <span class="comment"># working tree clean</span></span><br><span class="line">    <span class="comment"># Changes to be committed:...</span></span><br><span class="line"><span class="comment"># 查看具体被修改的内容 —— Unix 通用的 diff 格式显示</span></span><br><span class="line">    $ git diff &lt;file&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 版本回退</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 查看历史记录 —— 显示所有的版本记录</span></span><br><span class="line">    $ git <span class="built_in">log</span></span><br><span class="line">    $ git <span class="built_in">log</span> --pretty=oneline</span><br><span class="line">    <span class="comment"># commit id : 是 SHA 计算出的十六进制数字，避免冲突</span></span><br><span class="line">    <span class="comment"># Author &amp; Date &amp; message</span></span><br><span class="line"><span class="comment"># 2. 回退</span></span><br><span class="line"><span class="comment">#  版本表示：</span></span><br><span class="line">    HEAD --&gt; 当前版本</span><br><span class="line">    HEAD^ --&gt; 上一版本</span><br><span class="line">    HEAD^^ --&gt; 上上版本</span><br><span class="line">    HEAD~100 --&gt; 往上 100 个</span><br><span class="line"><span class="comment">#  命令：</span></span><br><span class="line">    $ git reset --hard HEAD^ / commit id</span><br><span class="line"><span class="comment"># 【内部有个指向当前版本的 HEAD 指针，版本回退只是更改指针指向】</span></span><br><span class="line"></span><br><span class="line">----此时通过 status 已经无法读取之后版本了----</span><br><span class="line"></span><br><span class="line"><span class="comment"># 返回更新的版本</span></span><br><span class="line"><span class="comment"># 通过 commit id 回退，则需要查看命令的 id</span></span><br><span class="line">    $ git reflog</span><br></pre></td></tr></table></figure>
+
+<h2 id="本地库操作小结"><a href="#本地库操作小结" class="headerlink" title="本地库操作小结"></a>本地库操作小结</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">|—— 工作区 ==&gt; add</span><br><span class="line">|—— 版本库</span><br><span class="line">    +—— stage 暂存区  =&gt; commit</span><br><span class="line">    +—— master 分支：创建 Git 版本库时，自动为我们创建的唯一分支</span><br><span class="line">        提交到这里就是已经在仓库了</span><br><span class="line">     —— HEAD：指向 master 的指针</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>回退</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"> <span class="comment"># 工作区回退</span></span><br><span class="line">git reset HEAD \&lt;file&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 暂存库回退</span></span><br><span class="line">git checkout -- \&lt;file&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 版本库回退</span></span><br><span class="line"><span class="comment"># 1. 查看 git 版本操作记录</span></span><br><span class="line">git <span class="built_in">log</span> --pretty=oneline</span><br><span class="line">git reflog</span><br><span class="line"><span class="comment"># 2. 改变版本</span></span><br><span class="line">git reset --hard HEAD^</span><br><span class="line">git reset --hard \&lt;版本号id&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">+—— rm \&lt;file&gt;</span><br><span class="line">    +——<span class="comment"># 确实要删</span></span><br><span class="line">    |   +—— git rm \&lt;file&gt;</span><br><span class="line">    |   +—— git commit -m &lt;message&gt;</span><br><span class="line">    +—— 删错了 git checkout -- test.txt</span><br></pre></td></tr></table></figure>
+
+<h2 id="远程库"><a href="#远程库" class="headerlink" title="远程库"></a>远程库</h2><p>咋回事</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 远程仓库和本地仓库相关联，关联后远程库默认叫 origin</span></span><br><span class="line">git remote add origin git@github.com...</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把本地内容（当前分支 master）推送到远程库</span></span><br><span class="line">git push</span><br><span class="line"><span class="comment"># 第一次推送时还需要关联本地的 master 和远程的 master</span></span><br><span class="line"><span class="comment"># 则应该用</span></span><br><span class="line">git push -u oringin master</span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送最新修改到远端</span></span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 从远程库克隆到本地库</span></span><br><span class="line"><span class="comment"># Git支持多种协议，ssh协议速度最快</span></span><br><span class="line">git <span class="built_in">clone</span>@..</span><br><span class="line"><span class="comment"># 还可以https</span></span><br><span class="line">git <span class="built_in">clone</span> https:...</span><br></pre></td></tr></table></figure>
+
+<h2 id="分支管理"><a href="#分支管理" class="headerlink" title="分支管理"></a>分支管理</h2><p>分支：<br>工作时避免互相干扰，开发完毕后再一次性合并到原来的分支上</p>
+<p>HEAD 指针、分支、提交点：<br>HEAD 指向当前分支，分支有个指针指向当前的提交点</p>
+<p>新建分支：<br>如果建了新的分支 dev，就是新建对应的 dev 指针（指向最新的提交点），改变 HEAD 的指向，工作区没有变化<br>我们不断更新版本，dev 指针在版本链上的指针改变</p>
+<p>合并分支：有普通合并和快合并</p>
+<p>命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">1. <span class="comment"># 新建分支</span></span><br><span class="line">    git branch dev</span><br><span class="line">    <span class="comment"># 切换分支</span></span><br><span class="line">    git checkout dev</span><br><span class="line">    git seitch dev</span><br><span class="line">    <span class="comment"># 命令合并：新建并切换分支</span></span><br><span class="line">    git checkout -b dev</span><br><span class="line">    git switch -c dev</span><br><span class="line">    <span class="comment"># 查看分支：列出所有分支，当前分支带 *</span></span><br><span class="line">    git branch</span><br><span class="line"></span><br><span class="line">2. <span class="comment"># 然后正常修改正常提交</span></span><br><span class="line">3. <span class="comment"># 合并分支</span></span><br><span class="line">    git switch master <span class="comment"># 切回来</span></span><br><span class="line">    git merge dev <span class="comment"># 合并指定分支到当前分支（指向dev工作点）</span></span><br><span class="line">    <span class="comment"># 没有冲突，快速合并</span></span><br><span class="line">    git branch -d dev <span class="comment"># 删除分支</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="解决冲突"><a href="#解决冲突" class="headerlink" title="解决冲突"></a>解决冲突</h3><ol>
+<li>快速合并和禁用快合并</li>
+<li>手动解决冲突再进行合并<br> 这时有冲突的文件会有标记显示不同分支有冲突的内容<br> 手动进行修改合并后保存，重新 add &amp; commit</li>
 </ol>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Set</span>-Cookie: id=a3fWa; Expires=Wed, <span class="number">21</span> Oct <span class="number">2015</span> <span class="number">07</span>:<span class="number">28</span>:<span class="number">00</span> GMT; Secure; HttpOnly</span><br><span class="line"><span class="comment">// Cookie 值之后的每一个选项以分号和空格分开</span></span><br></pre></td></tr></table></figure>
+<p>删除分支</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">查看合并情况：</span><br><span class="line">git <span class="built_in">log</span> --graph 查看分支合并图</span><br><span class="line">git <span class="built_in">log</span> --graph --pretty=oneline --abbrev-commit</span><br></pre></td></tr></table></figure>
 
+<h3 id="分支管理策略"><a href="#分支管理策略" class="headerlink" title="分支管理策略"></a>分支管理策略</h3><p>禁用快速合并: –no-ff 方式的 git merge<br>可以在 merge 的时候生成一个带描述的 commit ，而不是默默就合并了，可以看出合并记录</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git merge --no-ff -m <span class="string">"merge with no-ff"</span> dev</span><br></pre></td></tr></table></figure>
 
+<p>快速模式合并就是没有冲突的时候只改变原来 master 分支的指针，指到新分支最新的版本去<br>而强制关闭 ff 模式，则会新建一个不同于 dev 最新版的 commit ，这样可以看出 dev 的版本，这样删除分支后就不会丢失分支信息，可以看出来曾经做过合并</p>
+<ul>
+<li>分支策略</li>
+</ul>
+<p>工作中一般不直接在 master 分支上操作，仅用来发布新版本<br>工作团队就在 dev 分支上工作</p>
+<h3 id="bug分支"><a href="#bug分支" class="headerlink" title="bug分支"></a>bug分支</h3><ul>
+<li>通过新建分支来修复 bug 再进行合并</li>
+<li>此时如果还有别的分支上的工作还在进行，可以同过<code>stash</code>功能来把当前工作现场先保存，再新建别的分支修复 bug</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">+—— git stash <span class="comment"># 储存起来</span></span><br><span class="line">+—— <span class="comment"># 出去新建分支 debug</span></span><br><span class="line">+—— git stash list <span class="comment"># 列出现场</span></span><br><span class="line">+—— <span class="comment"># 恢复现场</span></span><br><span class="line">    +—— git stash apply &lt;stash@id&gt; <span class="comment"># 查看，该现场还在现场列表中</span></span><br><span class="line">    |    git stash drop <span class="comment"># 删除 stash 内容</span></span><br><span class="line">    +—— git stash pop <span class="comment"># 弹出现场，删除栈顶现场</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># master 分支上的 bug 也需要在其他分支修复</span></span><br><span class="line"><span class="comment"># 这个时候可以直接把指定的改动赋值到指定分支</span></span><br><span class="line">    +—— git cherry-pick \&lt;commit id&gt;</span><br></pre></td></tr></table></figure>
 
-<h3 id="3-1-Lifetime-：Expires-amp-Max-Age"><a href="#3-1-Lifetime-：Expires-amp-Max-Age" class="headerlink" title="3.1 Lifetime ：Expires &amp; Max-Age"></a>3.1 Lifetime ：Expires &amp; Max-Age</h3><p>没有设置 <code>expires</code> 选项时，cookie 的生命周期仅限于当前会话。登录 Web 应用时询问是否记住登录信息就是选择是否把 <code>expires</code> 附加到登录 Cookie 中</p>
-<p>改变一个 cookie 的失效日期需要指定相同的组合</p>
-<p>改变 cookie 的值时</p>
-<p>Max-age 是指有效时间有多长，Expires 是到某个时间点失效</p>
-<p>HttpOnly无法通过document.cookie（禁止通过js访问）访问</p>
-<p> Domain 可以访问到上级域名中的 cookie，某个路径下的所有二级域名都能访问到这个 cookie</p>
-<p>不同域名不能共享</p>
-<p>常用cookie来保存 session</p>
-<p>定位到 用户</p>
+<h3 id="Feature-分支"><a href="#Feature-分支" class="headerlink" title="Feature 分支"></a>Feature 分支</h3><ul>
+<li>添加新功能</li>
+<li>添加新功能的时候先再新建的 feature 分支上开发，完成后再合并</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 要丢弃一个还没被合并过的分支需要强行删除</span></span><br><span class="line">git branch -D &lt;name&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="多人协作"><a href="#多人协作" class="headerlink" title="多人协作"></a>多人协作</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看远程库信息</span></span><br><span class="line">git remote</span><br><span class="line">git remove -v</span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送分支</span></span><br><span class="line">git push origin branchName</span><br><span class="line"></span><br><span class="line"><span class="comment"># 主分支和开发分支都需要远程同步</span></span><br><span class="line"><span class="comment"># bug 分支和 feature看情况啦</span></span><br></pre></td></tr></table></figure>
+
+<p>多人协作</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 抓取分支</span></span><br><span class="line"><span class="comment"># 从远程库克隆时默认情况下只能看到本地的 master</span></span><br><span class="line"><span class="comment"># 需要创建远程 origin 的 dev 到本地</span></span><br><span class="line">git checkout -b dev origin/dev</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解决冲突</span></span><br><span class="line"><span class="comment"># git push 时有冲突</span></span><br><span class="line"><span class="comment"># 两人同时修改了同个文件相同位置的内容</span></span><br><span class="line"><span class="comment"># 先把最新提交从 origin/dev 抓下来</span></span><br><span class="line">git branch --<span class="built_in">set</span>-upstream-to=origin/\&lt;branch&gt; dev</span><br><span class="line">git pull</span><br><span class="line"><span class="comment"># 在本地合并，解决冲突再 push</span></span><br></pre></td></tr></table></figure>
+
+<p>Rebase</p>
+<p>rebase操作可以把本地未push的分叉提交历史整理成直线</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 把多人协作解决冲突的提交历史的提交整理成一条直线</span></span><br><span class="line">git rebase</span><br></pre></td></tr></table></figure>
+
+<p>操作后 commit 会被挪动位置，从而修改的内容也会发生变化，但是提交的内容是一致的</p>
+<h2 id="标签管理"><a href="#标签管理" class="headerlink" title="标签管理"></a>标签管理</h2><p>在版本库中给版本打一个标签（tag），方便取出<br>是版本库的快照，实际上就是指向某个 commit 的指针</p>
+<p>标签的创建：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先切换到需要打标签的分支上</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建标签</span></span><br><span class="line"><span class="comment"># 给最新 commit 打标签</span></span><br><span class="line">git tag &lt;tagName&gt;</span><br><span class="line"><span class="comment"># 给历史 commit</span></span><br><span class="line">git tag &lt;tagName&gt; \&lt;commit id&gt;</span><br><span class="line"><span class="comment"># 创建带说明的 tag</span></span><br><span class="line"><span class="comment"># 用 -a 指定标签名，-m 指定 messege</span></span><br><span class="line">git tag -a &lt;tagName&gt; -m <span class="string">""</span> &lt;commit id&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看有哪些标签</span></span><br><span class="line">git tab</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看某标签指向的 commit 的具体说明文字</span></span><br><span class="line">git show &lt;tagName&gt;</span><br></pre></td></tr></table></figure>
+
+<p>标签的操作</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 推送到远端</span></span><br><span class="line">git push origin &lt;tagName&gt;</span><br><span class="line">git push origin --tags</span><br><span class="line"></span><br><span class="line"><span class="comment"># 本地删除</span></span><br><span class="line">git tag -d &lt;tagName&gt;</span><br><span class="line"><span class="comment"># 远端删除</span></span><br><span class="line"><span class="comment"># 先在本地删除，再</span></span><br><span class="line">git push origin :refs/tags/&lt;name\&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用-GitHub"><a href="#使用-GitHub" class="headerlink" title="使用 GitHub"></a>使用 GitHub</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Fork <span class="comment"># Fork 开源项目到自己的仓库</span></span><br><span class="line">git <span class="built_in">clone</span> <span class="comment"># 克隆到本地</span></span><br><span class="line"><span class="comment"># 然后就可以自己进行修复、增加功能等操作了</span></span><br><span class="line">pull request <span class="comment"># 给官方贡献代码</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Gitee"><a href="#Gitee" class="headerlink" title="Gitee"></a>Gitee</h2><p>国内的 git 托管服务<br>提供免费的 Git 仓库<br>本地库可以既关联 GitHub 又关联 Gitee</p>
+<h2 id="自定义"><a href="#自定义" class="headerlink" title="自定义"></a>自定义</h2><ol>
+<li><p>部署别名</p>
+</li>
+<li><p>忽略特殊文件<br> <code>gitignore</code><br> 在<code>.gitignore</code>中写入文件名或者正则表达式</p>
+</li>
+<li><p>配置别名：例如更改一些命令</p>
+ <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 在全局把 status 命令改成 st</span></span><br><span class="line">git config --global alias.st status</span><br></pre></td></tr></table></figure>
+
+<p> 配置文件在<code>.git/config</code><br> 别名在 <code>[alias]</code> 中</p>
+</li>
+<li><p>搭建 Git 服务器<br> 有缘再学</p>
+</li>
+</ol>
+<h2 id="SourceTree"><a href="#SourceTree" class="headerlink" title="SourceTree"></a>SourceTree</h2><p>GUI 工具<br>图形界面工具<br>明天看看</p>
+<hr>
+<p>参考：</p>
+<p><a href="https:#www.liaoxuefeng.com/wiki/896043488029600">廖雪峰老师的 Git 教程</a></p>
 ]]></content>
+      <categories>
+        <category>工具</category>
+        <category>git</category>
+      </categories>
       <tags>
-        <tag>Network</tag>
+        <tag>基础语法</tag>
       </tags>
   </entry>
   <entry>
@@ -669,6 +883,250 @@
 </ol>
 <p>HTTP 版本迭代参考：<a href="http://www.ruanyifeng.com/blog/2016/08/http.html" target="_blank" rel="noopener">《HTTP 协议入门》</a>，<a href="https://www.kancloud.cn/kancloud/http3-explained" target="_blank" rel="noopener">HTTP3详解</a></p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>HTTPS</title>
+    <url>/2020/07/20/HTTPS/</url>
+    <content><![CDATA[<p>网络安全：网络安全协议 HTTPS</p>
+<a id="more"></a>
+
+<p>[TOC]</p>
+<h4 id="0-SSL"><a href="#0-SSL" class="headerlink" title="0. SSL"></a>0. SSL</h4><ul>
+<li><p>中间人攻击与安全层：</p>
+<p>HTTP 是以明文传输数据的，在将 HTTP 数据提交给 TCP 层后，传输过程中的每一个环节，数据都有可能在到达服务器之前被窃取或者篡改，这意味着可能还有个中间人在掌控着通信过程。于是在 TCP 和 HTTP 之间插入一个<strong>安全层</strong> SSL ，他的职责是，对发起 HTTP 请求的数据进行加密操作和对接收到的 HTTP 内容进行解密操作。</p>
+<blockquote>
+<p>HTTPS 使用 SSL（Secure Socket Layer） 和 TLS（Transport Layer Security）这两个协议。TSL 是以 SSL 为原型开发的协议，有时会统一称该协议为 SSL。HTTPS，其实就是身披 SSL 协议这层外壳的 HTTP。</p>
+</blockquote>
+</li>
+<li><p>流程：</p>
+<ul>
+<li><p>发送方，SSL 接收应用层的数据（HTTP 或 IMAP 报文），对数据进行加密，然后把加密后的纾解送往 TCP 套接字。</p>
+</li>
+<li><p>在接收方，SSL 从 TCP 套接字读取书，解密后把数据交给应用层。</p>
+</li>
+</ul>
+</li>
+<li><p>https使用的是 443 端口</p>
+</li>
+<li><p>一开始需要协商安全套接字，所以一开始不太快</p>
+</li>
+</ul>
+<h4 id="1-加密技术"><a href="#1-加密技术" class="headerlink" title="1.  加密技术"></a>1.  加密技术</h4><p>报文经过加密算法生成密文，伪装数据，使入侵者不能从截取的数据中获取任何信息。</p>
+<p>A 为加密算法提供一个秘钥，加密算法以秘钥和明文报文为输入，生成的密文作为输出。</p>
+<p>B 为解密算法提供一个秘钥，解密算法以秘钥和密文为输入，初始报文为输出，</p>
+<p>对称加密</p>
+<p><strong>对称秘钥系统</strong>——对称加密中，A 和 B 秘钥是相同的且秘密的。</p>
+<p>对称秘钥加密时，密钥需要发给对方。在互联网上转发密钥时，如果通信被监听那么密钥就可会落入攻击者之手，同时也就失去了加密的意义。另外还得设法安全地保管接收到的密钥。</p>
+<p><strong>公开秘钥系统</strong>——非对称加密</p>
+<p>公开密钥加密使用一对非对称的密钥。</p>
+<ul>
+<li>私有密钥（private key）：不能让其他任何人知道</li>
+<li>公开密钥（public key）：公开密钥则可以随意发布，任何人都可以获得。</li>
+<li>服务端用私钥加密的内容，可以通过它的公钥进行解密</li>
+</ul>
+<p>但是存在加密效率太低、无法保证服务器发送给浏览器的数据安全（私钥加密公钥解密，但是公钥是可以被获取的）</p>
+<p><strong>HTTPS 采用混合加密机制</strong> —— 非对称加密交换秘钥、对称加密数据</p>
+<p>DNS 劫持、如何保证服务器是可信的？</p>
+<p><strong>需要CA 权威机构保证服务的可信性</strong>⬇⬇⬇⬇⬇</p>
+<h4 id="2-数字证书："><a href="#2-数字证书：" class="headerlink" title="2.  数字证书："></a>2.  数字证书：</h4><ul>
+<li><p>数字签名：</p>
+<ul>
+<li><p>根据内容用密码散列函数 <code>hash</code> 计算得出一个摘要，然后用私钥加密，把公钥、加密后的摘要（二进制128位）、文件一起传输</p>
+</li>
+<li><p>得到后用公钥解密，并比对生成的签名是否一致</p>
+</li>
+<li><p>能够防止发送防抵赖，也能能够确保内容不被篡改</p>
+</li>
+</ul>
+</li>
+<li><p>证书：</p>
+<ul>
+<li><p>怎么样才能知道私钥是谁的呢，需要证书颁发机构——<code>CA</code>进行认证</p>
+</li>
+<li><p>流程：</p>
+<ul>
+<li>申请，CA 给申请人产生证书，里面有公钥和私钥，有 CA 的签名</li>
+<li>送出去的公钥上会有 <code>CA</code>的签名，看公钥的来源，先确认一下是不是 CA 发放的，有没有更改过</li>
+</ul>
+</li>
+<li><p>申请证书要通过域名来缴费</p>
+</li>
+<li><p>如果数字证书丢了，要向证书颁发机构挂失，放到 CRL 中</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-HTTPS-工作流程"><a href="#3-HTTPS-工作流程" class="headerlink" title="3. HTTPS 工作流程"></a>3. HTTPS 工作流程</h4><p>TTP + 加密 + 认证 + 完整性保护 = HTTPS</p>
+<img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/@Z9FN[P`7Z~}KOKRGHO13OT.png" alt="img" style="zoom:80%;" />
+
+
+
+<ol>
+<li><p>1️⃣客户端通过发送 Client Hello 报文开始 SSL 通信</p>
+<ul>
+<li>客户端生成的随机数 random1</li>
+<li>客户端支持的 SSL 版本号</li>
+<li>加密组件（ Cipher Suite）列表：所使用的的加密算法及密钥长度等</li>
+</ul>
+</li>
+</ol>
+<ol start="2">
+<li><p>服务器发送进行应答</p>
+<ol>
+<li><p>2️⃣ Server Hello 报文</p>
+<ul>
+<li>确认通信协议版本；</li>
+<li>筛选并确认加密组件；</li>
+<li>服务器生成的随机数 random 2</li>
+</ul>
+</li>
+<li><p>3️⃣服务器证书 Certificate</p>
+</li>
+<li><p>4️⃣确认</p>
+</li>
+</ol>
+</li>
+<li><p>客户端回应</p>
+<p>验证证书有效性，若证书不是可信机构颁发的，或者证书中域名和实际域名不一样，或者已过期，就会向访问者显示一个警告，由其选择是否还要通信。如果证书没问题，则用 random1 和 random2 生成 <code>pre-master</code>，并从证书中取出服务器的公钥进行加密，然后向服务器发送</p>
+<ol>
+<li><p>5️⃣上面生成的随机数 <code>pre-master</code>（用公钥加密）</p>
+</li>
+<li><p>6️⃣编码改变通知：提示服务器此后报文通信将采用  <code>pre-master</code> 密钥加密</p>
+</li>
+<li><p>⑦ Finish报文：客户端握手结束通知。该报文包含连接至今全部报文的整体叫验证，这次握手协商能否成功，要以服务器是否能够正确解密该报文作为判定标准。</p>
+</li>
+</ol>
+</li>
+<li><p>服务器你收到第三个随机数之后，计算本次会话所用的会话加密，然后向客户端发送：</p>
+<ul>
+<li>8️⃣编码改变通知</li>
+<li>9️⃣Finish报文：服务器握手结束，也是前面所有内容的 hash 值，供服务器校验—</li>
+</ul>
+<p>————————–至此握手已经成功，SSL 连接建立完成————————-</p>
+</li>
+<li><p>可以进行应用层协议通信了</p>
+<ol>
+<li>发送 HTTP 请求</li>
+<li>HTTP 响应</li>
+<li>断开连接</li>
+</ol>
+</li>
+</ol>
+<h4 id="4-HTTPS-存在的问题"><a href="#4-HTTPS-存在的问题" class="headerlink" title="4. HTTPS 存在的问题"></a>4. HTTPS 存在的问题</h4><p>HTTPS 也存在一些问题，那就是当使用 SSL 时，它的处理速度会变慢。</p>
+<p>SSL证书信用体系不绝对安全</p>
+]]></content>
+      <tags>
+        <tag>Network</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>先Mark住Markdown的常用符</title>
+    <url>/2020/04/29/MarkMarkdown/</url>
+    <content><![CDATA[<p>终于终于到了可以写博文的环节了，第一篇那就先总结一下我觉得我以后要markdown的一些常用语法吧，一边学一边写一边总结厚！</p>
+<a id="more"></a>
+
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><p> <a href="#一一些基础语法">一、一些基础语法</a></p>
+<ul>
+<li><a href="#代码块">代码块</a></li>
+<li><a href="#行内代码块">行内代码块</a></li>
+<li><a href="#整段代码块">整段代码块</a></li>
+<li><a href="#常用需要转义的符号">常用需要转义的符号</a></li>
+<li><a href="#加粗或斜体">加粗或斜体</a></li>
+<li><a href="#设置标题">设置标题</a></li>
+<li><a href="#超链接行内式和参考式自动链接">超链接：行内式和参考式，自动链接</a></li>
+<li><a href="#删除线">删除线</a></li>
+</ul>
+<p><a href="#二引用插入点什么">二、引用/插入点什么</a></p>
+<ul>
+<li><p><a href="#文字引用">文字引用</a></p>
+</li>
+<li><p><a href="#列表">列表</a></p>
+</li>
+<li><p><a href="#目录结构">目录结构</a></p>
+</li>
+<li><p><a href="#插入图像">插入图像</a></p>
+</li>
+<li><p><a href="#写公式">写公式</a></p>
+</li>
+<li><p><a href="#流程图">流程图</a></p>
+</li>
+<li><p><a href="#表格">表格</a></p>
+</li>
+<li><p><a href="#加入html标签">加入html标签</a></p>
+</li>
+<li><p><a href="#代办事项">代办事项</a></p>
+<p><a href="#三最后说点什么">三、最后说点什么</a></p>
+</li>
+</ul>
+<h2 id="一、一些基础语法"><a href="#一、一些基础语法" class="headerlink" title="一、一些基础语法"></a>一、一些基础语法</h2><h3 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h3><p>好像写语法总结需要把代码放上来，那就先写怎么引用代码叭（禁止套娃–||）</p>
+<h4 id="行内代码块"><a href="#行内代码块" class="headerlink" title="行内代码块"></a>行内代码块</h4><p>用单引号括住就ok了<br>这是设置字体的html代码’<font color="red">红色</font>‘</p>
+<h4 id="整段代码块"><a href="#整段代码块" class="headerlink" title="整段代码块"></a>整段代码块</h4><p>使用四个缩进或者双引号单引号表示代码块<br>反引号加语言名字</p>
+<h3 id="常用需要转义的符号"><a href="#常用需要转义的符号" class="headerlink" title="常用需要转义的符号"></a>常用需要转义的符号</h3><p>没想到一开头就要用到转义了hhh<br>Markdown里转义也是在特殊字符前面加一个反斜杠<br>常见的需呀转义的符号有<br>\ ‘ * _ {} [] () # + - . !</p>
+<h3 id="加粗或斜体"><a href="#加粗或斜体" class="headerlink" title="加粗或斜体"></a>加粗或斜体</h3><p>用*包着对应的文字，左右</p>
+<h3 id="设置标题"><a href="#设置标题" class="headerlink" title="设置标题"></a>设置标题</h3><p>在标题前面加’#’，越低级的标题用越多的’#’，可以加1~6个</p>
+<h3 id="超链接：行内式和参考式，自动链接"><a href="#超链接：行内式和参考式，自动链接" class="headerlink" title="超链接：行内式和参考式，自动链接"></a>超链接：行内式和参考式，自动链接</h3><h3 id="删除线"><a href="#删除线" class="headerlink" title="删除线"></a>删除线</h3><p>用~~包住语句就好啦</p>
+<h2 id="二、引用-插入点什么"><a href="#二、引用-插入点什么" class="headerlink" title="二、引用/插入点什么"></a>二、引用/插入点什么</h2><h3 id="文字引用"><a href="#文字引用" class="headerlink" title="文字引用"></a>文字引用</h3><p>用<code>&gt;</code>表示文字引用</p>
+<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p>无序列表：用<code>*</code>、<code>+</code>、<code>-</code>都可以表示无序列表<br>有序列表：用数字和点表示有序列表</p>
+<h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3><p>在文中任意位置输入单击，点插入OTC就好啦即可显示全文内容啦<br><code>&lt;!-- TOC --&gt;</code></p>
+<h3 id="插入图像"><a href="#插入图像" class="headerlink" title="插入图像"></a>插入图像</h3><p>使用 <code>![描述](url)</code> 插入图像</p>
+<p>###　写公式</p>
+<p><code>$</code>写行内公式，<code>$$</code>写整行公式</p>
+<h3 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h3><ol>
+<li>流程图从flow开始</li>
+<li>然后需要定义tag，基本类型包括：</li>
+</ol>
+<p>-start（开始框）<br>-end<br>-operation（执行）<br>-subroutine （分支）<br>-condition（条件结构）<br>-condition（yes和no，这个好像不需要定义啦）<br>3. 用=&gt;来定义，用-&gt;来表示路径</p>
+<h3 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h3><p>列：直接用|代替表格的竖线；行：直接换行就行<br>第二行用来表示字体显示的位置’-‘表示靠左，’-‘表示靠右，’:–:’表示居中</p>
+<h3 id="加入html标签"><a href="#加入html标签" class="headerlink" title="加入html标签"></a>加入html标签</h3><p>加个标签改变某个东东的属性这样子<br><font color="red">我是一段红色加粗的字</font></p>
+<h3 id="代办事项"><a href="#代办事项" class="headerlink" title="代办事项"></a>代办事项</h3><p>list前加<code>[]</code>或<code>[×]</code>表示完成或未完成</p>
+<p>[]1. xuexi</p>
+<h3 id="插入-emoji"><a href="#插入-emoji" class="headerlink" title="插入 emoji"></a>插入 <code>emoji</code></h3><p>看这里 <a href="https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md" target="_blank" rel="noopener">emoji-cheat-sheet</a></p>
+<table>
+<thead>
+<tr>
+<th align="center">emoji</th>
+<th align="left">shortcode</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">:rofl:</td>
+<td align="left"><code>:rofl:</code></td>
+</tr>
+<tr>
+<td align="center">:sweat_smile:</td>
+<td align="left"><code>:sweat_smile:</code></td>
+</tr>
+<tr>
+<td align="center">:upside_down_face:</td>
+<td align="left"><code>:upside_down_face:</code></td>
+</tr>
+<tr>
+<td align="center">:smiling_face_with_three_hearts:</td>
+<td align="left"><code>:smiling_face_with_three_hearts:</code></td>
+</tr>
+<tr>
+<td align="center">:star_struck:</td>
+<td align="left"><code>:star_struck:</code></td>
+</tr>
+<tr>
+<td align="center">:stuck_out_tongue_closed_eyes:</td>
+<td align="left"><code>:stuck_out_tongue_closed_eyes:</code></td>
+</tr>
+<tr>
+<td align="center">:sunglasses:</td>
+<td align="left"><code>:sunglasses:</code></td>
+</tr>
+</tbody></table>
+<h2 id="三、最后说点什么"><a href="#三、最后说点什么" class="headerlink" title="三、最后说点什么"></a>三、最后说点什么</h2><p>8行，我真的困了，不知到上面写的能实现多少，先挖个坑，改天来填</p>
+<img src="齐神说晚安.jpg" width="100px">
+
+<p><img src="%E9%BD%90%E7%A5%9E%E8%AF%B4%E6%99%9A%E5%AE%89.jpg" alt="alt"></p>
+<p>为啥图片显示不了哦？！</p>
+]]></content>
+      <categories>
+        <category>工具</category>
+        <category>Markdown</category>
+      </categories>
   </entry>
   <entry>
     <title>计算机网络学习笔记</title>
@@ -1528,259 +1986,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Git &amp; GitHub小结</title>
-    <url>/2020/06/29/Git-GitHub/</url>
-    <content><![CDATA[<p>Git 是目前世界上最先进的分布式版本控制系统；GitHub 为开源项目免费提供Git存储。</p>
-<a id="more"></a>
-
-<p><strong>目录</strong>：</p>
-<!-- TOC -->
-
-<ul>
-<li><a href="#hellogit">helloGit</a></li>
-<li><a href="#创建版本库">创建版本库</a></li>
-<li><a href="#本地库操作小结">本地库操作小结</a></li>
-<li><a href="#远程库">远程库</a></li>
-<li><a href="#分支管理">分支管理</a><ul>
-<li><a href="#解决冲突">解决冲突</a></li>
-<li><a href="#分支管理策略">分支管理策略</a></li>
-<li><a href="#bug分支">bug分支</a></li>
-<li><a href="#feature-分支">Feature 分支</a></li>
-<li><a href="#多人协作">多人协作</a></li>
-</ul>
-</li>
-<li><a href="#标签管理">标签管理</a></li>
-<li><a href="#使用-github">使用 GitHub</a></li>
-<li><a href="#gitee">Gitee</a></li>
-<li><a href="#自定义">自定义</a></li>
-<li><a href="#sourcetree">SourceTree</a></li>
-</ul>
-<!-- /TOC -->
-
-<h2 id="helloGit"><a href="#helloGit" class="headerlink" title="helloGit"></a>helloGit</h2><p>Git 是目前世界上最先进的分布式版本控制系统<br>GitHub 为开源项目免费提供Git存储</p>
-<p>分布式和集中式版本控制系统：</p>
-<p>集中式：集中存放在中央服务器，必须联网才能工作，效率低。<br>分布式：每个人的电脑都是一个完整的版本库，协作时只需要把各自的修改推送给对方，无需联网也可以工作；有一台充当“中央服务器”的电脑，用来方便交换大家的修改</p>
-<h2 id="创建版本库"><a href="#创建版本库" class="headerlink" title="创建版本库"></a>创建版本库</h2><p>版本库，repository，版本库下所有文件都可以被 Git 管理起来，每个文件的修改、删除 Git 都能跟踪</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建一个空文件</span></span><br><span class="line"><span class="comment"># 1. 显示当前目录</span></span><br><span class="line">    $ <span class="built_in">pwd</span></span><br><span class="line"><span class="comment"># 2. 初始化：把目录变成 Git 可以管理的仓库</span></span><br><span class="line">    $ git init</span><br><span class="line"><span class="comment"># 生成一个 .git 目录，是 Git 来追踪管理版本库的</span></span><br><span class="line"><span class="comment"># 这是一个隐藏目录，可以让他显示</span></span><br><span class="line">    $ ls -ah</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>把文件添加到版本库</li>
-</ul>
-<p>版本库只能跟踪文本文件的改动，比如TXT文件，网页，所有的程序代码（word 文件不可以）等等；而图片、视频等二进制文件就无法跟踪变化</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 编写一个文件，readme.txt</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 把文件添加到仓库</span></span><br><span class="line">$ git add &lt;file&gt;</span><br><span class="line">$ git add readme.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 把文件提交到仓库（-m 后面输入本次提交的说明）</span></span><br><span class="line">$ git commit -m &lt;message&gt;</span><br><span class="line">$ git commit -m <span class="string">"wrote a readme file"</span></span><br><span class="line"><span class="comment"># commit 一次可以提交多个 add 进来的内容</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>修改与版本</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看仓库状态，修改信息、提交状态等</span></span><br><span class="line">    $ git status</span><br><span class="line">    <span class="comment"># working tree clean</span></span><br><span class="line">    <span class="comment"># Changes to be committed:...</span></span><br><span class="line"><span class="comment"># 查看具体被修改的内容 —— Unix 通用的 diff 格式显示</span></span><br><span class="line">    $ git diff &lt;file&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 版本回退</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 查看历史记录 —— 显示所有的版本记录</span></span><br><span class="line">    $ git <span class="built_in">log</span></span><br><span class="line">    $ git <span class="built_in">log</span> --pretty=oneline</span><br><span class="line">    <span class="comment"># commit id : 是 SHA 计算出的十六进制数字，避免冲突</span></span><br><span class="line">    <span class="comment"># Author &amp; Date &amp; message</span></span><br><span class="line"><span class="comment"># 2. 回退</span></span><br><span class="line"><span class="comment">#  版本表示：</span></span><br><span class="line">    HEAD --&gt; 当前版本</span><br><span class="line">    HEAD^ --&gt; 上一版本</span><br><span class="line">    HEAD^^ --&gt; 上上版本</span><br><span class="line">    HEAD~100 --&gt; 往上 100 个</span><br><span class="line"><span class="comment">#  命令：</span></span><br><span class="line">    $ git reset --hard HEAD^ / commit id</span><br><span class="line"><span class="comment"># 【内部有个指向当前版本的 HEAD 指针，版本回退只是更改指针指向】</span></span><br><span class="line"></span><br><span class="line">----此时通过 status 已经无法读取之后版本了----</span><br><span class="line"></span><br><span class="line"><span class="comment"># 返回更新的版本</span></span><br><span class="line"><span class="comment"># 通过 commit id 回退，则需要查看命令的 id</span></span><br><span class="line">    $ git reflog</span><br></pre></td></tr></table></figure>
-
-<h2 id="本地库操作小结"><a href="#本地库操作小结" class="headerlink" title="本地库操作小结"></a>本地库操作小结</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">|—— 工作区 ==&gt; add</span><br><span class="line">|—— 版本库</span><br><span class="line">    +—— stage 暂存区  =&gt; commit</span><br><span class="line">    +—— master 分支：创建 Git 版本库时，自动为我们创建的唯一分支</span><br><span class="line">        提交到这里就是已经在仓库了</span><br><span class="line">     —— HEAD：指向 master 的指针</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>回退</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"> <span class="comment"># 工作区回退</span></span><br><span class="line">git reset HEAD \&lt;file&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 暂存库回退</span></span><br><span class="line">git checkout -- \&lt;file&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 版本库回退</span></span><br><span class="line"><span class="comment"># 1. 查看 git 版本操作记录</span></span><br><span class="line">git <span class="built_in">log</span> --pretty=oneline</span><br><span class="line">git reflog</span><br><span class="line"><span class="comment"># 2. 改变版本</span></span><br><span class="line">git reset --hard HEAD^</span><br><span class="line">git reset --hard \&lt;版本号id&gt;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>删除</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">+—— rm \&lt;file&gt;</span><br><span class="line">    +——<span class="comment"># 确实要删</span></span><br><span class="line">    |   +—— git rm \&lt;file&gt;</span><br><span class="line">    |   +—— git commit -m &lt;message&gt;</span><br><span class="line">    +—— 删错了 git checkout -- test.txt</span><br></pre></td></tr></table></figure>
-
-<h2 id="远程库"><a href="#远程库" class="headerlink" title="远程库"></a>远程库</h2><p>咋回事</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 远程仓库和本地仓库相关联，关联后远程库默认叫 origin</span></span><br><span class="line">git remote add origin git@github.com...</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把本地内容（当前分支 master）推送到远程库</span></span><br><span class="line">git push</span><br><span class="line"><span class="comment"># 第一次推送时还需要关联本地的 master 和远程的 master</span></span><br><span class="line"><span class="comment"># 则应该用</span></span><br><span class="line">git push -u oringin master</span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送最新修改到远端</span></span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 从远程库克隆到本地库</span></span><br><span class="line"><span class="comment"># Git支持多种协议，ssh协议速度最快</span></span><br><span class="line">git <span class="built_in">clone</span>@..</span><br><span class="line"><span class="comment"># 还可以https</span></span><br><span class="line">git <span class="built_in">clone</span> https:...</span><br></pre></td></tr></table></figure>
-
-<h2 id="分支管理"><a href="#分支管理" class="headerlink" title="分支管理"></a>分支管理</h2><p>分支：<br>工作时避免互相干扰，开发完毕后再一次性合并到原来的分支上</p>
-<p>HEAD 指针、分支、提交点：<br>HEAD 指向当前分支，分支有个指针指向当前的提交点</p>
-<p>新建分支：<br>如果建了新的分支 dev，就是新建对应的 dev 指针（指向最新的提交点），改变 HEAD 的指向，工作区没有变化<br>我们不断更新版本，dev 指针在版本链上的指针改变</p>
-<p>合并分支：有普通合并和快合并</p>
-<p>命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">1. <span class="comment"># 新建分支</span></span><br><span class="line">    git branch dev</span><br><span class="line">    <span class="comment"># 切换分支</span></span><br><span class="line">    git checkout dev</span><br><span class="line">    git seitch dev</span><br><span class="line">    <span class="comment"># 命令合并：新建并切换分支</span></span><br><span class="line">    git checkout -b dev</span><br><span class="line">    git switch -c dev</span><br><span class="line">    <span class="comment"># 查看分支：列出所有分支，当前分支带 *</span></span><br><span class="line">    git branch</span><br><span class="line"></span><br><span class="line">2. <span class="comment"># 然后正常修改正常提交</span></span><br><span class="line">3. <span class="comment"># 合并分支</span></span><br><span class="line">    git switch master <span class="comment"># 切回来</span></span><br><span class="line">    git merge dev <span class="comment"># 合并指定分支到当前分支（指向dev工作点）</span></span><br><span class="line">    <span class="comment"># 没有冲突，快速合并</span></span><br><span class="line">    git branch -d dev <span class="comment"># 删除分支</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="解决冲突"><a href="#解决冲突" class="headerlink" title="解决冲突"></a>解决冲突</h3><ol>
-<li>快速合并和禁用快合并</li>
-<li>手动解决冲突再进行合并<br> 这时有冲突的文件会有标记显示不同分支有冲突的内容<br> 手动进行修改合并后保存，重新 add &amp; commit</li>
-</ol>
-<p>删除分支</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">查看合并情况：</span><br><span class="line">git <span class="built_in">log</span> --graph 查看分支合并图</span><br><span class="line">git <span class="built_in">log</span> --graph --pretty=oneline --abbrev-commit</span><br></pre></td></tr></table></figure>
-
-<h3 id="分支管理策略"><a href="#分支管理策略" class="headerlink" title="分支管理策略"></a>分支管理策略</h3><p>禁用快速合并: –no-ff 方式的 git merge<br>可以在 merge 的时候生成一个带描述的 commit ，而不是默默就合并了，可以看出合并记录</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git merge --no-ff -m <span class="string">"merge with no-ff"</span> dev</span><br></pre></td></tr></table></figure>
-
-<p>快速模式合并就是没有冲突的时候只改变原来 master 分支的指针，指到新分支最新的版本去<br>而强制关闭 ff 模式，则会新建一个不同于 dev 最新版的 commit ，这样可以看出 dev 的版本，这样删除分支后就不会丢失分支信息，可以看出来曾经做过合并</p>
-<ul>
-<li>分支策略</li>
-</ul>
-<p>工作中一般不直接在 master 分支上操作，仅用来发布新版本<br>工作团队就在 dev 分支上工作</p>
-<h3 id="bug分支"><a href="#bug分支" class="headerlink" title="bug分支"></a>bug分支</h3><ul>
-<li>通过新建分支来修复 bug 再进行合并</li>
-<li>此时如果还有别的分支上的工作还在进行，可以同过<code>stash</code>功能来把当前工作现场先保存，再新建别的分支修复 bug</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">+—— git stash <span class="comment"># 储存起来</span></span><br><span class="line">+—— <span class="comment"># 出去新建分支 debug</span></span><br><span class="line">+—— git stash list <span class="comment"># 列出现场</span></span><br><span class="line">+—— <span class="comment"># 恢复现场</span></span><br><span class="line">    +—— git stash apply &lt;stash@id&gt; <span class="comment"># 查看，该现场还在现场列表中</span></span><br><span class="line">    |    git stash drop <span class="comment"># 删除 stash 内容</span></span><br><span class="line">    +—— git stash pop <span class="comment"># 弹出现场，删除栈顶现场</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># master 分支上的 bug 也需要在其他分支修复</span></span><br><span class="line"><span class="comment"># 这个时候可以直接把指定的改动赋值到指定分支</span></span><br><span class="line">    +—— git cherry-pick \&lt;commit id&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="Feature-分支"><a href="#Feature-分支" class="headerlink" title="Feature 分支"></a>Feature 分支</h3><ul>
-<li>添加新功能</li>
-<li>添加新功能的时候先再新建的 feature 分支上开发，完成后再合并</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 要丢弃一个还没被合并过的分支需要强行删除</span></span><br><span class="line">git branch -D &lt;name&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="多人协作"><a href="#多人协作" class="headerlink" title="多人协作"></a>多人协作</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看远程库信息</span></span><br><span class="line">git remote</span><br><span class="line">git remove -v</span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送分支</span></span><br><span class="line">git push origin branchName</span><br><span class="line"></span><br><span class="line"><span class="comment"># 主分支和开发分支都需要远程同步</span></span><br><span class="line"><span class="comment"># bug 分支和 feature看情况啦</span></span><br></pre></td></tr></table></figure>
-
-<p>多人协作</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 抓取分支</span></span><br><span class="line"><span class="comment"># 从远程库克隆时默认情况下只能看到本地的 master</span></span><br><span class="line"><span class="comment"># 需要创建远程 origin 的 dev 到本地</span></span><br><span class="line">git checkout -b dev origin/dev</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解决冲突</span></span><br><span class="line"><span class="comment"># git push 时有冲突</span></span><br><span class="line"><span class="comment"># 两人同时修改了同个文件相同位置的内容</span></span><br><span class="line"><span class="comment"># 先把最新提交从 origin/dev 抓下来</span></span><br><span class="line">git branch --<span class="built_in">set</span>-upstream-to=origin/\&lt;branch&gt; dev</span><br><span class="line">git pull</span><br><span class="line"><span class="comment"># 在本地合并，解决冲突再 push</span></span><br></pre></td></tr></table></figure>
-
-<p>Rebase</p>
-<p>rebase操作可以把本地未push的分叉提交历史整理成直线</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 把多人协作解决冲突的提交历史的提交整理成一条直线</span></span><br><span class="line">git rebase</span><br></pre></td></tr></table></figure>
-
-<p>操作后 commit 会被挪动位置，从而修改的内容也会发生变化，但是提交的内容是一致的</p>
-<h2 id="标签管理"><a href="#标签管理" class="headerlink" title="标签管理"></a>标签管理</h2><p>在版本库中给版本打一个标签（tag），方便取出<br>是版本库的快照，实际上就是指向某个 commit 的指针</p>
-<p>标签的创建：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先切换到需要打标签的分支上</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建标签</span></span><br><span class="line"><span class="comment"># 给最新 commit 打标签</span></span><br><span class="line">git tag &lt;tagName&gt;</span><br><span class="line"><span class="comment"># 给历史 commit</span></span><br><span class="line">git tag &lt;tagName&gt; \&lt;commit id&gt;</span><br><span class="line"><span class="comment"># 创建带说明的 tag</span></span><br><span class="line"><span class="comment"># 用 -a 指定标签名，-m 指定 messege</span></span><br><span class="line">git tag -a &lt;tagName&gt; -m <span class="string">""</span> &lt;commit id&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看有哪些标签</span></span><br><span class="line">git tab</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看某标签指向的 commit 的具体说明文字</span></span><br><span class="line">git show &lt;tagName&gt;</span><br></pre></td></tr></table></figure>
-
-<p>标签的操作</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 推送到远端</span></span><br><span class="line">git push origin &lt;tagName&gt;</span><br><span class="line">git push origin --tags</span><br><span class="line"></span><br><span class="line"><span class="comment"># 本地删除</span></span><br><span class="line">git tag -d &lt;tagName&gt;</span><br><span class="line"><span class="comment"># 远端删除</span></span><br><span class="line"><span class="comment"># 先在本地删除，再</span></span><br><span class="line">git push origin :refs/tags/&lt;name\&gt;</span><br></pre></td></tr></table></figure>
-
-<h2 id="使用-GitHub"><a href="#使用-GitHub" class="headerlink" title="使用 GitHub"></a>使用 GitHub</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">Fork <span class="comment"># Fork 开源项目到自己的仓库</span></span><br><span class="line">git <span class="built_in">clone</span> <span class="comment"># 克隆到本地</span></span><br><span class="line"><span class="comment"># 然后就可以自己进行修复、增加功能等操作了</span></span><br><span class="line">pull request <span class="comment"># 给官方贡献代码</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="Gitee"><a href="#Gitee" class="headerlink" title="Gitee"></a>Gitee</h2><p>国内的 git 托管服务<br>提供免费的 Git 仓库<br>本地库可以既关联 GitHub 又关联 Gitee</p>
-<h2 id="自定义"><a href="#自定义" class="headerlink" title="自定义"></a>自定义</h2><ol>
-<li><p>部署别名</p>
-</li>
-<li><p>忽略特殊文件<br> <code>gitignore</code><br> 在<code>.gitignore</code>中写入文件名或者正则表达式</p>
-</li>
-<li><p>配置别名：例如更改一些命令</p>
- <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 在全局把 status 命令改成 st</span></span><br><span class="line">git config --global alias.st status</span><br></pre></td></tr></table></figure>
-
-<p> 配置文件在<code>.git/config</code><br> 别名在 <code>[alias]</code> 中</p>
-</li>
-<li><p>搭建 Git 服务器<br> 有缘再学</p>
-</li>
-</ol>
-<h2 id="SourceTree"><a href="#SourceTree" class="headerlink" title="SourceTree"></a>SourceTree</h2><p>GUI 工具<br>图形界面工具<br>明天看看</p>
-<hr>
-<p>参考：</p>
-<p><a href="https:#www.liaoxuefeng.com/wiki/896043488029600">廖雪峰老师的 Git 教程</a></p>
-]]></content>
-      <categories>
-        <category>工具</category>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>基础语法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>先Mark住Markdown的常用符</title>
-    <url>/2020/04/29/MarkMarkdown/</url>
-    <content><![CDATA[<p>终于终于到了可以写博文的环节了，第一篇那就先总结一下我觉得我以后要markdown的一些常用语法吧，一边学一边写一边总结厚！</p>
-<a id="more"></a>
-
-<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><p> <a href="#一一些基础语法">一、一些基础语法</a></p>
-<ul>
-<li><a href="#代码块">代码块</a></li>
-<li><a href="#行内代码块">行内代码块</a></li>
-<li><a href="#整段代码块">整段代码块</a></li>
-<li><a href="#常用需要转义的符号">常用需要转义的符号</a></li>
-<li><a href="#加粗或斜体">加粗或斜体</a></li>
-<li><a href="#设置标题">设置标题</a></li>
-<li><a href="#超链接行内式和参考式自动链接">超链接：行内式和参考式，自动链接</a></li>
-<li><a href="#删除线">删除线</a></li>
-</ul>
-<p><a href="#二引用插入点什么">二、引用/插入点什么</a></p>
-<ul>
-<li><p><a href="#文字引用">文字引用</a></p>
-</li>
-<li><p><a href="#列表">列表</a></p>
-</li>
-<li><p><a href="#目录结构">目录结构</a></p>
-</li>
-<li><p><a href="#插入图像">插入图像</a></p>
-</li>
-<li><p><a href="#写公式">写公式</a></p>
-</li>
-<li><p><a href="#流程图">流程图</a></p>
-</li>
-<li><p><a href="#表格">表格</a></p>
-</li>
-<li><p><a href="#加入html标签">加入html标签</a></p>
-</li>
-<li><p><a href="#代办事项">代办事项</a></p>
-<p><a href="#三最后说点什么">三、最后说点什么</a></p>
-</li>
-</ul>
-<h2 id="一、一些基础语法"><a href="#一、一些基础语法" class="headerlink" title="一、一些基础语法"></a>一、一些基础语法</h2><h3 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h3><p>好像写语法总结需要把代码放上来，那就先写怎么引用代码叭（禁止套娃–||）</p>
-<h4 id="行内代码块"><a href="#行内代码块" class="headerlink" title="行内代码块"></a>行内代码块</h4><p>用单引号括住就ok了<br>这是设置字体的html代码’<font color="red">红色</font>‘</p>
-<h4 id="整段代码块"><a href="#整段代码块" class="headerlink" title="整段代码块"></a>整段代码块</h4><p>使用四个缩进或者双引号单引号表示代码块<br>反引号加语言名字</p>
-<h3 id="常用需要转义的符号"><a href="#常用需要转义的符号" class="headerlink" title="常用需要转义的符号"></a>常用需要转义的符号</h3><p>没想到一开头就要用到转义了hhh<br>Markdown里转义也是在特殊字符前面加一个反斜杠<br>常见的需呀转义的符号有<br>\ ‘ * _ {} [] () # + - . !</p>
-<h3 id="加粗或斜体"><a href="#加粗或斜体" class="headerlink" title="加粗或斜体"></a>加粗或斜体</h3><p>用*包着对应的文字，左右</p>
-<h3 id="设置标题"><a href="#设置标题" class="headerlink" title="设置标题"></a>设置标题</h3><p>在标题前面加’#’，越低级的标题用越多的’#’，可以加1~6个</p>
-<h3 id="超链接：行内式和参考式，自动链接"><a href="#超链接：行内式和参考式，自动链接" class="headerlink" title="超链接：行内式和参考式，自动链接"></a>超链接：行内式和参考式，自动链接</h3><h3 id="删除线"><a href="#删除线" class="headerlink" title="删除线"></a>删除线</h3><p>用~~包住语句就好啦</p>
-<h2 id="二、引用-插入点什么"><a href="#二、引用-插入点什么" class="headerlink" title="二、引用/插入点什么"></a>二、引用/插入点什么</h2><h3 id="文字引用"><a href="#文字引用" class="headerlink" title="文字引用"></a>文字引用</h3><p>用<code>&gt;</code>表示文字引用</p>
-<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p>无序列表：用<code>*</code>、<code>+</code>、<code>-</code>都可以表示无序列表<br>有序列表：用数字和点表示有序列表</p>
-<h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3><p>在文中任意位置输入单击，点插入OTC就好啦即可显示全文内容啦<br><code>&lt;!-- TOC --&gt;</code></p>
-<h3 id="插入图像"><a href="#插入图像" class="headerlink" title="插入图像"></a>插入图像</h3><p>使用 <code>![描述](url)</code> 插入图像</p>
-<p>###　写公式</p>
-<p><code>$</code>写行内公式，<code>$$</code>写整行公式</p>
-<h3 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h3><ol>
-<li>流程图从flow开始</li>
-<li>然后需要定义tag，基本类型包括：</li>
-</ol>
-<p>-start（开始框）<br>-end<br>-operation（执行）<br>-subroutine （分支）<br>-condition（条件结构）<br>-condition（yes和no，这个好像不需要定义啦）<br>3. 用=&gt;来定义，用-&gt;来表示路径</p>
-<h3 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h3><p>列：直接用|代替表格的竖线；行：直接换行就行<br>第二行用来表示字体显示的位置’-‘表示靠左，’-‘表示靠右，’:–:’表示居中</p>
-<h3 id="加入html标签"><a href="#加入html标签" class="headerlink" title="加入html标签"></a>加入html标签</h3><p>加个标签改变某个东东的属性这样子<br><font color="red">我是一段红色加粗的字</font></p>
-<h3 id="代办事项"><a href="#代办事项" class="headerlink" title="代办事项"></a>代办事项</h3><p>list前加<code>[]</code>或<code>[×]</code>表示完成或未完成</p>
-<p>[]1. xuexi</p>
-<h3 id="插入-emoji"><a href="#插入-emoji" class="headerlink" title="插入 emoji"></a>插入 <code>emoji</code></h3><p>看这里 <a href="https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md" target="_blank" rel="noopener">emoji-cheat-sheet</a></p>
-<table>
-<thead>
-<tr>
-<th align="center">emoji</th>
-<th align="left">shortcode</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">:rofl:</td>
-<td align="left"><code>:rofl:</code></td>
-</tr>
-<tr>
-<td align="center">:sweat_smile:</td>
-<td align="left"><code>:sweat_smile:</code></td>
-</tr>
-<tr>
-<td align="center">:upside_down_face:</td>
-<td align="left"><code>:upside_down_face:</code></td>
-</tr>
-<tr>
-<td align="center">:smiling_face_with_three_hearts:</td>
-<td align="left"><code>:smiling_face_with_three_hearts:</code></td>
-</tr>
-<tr>
-<td align="center">:star_struck:</td>
-<td align="left"><code>:star_struck:</code></td>
-</tr>
-<tr>
-<td align="center">:stuck_out_tongue_closed_eyes:</td>
-<td align="left"><code>:stuck_out_tongue_closed_eyes:</code></td>
-</tr>
-<tr>
-<td align="center">:sunglasses:</td>
-<td align="left"><code>:sunglasses:</code></td>
-</tr>
-</tbody></table>
-<h2 id="三、最后说点什么"><a href="#三、最后说点什么" class="headerlink" title="三、最后说点什么"></a>三、最后说点什么</h2><p>8行，我真的困了，不知到上面写的能实现多少，先挖个坑，改天来填</p>
-<img src="齐神说晚安.jpg" width="100px">
-
-<p><img src="%E9%BD%90%E7%A5%9E%E8%AF%B4%E6%99%9A%E5%AE%89.jpg" alt="alt"></p>
-<p>为啥图片显示不了哦？！</p>
-]]></content>
-      <categories>
-        <category>工具</category>
-        <category>Markdown</category>
-      </categories>
-  </entry>
-  <entry>
     <title>JavaScript 的原型和继承</title>
     <url>/2020/07/07/class-constructor-prototype/</url>
     <content><![CDATA[<p>发现到现在还是没有很弄明白 JavaScript 的原型和继承，看得晕晕的，决定先总结一下</p>
@@ -1877,12 +2082,21 @@
       </tags>
   </entry>
   <entry>
-    <title>HTTPS</title>
-    <url>/2020/07/20/HTTPS/</url>
-    <content><![CDATA[<h2 id="TLS"><a href="#TLS" class="headerlink" title="TLS"></a>TLS</h2><h2 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h2><h2 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h2><h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><h2 id="数字证书"><a href="#数字证书" class="headerlink" title="数字证书"></a>数字证书</h2>]]></content>
-      <tags>
-        <tag>NetWork</tag>
-      </tags>
+    <title>happy birthday</title>
+    <url>/2020/07/15/happy-birthday/</url>
+    <content><![CDATA[<p>雨天生日快乐</p>
+<a id="more"></a>
+
+<iframe src="//player.bilibili.com/player.html?aid=883812762&bvid=BV1yK4y1s7UL&cid=21248569&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+
+<p>我猜你想知道怎么插入视频，其实灰常简单，只需要把视频源链接放到用到 <code>\&lt;iframe&gt;</code>标签（这个标签是可以理解为用来引入其他页面），添加 <code>src</code>属性，属性值为路径就 OK 啦</p>
+<p>像 b 站这种视频就更简单了</p>
+<img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/903E7FF3576E3DEC5098D2487271744E.jpg" alt="img" style="zoom:67%;" />
+
+<p>把这个链接复制粘贴一下就能以默认样式引入视频啦~</p>
+<hr>
+<p><img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/qqpyimg1594744286.gif" alt="img"></p>
+<div align="center">和彬彬幸福美满！！大厂预定！！一起发财！！！！！<div>]]></content>
   </entry>
   <entry>
     <title>hexo</title>
@@ -1903,23 +2117,6 @@
 <h3 id="链接样式改变"><a href="#链接样式改变" class="headerlink" title="链接样式改变"></a>链接样式改变</h3><h3 id="图片显示"><a href="#图片显示" class="headerlink" title="图片显示"></a>图片显示</h3>
 
 <h3 id=""><a href="#" class="headerlink" title=""></a></h3>]]></content>
-  </entry>
-  <entry>
-    <title>happy birthday</title>
-    <url>/2020/07/15/happy-birthday/</url>
-    <content><![CDATA[<p>雨天生日快乐</p>
-<a id="more"></a>
-
-<iframe src="//player.bilibili.com/player.html?aid=883812762&bvid=BV1yK4y1s7UL&cid=21248569&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
-
-<p>我猜你想知道怎么插入视频，其实灰常简单，只需要把视频源链接放到用到 <code>\&lt;iframe&gt;</code>标签（这个标签是可以理解为用来引入其他页面），添加 <code>src</code>属性，属性值为路径就 OK 啦</p>
-<p>像 b 站这种视频就更简单了</p>
-<img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/903E7FF3576E3DEC5098D2487271744E.jpg" alt="img" style="zoom:67%;" />
-
-<p>把这个链接复制粘贴一下就能以默认样式引入视频啦~</p>
-<hr>
-<p><img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/qqpyimg1594744286.gif" alt="img"></p>
-<div align="center">和彬彬幸福美满！！大厂预定！！一起发财！！！！！<div>]]></content>
   </entry>
   <entry>
     <title>npm卸载及重装</title>

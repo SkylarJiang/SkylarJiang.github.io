@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"skylarjiang.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="0 Cookie 是什么 是服务器发送到用户浏览器上的一小段文本文件，浏览器会进行储存然后随着下次的请求一起发回给服务器，Web 服务器就可以使用这些信息来识别 不同的用户。  是纯文本格式，不含任何可执行的代码  使用目的：  Session 管理：登录、购物车、游戏进度等 个性化（Personalization） 用户跟踪（Tracking）：记录分析用户行为    1 创建 CookieSe">
+  <meta name="description" content="Cookie 的创建、选项、维护等内容的小结。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Cookie">
 <meta property="og:url" content="https://skylarjiang.github.io/2020/07/20/Cookie/index.html">
 <meta property="og:site_name" content="YouAreBangBang">
-<meta property="og:description" content="0 Cookie 是什么 是服务器发送到用户浏览器上的一小段文本文件，浏览器会进行储存然后随着下次的请求一起发回给服务器，Web 服务器就可以使用这些信息来识别 不同的用户。  是纯文本格式，不含任何可执行的代码  使用目的：  Session 管理：登录、购物车、游戏进度等 个性化（Personalization） 用户跟踪（Tracking）：记录分析用户行为    1 创建 CookieSe">
+<meta property="og:description" content="Cookie 的创建、选项、维护等内容的小结。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-07-20T09:30:04.000Z">
-<meta property="article:modified_time" content="2020-07-25T07:21:41.781Z">
+<meta property="article:modified_time" content="2020-07-25T13:57:08.498Z">
 <meta property="article:author" content="WongZit">
 <meta property="article:tag" content="Network">
 <meta name="twitter:card" content="summary">
@@ -222,7 +222,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-25 15:21" itemprop="dateModified" datetime="2020-07-25T15:21:41+08:00">2020-07-25</time>
+                <time title="Modified: 2020-07-25 21:57" itemprop="dateModified" datetime="2020-07-25T21:57:08+08:00">2020-07-25</time>
               </span>
 
           
@@ -250,8 +250,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="0-Cookie-是什么"><a href="#0-Cookie-是什么" class="headerlink" title="0 Cookie 是什么"></a>0 Cookie 是什么</h2><ul>
-<li><p>是服务器发送到用户浏览器上的一小段文本文件，浏览器会进行储存然后随着下次的请求一起发回给服务器，Web 服务器就可以使用这些信息来识别 不同的用户。</p>
+        <p>Cookie 的创建、选项、维护等内容的小结。</p>
+<a id="more"></a>
+
+<p>[TOC]</p>
+<h2 id="0-Cookie-是什么"><a href="#0-Cookie-是什么" class="headerlink" title="0 Cookie 是什么"></a>0 Cookie 是什么</h2><ul>
+<li><p>是服务器发送到用户浏览器上的一小段文本文件，浏览器会进行储存然后随着下次的请求一起发回给服务器，Web 服务器就可以使用这些信息来识别不同的用户。</p>
 </li>
 <li><p>是纯文本格式，不含任何可执行的代码</p>
 </li>
@@ -269,17 +273,13 @@
 <p>Cookie：浏览器在收到 <code>Set-Cookie</code> 之后的每一次请求头都要把所有显示存储的 cookies 一起发回去</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Cookie:&lt;cookie-name01&gt;=&lt;cookie-value01&gt;;&lt;cookie-name02&gt;=&lt;cookie-value02&gt;</span><br><span class="line">// 用分号进行分隔</span><br></pre></td></tr></table></figure>
 
-<p>cookie 中可以指定任意数量的选项，顺序任意</p>
-<p>修改和覆盖</p>
-<p>name = value 是 cookie 的值，其他只是附加的属性而已</p>
-<p>想要改变 Cookie 的值，就必须发送一个所有选项值都相同的 Set - Cookie 信息头，不然就会新建一个</p>
-<p>会有两个同名的 Cookie , path 越详细越靠前</p>
+
+
 <h2 id="2-Cookie-编码"><a href="#2-Cookie-编码" class="headerlink" title="2 Cookie 编码"></a>2 Cookie 编码</h2><p>原始规范：必须进行编码的只有：<code>;</code> <code>,</code> <code>=</code> ；可以进行 URL 编码，但不是必须</p>
 <p>几乎有实现都对 Cookie 值进行了一系列 URL 编码，对于 <code>name=Vvalue</code> 格式，通常会对 <code>name</code> 和 <code>value</code> 进行 URL 编码，而不对 <code>=</code> 进行编码    </p>
 <h2 id="3-支持选项"><a href="#3-支持选项" class="headerlink" title="3 支持选项"></a>3 支持选项</h2><ol>
 <li>Expires &amp; Max-age</li>
-<li>Secure：只在 HTTPS 时发送</li>
-<li>HTTPOnly：规定不能使用 JavaScript</li>
+<li>Secure &amp; HTTPOnly</li>
 <li>Domain &amp; Path</li>
 <li>SameSite</li>
 </ol>
@@ -287,15 +287,85 @@
 
 
 
-<h3 id="3-1-Lifetime-：Expires-amp-Max-Age"><a href="#3-1-Lifetime-：Expires-amp-Max-Age" class="headerlink" title="3.1 Lifetime ：Expires &amp; Max-Age"></a>3.1 Lifetime ：Expires &amp; Max-Age</h3><p>没有设置 <code>expires</code> 选项时，cookie 的生命周期仅限于当前会话。登录 Web 应用时询问是否记住登录信息就是选择是否把 <code>expires</code> 附加到登录 Cookie 中</p>
-<p>改变一个 cookie 的失效日期需要指定相同的组合</p>
-<p>改变 cookie 的值时</p>
-<p>Max-age 是指有效时间有多长，Expires 是到某个时间点失效</p>
-<p>HttpOnly无法通过document.cookie（禁止通过js访问）访问</p>
-<p> Domain 可以访问到上级域名中的 cookie，某个路径下的所有二级域名都能访问到这个 cookie</p>
-<p>不同域名不能共享</p>
-<p>常用cookie来保存 session</p>
-<p>定位到 用户</p>
+<h3 id="3-1-Lifetime-：Expires-amp-Max-Age"><a href="#3-1-Lifetime-：Expires-amp-Max-Age" class="headerlink" title="3.1 Lifetime ：Expires &amp; Max-Age"></a>3.1 Lifetime ：Expires &amp; Max-Age</h3><p><code>Max-age</code> 是指有效时间有多长，<code>Expires</code> 是到某个时间点失效</p>
+<p>如果 expires 设置了一个过去的时间点，或者Max-Age 为 0，那么这个 cookie 会立即被删除</p>
+<p>没有设置 <code>expires</code> 和<code>Max-Age</code> 选项时，cookie 的生命周期仅限于当前会话。</p>
+<p>登录 Web 应用时询问是否记住登录信息就是选择是否把 <code>expires</code> 附加到登录 Cookie 中。</p>
+<h3 id="3-2-Restrict-access"><a href="#3-2-Restrict-access" class="headerlink" title="3.2 Restrict access:"></a>3.2 Restrict access:</h3><ul>
+<li><code>HTTPOnly</code>:</li>
+</ul>
+<p>设置 <code>HttpOnly</code> 后无法通过 <code>document.cookie</code>（禁止通过 JavaScript 访问）访问，当然也没办法通过 JavaScript 来进行 <code>HTTPOnly</code> 选项的设置。</p>
+<p>设计该特征意在提供一个安全措施来帮助阻止通过 JavaScript 发起的跨站脚本攻击 (XSS) 窃取 cookie 的行为。</p>
+<ul>
+<li><code>secure</code></li>
+</ul>
+<p>当一个请求通过 SSL 或 HTTPS 创建时，包含 <code>secure</code> 选项的 cookie 才能被发送至服务器。默认情况下，在 HTTPS 连接上传输的 cookie 都会被自动添加上 <code>secure</code> 选项。</p>
+<p>以纯文本方式进行传递很有可能被篡改。</p>
+<ul>
+<li><code>SameSite</code></li>
+</ul>
+<p>cookie 不允许跨域请求，帮助阻止伪造跨域请求攻击 (CSRF)</p>
+<p><code>Strict</code>   <code>Lax</code>   <code>none</code></p>
+<h3 id="3-3-Domain-amp-Path"><a href="#3-3-Domain-amp-Path" class="headerlink" title="3.3 Domain &amp; Path"></a>3.3 Domain &amp; Path</h3><p><code>Domain</code> 和 <code>Path</code> 制定了 cookie 的作用域：即 cookie 应该发送给那些 URL</p>
+<ul>
+<li><p><code>Domain</code>：</p>
+<ul>
+<li><p>标识制定了哪些主机可以接收 cookie，如果不指定，默认为当前主机（不包含子域名）</p>
+</li>
+<li><p>扩充 cookie 可发送域的数量：</p>
+<p>如 <code>name.yahoo.com</code> 形式的某个站点把其 cookie 的 <code>domain</code> 选项设置为 <code>yahoo.com</code> 就可以将该 cookie 的值发送至所有这些站点。</p>
+</li>
+</ul>
+<p>​       domain 的值根请求的域名的<strong>尾部比较</strong></p>
+</li>
+<li><p><code>Path</code> </p>
+<ul>
+<li><p>选项指定了请求的资源 URL 中必须<u>存在</u>指定的路径时，才会发送<code>Cookie</code> 消息头</p>
+</li>
+<li><p>这个比较通常是将 <code>path</code> 选项的值与请求的 URL <strong>从头开始</strong>逐字符比较完成的。</p>
+<p>如果设置 <code>Path=/blog</code> 也会匹配 <code>/blogrool</code> ，任何以 <code>/blog</code> 开头的选项都是合法的</p>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>只有在 domain 选项核实完毕之后才会对 path 属性进行比较。</p>
+</blockquote>
+<h2 id="维护"><a href="#维护" class="headerlink" title="维护"></a>维护</h2><ul>
+<li><p>选项：</p>
+<p>cookie 中可以指定任意数量的选项，顺序任意</p>
+</li>
+<li><p>修改和覆盖：</p>
+<p>想要改变 cookie 的值，必须发送另一个所有标识符都相同的 <code>Set-Cookie</code> 消息头；如果修改 cookie 选项中任意一项都将创建一个新的 cookie</p>
+</li>
+<li><p>Cookie 中的排序：同名的 cookie，按照<code>domain-path-secure</code>的顺序，值越详细则越靠前</p>
+</li>
+<li><p><code>Expires</code> 和 <code>Max-Age</code> 不是表示符的一部分，所以修改 cookie 的值的时候不需要重新制定过期时间</p>
+</li>
+</ul>
+<h2 id="自动删除"><a href="#自动删除" class="headerlink" title="自动删除"></a>自动删除</h2><ul>
+<li>Session cookie 在会话结束时被删除</li>
+<li>持久化 cookie (Persistent Cookie) 到达失效日期</li>
+<li>浏览器中 cookie 数量达到限制</li>
+</ul>
+<h2 id="cookie-的限制条件"><a href="#cookie-的限制条件" class="headerlink" title="cookie 的限制条件"></a>cookie 的限制条件</h2><ul>
+<li>cookie 的属性</li>
+<li>cookie 的数量限制</li>
+<li>cookie 的总大小：发向服务器的所有 cookie 的最大数量（空间）仍旧维持原始规范中所指出的：4KB。</li>
+</ul>
+<h2 id="Subcookies"><a href="#Subcookies" class="headerlink" title="Subcookies"></a>Subcookies</h2><p>subcookies 观点：增加 cookie 的存储量。允许单个 cookie 中保存多个 <code>name-value</code>对</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">name=a=b&amp;c=d&amp;g=h</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><p>在 JavaScript 中通过 <code>document.cookie</code> 属性，你可以创建、维护和删除 cookie。创建 cookie 时该属性等同于 <code>Set-Cookie</code> 消息头，而在读取 cookie 时则等同于 <code>Cookie</code> 消息头。</p>
+<p>注意：一旦 cookie 通过 JavaScript 设置后便不能提取它的选项，所以你将不能知道 <code>domain</code>，<code>path</code>，<code>expires</code> 日期或 <code>secure</code> 标记。</p>
+<h2 id="Cookie-amp-Session"><a href="#Cookie-amp-Session" class="headerlink" title="Cookie &amp; Session"></a>Cookie &amp; Session</h2><p>常用cookie来保存 session</p>
+<p>在网站开发中，最常用的就是用 cookie 来保存 session，但是二者并不等价。cookie 是存在客户端，session 是存在服务器端。服务端根据客户发过来的 cookie（eg.cookie 中有 session_id）定位到这个客户的信息（session），给他提供最合适的响应 </p>
+<p>……</p>
+<p>参考：</p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies" target="_blank" rel="noopener">MDN - Using HTTP cookies</a></p>
+<p><a href="https://www.kancloud.cn/kancloud/http-cookies-explained" target="_blank" rel="noopener">KanCloud - HTTP cookies 详解</a></p>
 
     </div>
 
@@ -380,7 +450,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0-Cookie-是什么"><span class="nav-number">1.</span> <span class="nav-text">0 Cookie 是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-创建-Cookie"><span class="nav-number">2.</span> <span class="nav-text">1 创建 Cookie</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Cookie-编码"><span class="nav-number">3.</span> <span class="nav-text">2 Cookie 编码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-支持选项"><span class="nav-number">4.</span> <span class="nav-text">3 支持选项</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-Lifetime-：Expires-amp-Max-Age"><span class="nav-number">4.1.</span> <span class="nav-text">3.1 Lifetime ：Expires &amp; Max-Age</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0-Cookie-是什么"><span class="nav-number">1.</span> <span class="nav-text">0 Cookie 是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-创建-Cookie"><span class="nav-number">2.</span> <span class="nav-text">1 创建 Cookie</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Cookie-编码"><span class="nav-number">3.</span> <span class="nav-text">2 Cookie 编码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-支持选项"><span class="nav-number">4.</span> <span class="nav-text">3 支持选项</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-Lifetime-：Expires-amp-Max-Age"><span class="nav-number">4.1.</span> <span class="nav-text">3.1 Lifetime ：Expires &amp; Max-Age</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-Restrict-access"><span class="nav-number">4.2.</span> <span class="nav-text">3.2 Restrict access:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-Domain-amp-Path"><span class="nav-number">4.3.</span> <span class="nav-text">3.3 Domain &amp; Path</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#维护"><span class="nav-number">5.</span> <span class="nav-text">维护</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自动删除"><span class="nav-number">6.</span> <span class="nav-text">自动删除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cookie-的限制条件"><span class="nav-number">7.</span> <span class="nav-text">cookie 的限制条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Subcookies"><span class="nav-number">8.</span> <span class="nav-text">Subcookies</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作"><span class="nav-number">9.</span> <span class="nav-text">操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cookie-amp-Session"><span class="nav-number">10.</span> <span class="nav-text">Cookie &amp; Session</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -409,7 +479,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
