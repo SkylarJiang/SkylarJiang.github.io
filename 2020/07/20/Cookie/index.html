@@ -20,17 +20,17 @@
     var CONFIG = {"hostname":"skylarjiang.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Cookie 是什么是浏览器储存再用户电脑上的一小段文本文件。一个 Web 页面或服务器告知浏览器安">
+  <meta name="description" content="0 Cookie 是什么 是服务器发送到用户浏览器上的一小段文本文件，浏览器会进行储存然后随着下次的请求一起发回给服务器，Web 服务器就可以使用这些信息来识别 不同的用户。  是纯文本格式，不含任何可执行的代码  使用目的：  Session 管理：登录、购物车、游戏进度等 个性化（Personalization） 用户跟踪（Tracking）：记录分析用户行为    1 创建 CookieSe">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Cookie">
 <meta property="og:url" content="https://skylarjiang.github.io/2020/07/20/Cookie/index.html">
 <meta property="og:site_name" content="YouAreBangBang">
-<meta property="og:description" content="Cookie 是什么是浏览器储存再用户电脑上的一小段文本文件。一个 Web 页面或服务器告知浏览器安">
+<meta property="og:description" content="0 Cookie 是什么 是服务器发送到用户浏览器上的一小段文本文件，浏览器会进行储存然后随着下次的请求一起发回给服务器，Web 服务器就可以使用这些信息来识别 不同的用户。  是纯文本格式，不含任何可执行的代码  使用目的：  Session 管理：登录、购物车、游戏进度等 个性化（Personalization） 用户跟踪（Tracking）：记录分析用户行为    1 创建 CookieSe">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-07-20T09:30:04.000Z">
-<meta property="article:modified_time" content="2020-07-22T02:06:40.722Z">
+<meta property="article:modified_time" content="2020-07-25T07:21:41.781Z">
 <meta property="article:author" content="WongZit">
-<meta property="article:tag" content="NetWork">
+<meta property="article:tag" content="Network">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://skylarjiang.github.io/2020/07/20/Cookie/">
@@ -222,7 +222,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-22 10:06" itemprop="dateModified" datetime="2020-07-22T10:06:40+08:00">2020-07-22</time>
+                <time title="Modified: 2020-07-25 15:21" itemprop="dateModified" datetime="2020-07-25T15:21:41+08:00">2020-07-25</time>
               </span>
 
           
@@ -250,7 +250,52 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="Cookie-是什么"><a href="#Cookie-是什么" class="headerlink" title="Cookie 是什么"></a>Cookie 是什么</h2><p>是浏览器储存再用户电脑上的一小段文本文件。一个 Web 页面或服务器告知浏览器安</p>
+        <h2 id="0-Cookie-是什么"><a href="#0-Cookie-是什么" class="headerlink" title="0 Cookie 是什么"></a>0 Cookie 是什么</h2><ul>
+<li><p>是服务器发送到用户浏览器上的一小段文本文件，浏览器会进行储存然后随着下次的请求一起发回给服务器，Web 服务器就可以使用这些信息来识别 不同的用户。</p>
+</li>
+<li><p>是纯文本格式，不含任何可执行的代码</p>
+</li>
+<li><p>使用目的：</p>
+<ul>
+<li>Session 管理：登录、购物车、游戏进度等</li>
+<li>个性化（Personalization）</li>
+<li>用户跟踪（Tracking）：记录分析用户行为</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-创建-Cookie"><a href="#1-创建-Cookie" class="headerlink" title="1 创建 Cookie"></a>1 创建 Cookie</h2><p>Set-Cookie： HTTP 响应头发送给用户，信息头</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Set</span>-Cookie:&lt;cookie-name01&gt;=&lt;cookie-value01&gt;</span><br><span class="line">Set-Cookie:&lt;cookie-name02&gt;=&lt;cookie-value02&gt;</span><br><span class="line">// 每个 cookie 用一个 Set-Cookie</span><br></pre></td></tr></table></figure>
+
+<p>Cookie：浏览器在收到 <code>Set-Cookie</code> 之后的每一次请求头都要把所有显示存储的 cookies 一起发回去</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Cookie:&lt;cookie-name01&gt;=&lt;cookie-value01&gt;;&lt;cookie-name02&gt;=&lt;cookie-value02&gt;</span><br><span class="line">// 用分号进行分隔</span><br></pre></td></tr></table></figure>
+
+<p>cookie 中可以指定任意数量的选项，顺序任意</p>
+<p>修改和覆盖</p>
+<p>name = value 是 cookie 的值，其他只是附加的属性而已</p>
+<p>想要改变 Cookie 的值，就必须发送一个所有选项值都相同的 Set - Cookie 信息头，不然就会新建一个</p>
+<p>会有两个同名的 Cookie , path 越详细越靠前</p>
+<h2 id="2-Cookie-编码"><a href="#2-Cookie-编码" class="headerlink" title="2 Cookie 编码"></a>2 Cookie 编码</h2><p>原始规范：必须进行编码的只有：<code>;</code> <code>,</code> <code>=</code> ；可以进行 URL 编码，但不是必须</p>
+<p>几乎有实现都对 Cookie 值进行了一系列 URL 编码，对于 <code>name=Vvalue</code> 格式，通常会对 <code>name</code> 和 <code>value</code> 进行 URL 编码，而不对 <code>=</code> 进行编码    </p>
+<h2 id="3-支持选项"><a href="#3-支持选项" class="headerlink" title="3 支持选项"></a>3 支持选项</h2><ol>
+<li>Expires &amp; Max-age</li>
+<li>Secure：只在 HTTPS 时发送</li>
+<li>HTTPOnly：规定不能使用 JavaScript</li>
+<li>Domain &amp; Path</li>
+<li>SameSite</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Set</span>-Cookie: id=a3fWa; Expires=Wed, <span class="number">21</span> Oct <span class="number">2015</span> <span class="number">07</span>:<span class="number">28</span>:<span class="number">00</span> GMT; Secure; HttpOnly</span><br><span class="line"><span class="comment">// Cookie 值之后的每一个选项以分号和空格分开</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-1-Lifetime-：Expires-amp-Max-Age"><a href="#3-1-Lifetime-：Expires-amp-Max-Age" class="headerlink" title="3.1 Lifetime ：Expires &amp; Max-Age"></a>3.1 Lifetime ：Expires &amp; Max-Age</h3><p>没有设置 <code>expires</code> 选项时，cookie 的生命周期仅限于当前会话。登录 Web 应用时询问是否记住登录信息就是选择是否把 <code>expires</code> 附加到登录 Cookie 中</p>
+<p>改变一个 cookie 的失效日期需要指定相同的组合</p>
+<p>改变 cookie 的值时</p>
+<p>Max-age 是指有效时间有多长，Expires 是到某个时间点失效</p>
+<p>HttpOnly无法通过document.cookie（禁止通过js访问）访问</p>
+<p> Domain 可以访问到上级域名中的 cookie，某个路径下的所有二级域名都能访问到这个 cookie</p>
+<p>不同域名不能共享</p>
+<p>常用cookie来保存 session</p>
+<p>定位到 用户</p>
 
     </div>
 
@@ -260,7 +305,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/NetWork/" rel="tag"># NetWork</a>
+              <a href="/tags/Network/" rel="tag"># Network</a>
           </div>
 
         
@@ -335,7 +380,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Cookie-是什么"><span class="nav-number">1.</span> <span class="nav-text">Cookie 是什么</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0-Cookie-是什么"><span class="nav-number">1.</span> <span class="nav-text">0 Cookie 是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-创建-Cookie"><span class="nav-number">2.</span> <span class="nav-text">1 创建 Cookie</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Cookie-编码"><span class="nav-number">3.</span> <span class="nav-text">2 Cookie 编码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-支持选项"><span class="nav-number">4.</span> <span class="nav-text">3 支持选项</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-Lifetime-：Expires-amp-Max-Age"><span class="nav-number">4.1.</span> <span class="nav-text">3.1 Lifetime ：Expires &amp; Max-Age</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
