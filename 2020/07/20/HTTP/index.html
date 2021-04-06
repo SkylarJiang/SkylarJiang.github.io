@@ -30,7 +30,7 @@
 <meta property="og:image" content="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/FH%7DFFT_6QOXGKBYO$U%60QAXV.png">
 <meta property="og:image" content="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/image-20200725154842559.png">
 <meta property="article:published_time" content="2020-07-20T09:17:50.000Z">
-<meta property="article:modified_time" content="2020-07-25T08:21:00.807Z">
+<meta property="article:modified_time" content="2020-12-03T13:59:34.455Z">
 <meta property="article:author" content="WongZit">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/FH%7DFFT_6QOXGKBYO$U%60QAXV.png">
@@ -224,7 +224,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-25 16:21" itemprop="dateModified" datetime="2020-07-25T16:21:00+08:00">2020-07-25</time>
+                <time title="Modified: 2020-12-03 21:59" itemprop="dateModified" datetime="2020-12-03T21:59:34+08:00">2020-12-03</time>
               </span>
 
           
@@ -300,7 +300,7 @@
 <h2 id="2-HTTP-请求方法"><a href="#2-HTTP-请求方法" class="headerlink" title="2 HTTP 请求方法"></a>2 HTTP 请求方法</h2><ul>
 <li><p>HTTP 1.0 ：</p>
 <ul>
-<li><code>GET</code>：获取资源，返回指定页面。资源是文本就原样返回；是程序就返回执行后的结果</li>
+<li><code>GET</code>：获取资源，用来请求访问已被URL识别的资源。资源是文本就原样返回；是程序就返回执行后的结果</li>
 <li><code>POST</code>：传输实体主体。POST 主要用来传输数据，而 GET 主要用来获取资源</li>
 <li><code>HEAD</code>：仅获取报头，主要用于确认 URL 的有效性和资源更新的日期等</li>
 <li><code>PUT</code>：上传文件，把请求报文中的文件内容，保存带请求 URI 指定的位置。一般不用。</li>
@@ -313,9 +313,9 @@
 </li>
 <li><p><code>OPTIONS</code>：查询针对请求 URI 指定的资源所支持的方法</p>
 </li>
-<li><p><code>TRACE</code>：可以查询发出去的请求是怎么被加工修改的。容易引发 XST（跨站追踪）</p>
+<li><p><code>TRACE</code>：可以查询发出去的请求是怎么被加工修改的（因为请求想要连接到源目标服务器可能会通过代理中转，从代理路由中转时请求可能被篡改，TRACE可以确认中间的操作）。容易引发 XST（跨站追踪）</p>
 </li>
-<li><p><code>CONNECT</code>：使用隧道协议连接代理。使用 SSL 安全套接层和 TSL 传输层安全协议把通信内容加密后经网络隧道传输</p>
+<li><p><code>CONNECT</code>：使用隧道协议连接代理。要求在与代理服务器通信时建立隧道，实现用隧道协议进行TCP通信。主要是使用 SSL 安全套接层和 TSL 传输层安全协议把通信内容加密后经网络隧道传输。</p>
 </li>
 </ul>
 </li>
@@ -348,7 +348,13 @@
 <h2 id="3-HTTP-常用首部"><a href="#3-HTTP-常用首部" class="headerlink" title="3 HTTP 常用首部"></a>3 HTTP 常用首部</h2><ul>
 <li><p>通用首部字段：指请求报文和响应报文双方都会使用的首部</p>
 <ol>
-<li><p>Cache-Control：控制缓存行为</p>
+<li><p>Cache-Control：指定这个字段，就能操作控制缓存的机制</p>
+<p>指令们：</p>
+<ul>
+<li>no-cache：强制向源服务器再次验证</li>
+<li>no-store：不缓存请求或响应的任何内容</li>
+<li>max-age：响应最大的Age值</li>
+</ul>
 </li>
 <li><p>Connection：</p>
 <ul>
@@ -398,7 +404,8 @@
 </li>
 </ul>
 <p>参考：<a href="https://www.cnblogs.com/jycboy/p/http_head.html" target="_blank" rel="noopener">HTTP 首部字段详细介绍</a></p>
-<h2 id="4-常用状态码"><a href="#4-常用状态码" class="headerlink" title="4 常用状态码"></a>4 常用状态码</h2><ul>
+<h2 id="4-常用状态码"><a href="#4-常用状态码" class="headerlink" title="4 常用状态码"></a>4 常用状态码</h2><p>状态码的职责是当客户端向服务器发送请求时，描述返回的请求结果。</p>
+<ul>
 <li><p><code>1**</code> 信息，服务器收到请求，需要请求者继续执行操作<br>（收是收到了，还需要你干点事情）</p>
 <ul>
 <li>100 continue 等待状态码</li>
@@ -407,28 +414,51 @@
 </li>
 <li><p><code>2**</code> 某种请求执行成功了</p>
 <ul>
-<li><strong>200</strong> OK 请求成功，一般用于 GET 或 POST 请求</li>
-<li>201 Created</li>
-<li>202 Accepted</li>
-<li>204 No-content 处理成功但是没有内容返回</li>
-<li>206 Partial Content</li>
+<li><p><strong>200</strong> OK 请求成功，一般用于 GET 或 POST 请求</p>
+<p>随状态码一起返回的信息会因方法不同而发生改变。</p>
+<ul>
+<li>GET方法返回资源实体</li>
+</ul>
+</li>
+<li><p>HEAD方法只返回首部不返回实体</p>
+</li>
+<li><p>201 Created</p>
+</li>
+<li><p>202 Accepted</p>
+</li>
+<li><p><strong>204 No-content</strong> </p>
+<p>请求处理成功，但是返回的响应报文中不含实体的主体部分。例如浏览器发出请求处理后，返回204，那么浏览器现实的页面不发生更新</p>
+</li>
+<li><p><strong>206 Partial Content</strong></p>
+<p>表示客户端进行了【范围请求】，而服务器成功执行了这部分的GET请求</p>
+<p>响应报文中包含由Content-Range指定范围的实体内容</p>
+</li>
 </ul>
 </li>
 <li><p><code>3**</code> 重定向状态码，需要附加操作以完成请求</p>
 <ul>
-<li><strong>301</strong> Moved Permanently 资源或网页被永久转移到其他 URI</li>
-<li>302 Found 临时移动，继续使用原有URI</li>
-<li>303 See Other 查看其他地址，使用 GET 和 POST 请求查看</li>
-<li>304 Not Modified</li>
-<li>307 Temporary Redirect 不会从POST变成GET</li>
+<li><p><strong>301</strong> *<em>Moved Permanently *</em></p>
+<p>资源或网页被永久转移到新 URI，以后用应使用现在所指的URL。如果已经把旧的URL存为书签了，这时候应该重新保存；</p>
+</li>
+<li><p><strong>302 Found</strong> 临时移动，希望用户本次能够使用新的URL访问，继续使用原有URI</p>
+</li>
+<li><p><strong>303 See Other</strong> </p>
+<p>表示请求对应的资源还存在着另一个URL（资源URL更新了），应使用 GET方法定向获取</p>
+<p>类似302，但是这里明确表示应该用GET 方法获取</p>
+</li>
+<li><p><strong>304 Not Modified</strong></p>
+<p>请求附带条件时，服务器允许访问，但是没有找到满足条件的情况</p>
+</li>
+<li><p>307 Temporary Redirect 不会从POST变成GET</p>
+</li>
 </ul>
 </li>
 <li><p><code>4**</code>客户端错误</p>
 <ul>
 <li>400 Bad Request 请求有语法错误</li>
-<li>401 Unauthorized 需要身份认证</li>
-<li>402 Forbidden 理解了但拒绝请求</li>
-<li><strong>404</strong> Not Found 服务器无法根据客户端的请求找到资源</li>
+<li>401 Unauthorized 需要身份认证，请求需要有HTTP认证的认证信息，如果之前已经进行过一次请求了，那就表示用户认证失败</li>
+<li>403 Forbidden 理解了但拒绝请求。服务端不是必要给出原因的，也可以在主体的实体部门进行说明</li>
+<li><strong>404</strong> Not Found 服务器无法根据客户端的请求找到资源；也可以在服务端拒绝但不想说明原因的时候使用</li>
 <li>412 Precondition Fail 客户端请求信息的先决条件错误</li>
 <li>417 Expectation Fail 服务器无法满足Expect的请求头信息</li>
 </ul>
@@ -622,7 +652,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -635,7 +665,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -667,7 +697,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

@@ -37,7 +37,7 @@
 <meta property="og:image" content="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/CBDBF118DBE19194ECE1F07499F15B20.png">
 <meta property="og:image" content="c:/$DX2%5BGNJIWOER2%5D$ML%25L">
 <meta property="article:published_time" content="2020-07-13T10:16:18.000Z">
-<meta property="article:modified_time" content="2020-07-20T09:08:38.261Z">
+<meta property="article:modified_time" content="2020-12-03T11:16:38.427Z">
 <meta property="article:author" content="WongZit">
 <meta property="article:tag" content="Network">
 <meta name="twitter:card" content="summary">
@@ -232,7 +232,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-20 17:08" itemprop="dateModified" datetime="2020-07-20T17:08:38+08:00">2020-07-20</time>
+                <time title="Modified: 2020-12-03 19:16" itemprop="dateModified" datetime="2020-12-03T19:16:38+08:00">2020-12-03</time>
               </span>
 
           
@@ -390,14 +390,20 @@
 <hr>
 <p><u>实体</u>：任何可发送或接收信息的硬件或软件进程，对等实体指收发双方层次相同的实体</p>
 <p><u>协议</u>：控制两个对等实体进行逻辑通信的规则集合</p>
-<p>​    在协议的控制下，对等实体间的逻辑通信使得本层能够向上一层提供服务</p>
-<p>​    下面的协议对上面的实体是“透明的” </p>
-<p>​    同步：定义收发双方的时序关系；语法，语义</p>
+<ul>
+<li>在协议的控制下，对等实体间的逻辑通信使得本层能够向上一层提供服务</li>
+<li>下面的协议对上面的实体是“透明的” </li>
+<li>同步：定义收发双方的时序关系；语法，语义</li>
+</ul>
 <p><u>服务</u>：</p>
-<p>​     - <u>服务访问点</u>：相邻两层的实体交换信息的逻辑接口，</p>
-<p>​             - 数据链路层的服务访问点为帧“类型”字段；</p>
-<p>​             - 运输层  ==&gt;  “端口号” ； 网络层  ==&gt; IP数据报首部中的“协议字段”</p>
-<p>​     - <u>服务原语</u>：上层使用下层所提供的服务必须与下层交换一些命令，这些命令称为 ##</p>
+<ul>
+<li><u>服务访问点</u>：相邻两层的实体交换信息的逻辑接口，<ul>
+<li>数据链路层的服务访问点为帧“类型”字段；</li>
+<li>运输层  ==&gt;  “端口号” ； 网络层  ==&gt; IP数据报首部中的“协议字段”</li>
+<li><u>服务原语</u>：上层使用下层所提供的服务必须与下层交换一些命令，这些命令称为 ##</li>
+</ul>
+</li>
+</ul>
 <p>协议数据单元 PDU：对等实体之间传输的数据包称为该层的协议数据单元（横向）</p>
 <p>服务数据单元 SDU：层与层之前交换的数据包</p>
 <hr>
@@ -426,38 +432,38 @@
 </tr>
 </thead>
 <tbody><tr>
-<td align="left">物理层</td>
-<td align="left">解决何种信号进行传输比特的问题</td>
+<td align="left">应用层</td>
+<td align="left">解决通过应用进程的交互来实现特点网络应用的问题</td>
 <td align="left"><code>HTTP</code>，<code>SMTP</code></td>
 <td align="left">报文<code>messege</code></td>
 </tr>
 <tr>
-<td align="left">数据链路层</td>
-<td align="left">解决分组在一个网络（一段链路）上传输的问题</td>
+<td align="left">运输层</td>
+<td align="left">解决进程之间基于网络的通信问题</td>
 <td align="left"><code>TCP</code>,<code>UDP</code></td>
 <td align="left">TCP数据包，UDP用户数据报文段</td>
 </tr>
 <tr>
-<td align="left">网络层</td>
-<td align="left">分组在多个网络传输（路由）的问题</td>
+<td align="left">数据链路层</td>
+<td align="left">解决分组在一个网络（一段链路）上传输的问题</td>
 <td align="left"><code>IP</code></td>
 <td align="left">IP数据报或分组</td>
 </tr>
 <tr>
-<td align="left">运输层</td>
-<td align="left">解决进程之间基于网络的通信问题</td>
+<td align="left">网络层</td>
+<td align="left">分组在多个网络传输（路由）的问题</td>
 <td align="left">传统以太网 <code>CSMA/CD</code></td>
 <td align="left">帧</td>
 </tr>
 <tr>
-<td align="left">应用层</td>
-<td align="left">解决通过应用进程的交互来实现特点网络应用的问题</td>
+<td align="left">物理层</td>
+<td align="left">解决何种信号进行传输比特的问题</td>
 <td align="left">曼彻斯特编码</td>
 <td align="left">比特流</td>
 </tr>
 </tbody></table>
 <p>对OSI 七层体系结构还有：</p>
-<p><u>应用层</u>：通信双方信息表示问题：数据格式化，文本压缩、解密等</p>
+<p><u>表示层</u>：通信双方信息表示问题：数据格式化，文本压缩、解密等</p>
 <p><u>会话层</u>：进程之间的会话</p>
 <p>😄😂</p>
 <h2 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h2><h3 id="基本概念们"><a href="#基本概念们" class="headerlink" title="基本概念们"></a>基本概念们</h3><p>物理层考虑怎样才能在连接各种计算机的传输媒体上传输数据比特流，需要考虑的包括</p>
@@ -497,10 +503,10 @@
 <li>可靠传输</li>
 </ul>
 <p>除此之外，使用广播信道（共享式局域网）</p>
-<p>​共享式以太网的媒体接入控制协议 CSMA/CD</p>
-<p>​802.11局域网的媒体接入控制</p>
+<p>共享式以太网的媒体接入控制协议 CSMA/CD</p>
+<p>802.11局域网的媒体接入控制</p>
 <p>交换式局域网</p>
-<p>​网桥和交换机的工作原理</p>
+<p>网桥和交换机的工作原理</p>
 <h3 id="基本问题"><a href="#基本问题" class="headerlink" title="基本问题"></a>基本问题</h3><h4 id="封装成帧"><a href="#封装成帧" class="headerlink" title="封装成帧"></a>封装成帧</h4><p>指数据链路层给上层交付的协议数据单元添加<strong>帧头和帧尾</strong>使之变成帧，</p>
 <p>帧头和帧尾中包含有重要的控制信息，如帧定界符——便于从接收的比特流中提取出帧</p>
 <p>以太网的Mac帧的帧头和帧尾不包含帧定界符，而是通过在物理层添加前导码来定界</p>
@@ -645,24 +651,40 @@
 <ul>
 <li>是什么<pre><code>- 同一广播信道上的两个主机通信需要；网络上各接口的唯一的标识
    - 主机发送的**帧**中的地址，由于媒体接入控制——Media Access Control
-- 一般被固定在网卡的电可擦可编程只读存储器 EEPROM 中（硬件地址/物理地址）
-- 决定单播还是多播？
+   - 一般被固定在网卡的电可擦可编程只读存储器 EEPROM 中（硬件地址/物理地址）
+      - 决定单播还是多播？
 - 数据链路层首部标记 MAC 地址</code></pre></li>
 </ul>
 <ul>
 <li><p>组成和分类</p>
 <ul>
-<li><p>&amp;nbsp|第一字节第0位|第一位</p>
-<p>0|单播|全球管理</p>
-<p>1|多播|本地管理</p>
+<li><table>
+<thead>
+<tr>
+<th>&nbsp;</th>
+<th>第一字节第0位</th>
+<th>第一位</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>单播</td>
+<td>全球管理</td>
+</tr>
+<tr>
+<td>1</td>
+<td>多播</td>
+<td>本地管理</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
 </li>
 <li><p>广播 MAC 地址：FF-FF-FF-FF-FF-FF</p>
 </li>
 <li><p>多播地址：第一个字节的最小比特为为1</p>
 </li>
 <li><p>随机 MAC 地址：隐私</p>
-</li>
-</ul>
 </li>
 </ul>
 <p><strong>IP 地址</strong>：是 TCP/IP 体系结构的网际层所使用的地址</p>
@@ -751,7 +773,7 @@
 <h3 id="网络层提供的两种服务"><a href="#网络层提供的两种服务" class="headerlink" title="网络层提供的两种服务"></a>网络层提供的两种服务</h3><p><strong>面向连接的虚电路服务</strong></p>
 <ul>
 <li>可靠通信由网络来保证</li>
-<li>必须建立网络层的连接——虚电路 VC（Virtual Circuit），通信双方沿着已经建立的蓄电库大宋分组；结束之后释放虚电路</li>
+<li>必须建立网络层的连接——虚电路 VC（Virtual Circuit），通信双方沿着已经建立的蓄电库发送分组；结束之后释放虚电路</li>
 <li>只需要在建立连接的时候使用目的主机的地址，之后只需要分隔分组的首部携带一条虚电路的编号</li>
 <li>这种通信方式如果再使用可靠传输的网络协议，就可以使发送的分组最终正确到达接受方（按序、不丢失、不重复）</li>
 <li>很多广域分组交换网都是用面向连接的虚电路服务</li>
@@ -810,16 +832,16 @@
 <img src="http://pictures-by-skylar.oss-cn-shenzhen.aliyuncs.com/img/00C9A8E8FB3D41751D60281A2B86A1ED.png" alt="img" style="zoom:50%;" />
 
 <h4 id="域内：内部网关协议-IGP"><a href="#域内：内部网关协议-IGP" class="headerlink" title="域内：内部网关协议 IGP"></a>域内：内部网关协议 IGP</h4><ul>
-<li><p><strong>RIP</strong> (Rountine Information Protocol) 是 IGP 中最先广泛应用的协议之一</p>
+<li><p><strong>RIP</strong> (Routine Information Protocol) 是 IGP 中最先广泛应用的协议之一</p>
 <ul>
-<li>选择依据：AS 内每一个路由器都要维护从他自己到 AS 内其他每日一个网络的距离记录，RIP 用跳数作为量度来衡量到达目的网络的距离</li>
+<li>选择依据：AS 内每一个路由器都要维护从他自己到 AS 内其他每日一个网络的距离记录，RIP 用<strong>跳数</strong>作为量度来衡量到达目的网络的距离</li>
 <li>限制：允许一条路径最多包含15 个路由器，距离等于16相当于不可达</li>
 <li>选择：优先短路径，多条“距离”相等的路由时，进行<u>等价负载均衡</u></li>
 <li>要点：仅和相邻的路由器交换路由表；周期性交换</li>
 <li>工作过程<ul>
 <li>开始时只知道自己和直连网络的距离位移</li>
 <li>和相邻的路由器周期性交换并更新（没有的加上，有更短的更新，相同的等价负载均衡）路由信息</li>
-<li>最后每个路由器都知道本 AS 内个网络的嘴短距离和下一跳地址（<strong>收敛</strong>）</li>
+<li>最后每个路由器都知道本 AS 内个网络的最短距离和下一跳地址（<strong>收敛</strong>）</li>
 </ul>
 </li>
 <li>坏消息传的慢（路由环路）：当某路由直连的网络发生故障时，其路由表中到故障网络的跳数就会变成16，此时其路由表传输会慢于其他路由表，因此在周期交换中“被谣言误导”，经过多次交换后才渐渐收敛。</li>
@@ -1209,7 +1231,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1222,7 +1244,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -1254,7 +1276,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
