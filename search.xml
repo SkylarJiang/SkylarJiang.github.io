@@ -2362,7 +2362,12 @@
   <entry>
     <title>DOM</title>
     <url>/2020/07/25/DOM/</url>
-    <content><![CDATA[<h2 id="DOM-常用-API"><a href="#DOM-常用-API" class="headerlink" title="DOM 常用 API"></a>DOM 常用 API</h2><h3 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h3><p>不一定是 document. xxxx 呀，这些操作都是对于某个节点而言</p>
+    <content><![CDATA[<p>-</p>
+<a id="more"></a>
+
+
+
+<h2 id="DOM-常用-API"><a href="#DOM-常用-API" class="headerlink" title="DOM 常用 API"></a>DOM 常用 API</h2><h3 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h3><p>不一定是 document. xxxx 呀，这些操作都是对于某个节点而言</p>
 <p>getElementById(‘idName’)</p>
 <p>getElementsByTagNme(‘ ‘) </p>
 <ul>
